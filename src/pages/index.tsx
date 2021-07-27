@@ -42,7 +42,7 @@ const DATA: Section[] = [
 
 const IndexPage = () => {
   const [scrolled, setScrolled] = React.useState(false);
-  const [innerHeight, setInnerHeight] = React.useState(0);
+  const [innerHeight, setInnerHeight] = React.useState(1000);
 
   const checkScrolled = (scrolled) => {
     if (!scrolled && window.scrollY > window.innerHeight * 0.3) {
@@ -59,6 +59,7 @@ const IndexPage = () => {
 
   React.useEffect(() => {
     const updateDimensions = () => setInnerHeight(window.innerHeight);
+    updateDimensions();
     window.addEventListener("resize", updateDimensions);
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
