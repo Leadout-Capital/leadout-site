@@ -2,13 +2,13 @@ import { FieldType, FormField } from "../components/Form";
 
 const ContactFormFields: FormField[] = [
   {
-    id: "Company Name",
+    id: "Co Name",
     title: "Company Name",
     type: FieldType.ShortText,
     required: true
   },
   {
-    id: "Company Website",
+    id: "Website",
     title: "Company Website",
     type: FieldType.Website,
     required: true
@@ -34,7 +34,7 @@ const ContactFormFields: FormField[] = [
     required: true
   },
   {
-    id: "Pitch Deck/Exec Summary",
+    id: "Pitch Deck / Exec Summary",
     title: "Pitch Deck/Exec Summary",
     type: FieldType.File,
     required: false

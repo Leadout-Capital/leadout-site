@@ -42,6 +42,7 @@ const DATA: Section[] = [
 
 const IndexPage = () => {
   const [scrolled, setScrolled] = React.useState(false);
+  const [innerHeight, setInnerHeight] = React.useState(0);
 
   const checkScrolled = (scrolled) => {
     if (!scrolled && window.scrollY > window.innerHeight * 0.3) {
@@ -54,13 +55,19 @@ const IndexPage = () => {
   React.useEffect(() => {
     window.addEventListener("scroll", () => checkScrolled(scrolled));
     return () => window.removeEventListener("scroll", () => checkScrolled(scrolled));
-  }, [scrolled])
+  }, [scrolled]);
+
+  React.useEffect(() => {
+    const updateDimensions = () => setInnerHeight(window.innerHeight);
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, []);
 
   return (
     <main className={"home"}>
       <ToggleOnScroll
-        topBound={-window.innerHeight * 0.7}
-        bottomBound={window.innerHeight * 2}
+        topBound={-innerHeight * 0.7}
+        bottomBound={innerHeight * 2}
         className={"header"}
         defaultShown
       >

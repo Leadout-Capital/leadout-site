@@ -69,7 +69,7 @@ type CustomFormProps = FormProps & {
   submit: (data: FormState) => void
 }
 
-interface FormState {
+export interface FormState {
   [key: string]: string
 }
 
