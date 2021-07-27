@@ -1,0 +1,126 @@
+@use "variables";
+@use "sass:color";
+
+$input-padding: 15px;
+$reset-color: color.adjust(variables.$dark, $alpha: -0.5);
+
+.custom-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  max-width: 750px;
+
+  .form-header {
+    text-align: center;
+    margin-bottom: 20px;
+
+    h1 {
+      font-size: 2.2em;
+    }
+
+    h2 {
+      font-weight: 300;
+      font-size: 1.2em;
+    }
+  }
+
+  input, textarea, select {
+    transition: variables.$transition;
+    border-radius: 5px;
+    outline: none;
+    font-family: inherit;
+    font-size: 1em;
+
+    &:focus {
+      border-color: variables.$accent;
+    }
+  }
+
+  .field {
+    display: flex;
+    flex-direction: row;
+
+    .title-container {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-start;
+      flex: 1;
+      padding: $input-padding;
+
+      label {
+        font-weight: 700;
+        text-align: right;
+      }
+
+      .optional {
+        font-weight: 200;
+      }
+    }
+
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      flex: 2;
+
+      input, textarea, select {
+        font-weight: 300;
+        border: color.adjust(variables.$accent, $alpha: -1) 2px solid;
+        background-color: color.adjust(variables.$light, $lightness: -10%);
+        padding: $input-padding;
+
+        &:focus {
+          border-color: variables.$accent;
+        }
+      }
+
+      textarea {
+        transition: border-color 0.2s ease;
+        resize: vertical;
+      }
+
+      input[type=file] {
+        background-color: transparent;
+        padding: calc(#{$input-padding} - 5px) 0;
+      }
+
+      .error {
+        color: variables.$error;
+        font-size: 12px;
+        margin: 5px 0 15px;
+      }
+    }
+  }
+
+  .buttons {
+    align-self: flex-end;
+
+    input {
+      padding: 15px;
+      cursor: pointer;
+      border-width: 2px;
+      border-style: solid;
+
+      &[type=submit] {
+        background-color: variables.$accent;
+        border: variables.$accent;
+        color: variables.$light;
+        font-weight: 600;
+
+        &:hover {
+          background-color: color.adjust(variables.$accent, $alpha: -0.1);
+        }
+      }
+
+      &[type=reset] {
+        background-color: transparent;
+        border-color: $reset-color;
+        color: $reset-color;
+        margin-right: 15px;
+
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+}

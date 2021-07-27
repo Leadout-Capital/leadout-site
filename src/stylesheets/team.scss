@@ -1,0 +1,47 @@
+.team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .bio, .community {
+    width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    img {
+      border-radius: 1000px;
+      width: 500px;
+    }
+
+    h2 {
+      margin-top: 40px;
+    }
+
+    .bio-blurb {
+      width: 700px;
+    }
+
+    &.not-scrolled {
+      & > *:not(.bio-blurb) {
+        opacity: 0;
+        transform: translateX(150px);
+      }
+
+      .bio-blurb p {
+        opacity: 0;
+        transform: translateX(150px);
+      }
+    }
+  }
+
+  .bio {
+    min-height: 100vh;
+  }
+
+  .community {
+    min-height: 50vh;
+  }
+}

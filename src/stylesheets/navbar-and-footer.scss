@@ -1,0 +1,83 @@
+@use "variables";
+
+nav {
+  position: fixed;
+  z-index: 1000;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: variables.$light;
+  box-shadow: 0 0 7px #0004;
+  transition: variables.$transition;
+
+  & > * {
+    display: flex;
+  }
+
+  .logo {
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px 20px 20px 0;
+
+    h6 {
+      font-size: 1.5em;
+      font-weight: 400;
+      margin: 0;
+    }
+
+    svg {
+      width: 80px;
+      position: absolute;
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding: 20px;
+    margin: 0;
+
+    li {
+      padding: 20px;
+      position: relative;
+
+      a {
+        text-decoration: none;
+        color: inherit;
+
+        &.active {
+          color: variables.$accent;
+        }
+      }
+    }
+  }
+
+  &.top {
+    box-shadow: 0 0 7px #0000;
+  }
+}
+
+footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: variables.$dark;
+  color: variables.$light;
+  padding: 120px;
+  position: relative;
+  z-index: 10;
+  font-size: 32px;
+
+  a {
+    transition: variables.$transition;
+    color: inherit;
+    margin: 20px;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
