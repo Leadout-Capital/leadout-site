@@ -1,0 +1,98 @@
+@use "variables";
+@use "sass:color";
+
+.portfolio {
+  header {
+    h2 {
+      margin: 0;
+    }
+
+    .down-arrow {
+      position: absolute;
+      bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      font-size: 20px;
+
+      .icon {
+        cursor: pointer;
+        transition: variables.$transition;
+        font-size: 60px;
+        padding-top: 20px;
+
+        &:hover {
+          transform: translateY(15px);
+        }
+      }
+    }
+  }
+
+  .portfolio-companies {
+    .company-wrapper {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 30px 60px;
+
+      .company-background {
+        height: 300px;
+        width: 500px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        &.stealth {
+          background-image: url("../images/portfolio/stealth-company.png");
+        }
+
+        .company-container {
+          transition: variables.$transition;
+          display: flex;
+          width: 100%;
+          height: 100%;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          padding: 20px 40px;
+          text-align: center;
+          opacity: 0;
+
+          h3 {
+            margin: 0;
+            font-size: 1.5em;
+          }
+
+          a {
+            text-decoration: none;
+            color: inherit;
+            padding: 20px;
+            border: 2px solid variables.$light;
+            margin-top: 10px;
+            font-weight: 600;
+
+            &:hover {
+              background-color: variables.$light;
+              color: variables.$dark;
+            }
+          }
+
+          &:hover {
+            background-color: color.adjust(variables.$dark, $alpha: -0.25);
+            opacity: 1;
+          }
+        }
+      }
+
+      & > div {
+        transition: variables.$transition;
+      }
+    }
+
+    &.not-scrolled .company-wrapper > div{
+      opacity: 0;
+    }
+  }
+}

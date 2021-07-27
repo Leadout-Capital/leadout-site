@@ -1,0 +1,103 @@
+@use "variables";
+@use "sass:color";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: variables.$font;
+  color: variables.$dark;
+  padding: 0;
+  margin: 0;
+  background-color: variables.$light;
+}
+
+header, .header {
+  transition: variables.$lazy-transition;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6vw;
+  position: relative;
+
+  h1 {
+    font-size: 3.5vw;
+  }
+
+  h2 {
+    font-size: 2vw;
+  }
+
+  .highlight {
+    color: variables.$accent;
+  }
+}
+
+p {
+  line-height: 1.15;
+}
+
+a {
+  transition: variables.$transition;
+  color: variables.$accent;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.show-on-scroll {
+  transition: variables.$slow-transition;
+
+  &.not-scrolled {
+    opacity: 0;
+  }
+}
+
+.dark {
+  background-color: variables.$dark;
+  color: variables.$light;
+}
+
+.light {
+  background-color: variables.$light;
+  color: variables.$dark;
+}
+
+.fading-background-wrapper {
+  height: 100vh;
+  width: 100vw;
+
+  &.pinned {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+}
+
+.image-fade {
+  .image {
+    transition: all 0.75s ease;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: top;
+  }
+
+  .panel-wrapper {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
