@@ -1,6 +1,8 @@
 import * as React from "react";
 import { useForm, FieldErrors } from "react-hook-form";
 import { FormProps } from "react-html-props";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../stylesheets/form.scss";
 
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -15,10 +17,17 @@ const ERROR_TRANSITION = 0.2;
 export enum FieldType {
   ShortText,
   LongText,
-  Dropdown,
+  SingleSelect,
+  MultipleSelect,
   File,
   Email,
   Website
+}
+
+
+export type DropdownData = {
+  id: string,
+  name: string
 }
 
 type BasicField = {
@@ -28,10 +37,15 @@ type BasicField = {
   required: boolean
 }
 
-type DropdownField = BasicField & {
-  type: FieldType.Dropdown,
-  options: string[]
-}
+type SingleSelectField = BasicField & {
+  type: FieldType.SingleSelect,
+  options: DropdownData[]
+};
+
+type MultipleSelectField = BasicField & {
+  type: FieldType.MultipleSelect,
+  options: DropdownData[]
+};
 
 type TextField = BasicField & {
   type: FieldType.ShortText | FieldType.LongText | FieldType.Email | FieldType.Website
@@ -41,7 +55,7 @@ type FileField = BasicField & {
   type: FieldType.File
 }
 
-export type FormField = DropdownField | TextField | FileField;
+export type FormField = SingleSelectField | MultipleSelectField | TextField | FileField;
 
 type SubFieldProps = {
   id: string,
@@ -53,7 +67,7 @@ type TextFieldProps = SubFieldProps & {
   subtitle?: string
 }
 
-type DropdownFieldProps = SubFieldProps & { options: string[] };
+type DropdownFieldProps = SubFieldProps & { options: DropdownData[] };
 type FileFieldProps = SubFieldProps;
 
 type FormFieldProps = FormField & {
@@ -69,8 +83,8 @@ type CustomFormProps = FormProps & {
   submit: (data: FormState) => void
 }
 
-interface FormState {
-  [key: string]: string
+export interface FormState {
+  [key: string]: string | string[] | boolean
 }
 
 const ShortTextField: React.FC<TextFieldProps> = ({ id, required, subtitle = "", register }) => (
@@ -111,12 +125,66 @@ const LongTextField: React.FC<TextFieldProps> = ({ id, required, subtitle = "", 
   <textarea id={id} placeholder={subtitle} {...register(id, { required })} />
 );
 
-const DropdownField: React.FC<DropdownFieldProps> = ({ id, options, required, register }) => (
-  <select id={id} defaultValue={""} {...register(id, { required })}>
+const SingleSelectField: React.FC<DropdownFieldProps> = ({ id: fieldId, options, required, register }) => (
+  <select id={fieldId} defaultValue={""} {...register(fieldId, { required })}>
     <option value={""} disabled>--- Please select ---</option>
-    {options.map((value) => <option key={value} value={value}>{value}</option>)}
+    {options.map(({ id, name }) => <option key={id} value={id}>{name}</option>)}
   </select>
 );
+
+const MultipleSelectField: React.FC<DropdownFieldProps> = ({ id: fieldId, options, required, register }) => {
+  const [hidden, setHidden] = React.useState(true);
+  const [buttonHeight, setButtonHeight] = React.useState(48);
+  const [contentHeight, setContentHeight] = React.useState(0);
+  const [textWidth, setTextWidth] = React.useState(1000);
+  const [selected, setSelected] = React.useState<string[]>([]);
+
+  const buttonRef = React.useRef<HTMLDivElement>();
+  const contentRef = React.useRef<HTMLDivElement>();
+  const pRef = React.useRef<HTMLDivElement>();
+
+  const toggleOption = (option: string) => {
+    if (selected.includes(option)) {
+      setSelected(selected.filter((value) => value !== option));
+    } else {
+      setSelected([...selected, option])
+    }
+  };
+
+  React.useEffect(() => {
+    if (!(buttonRef.current && contentRef.current && pRef.current)) {
+      return;
+    }
+    const getDims = (ref) => ref.current.getBoundingClientRect();
+    setButtonHeight(getDims(buttonRef).height);
+    setContentHeight(getDims(contentRef).height);
+    setTextWidth(getDims(pRef).width);
+  }, [buttonRef.current, contentRef.current, pRef.current]);
+
+  return (
+    <div className={"multiple-select"} style={{ height: hidden ? buttonHeight : contentHeight + buttonHeight }}>
+      <div className={"dropdown"} onClick={() => setHidden(!hidden)} ref={buttonRef}>
+        <p style={{ maxWidth: textWidth }} ref={pRef}>{selected.length > 0 ? selected.join(", ") : "No options selected..."}</p>
+        <FontAwesomeIcon icon={faChevronLeft} className={"arrow " + (hidden ? "left" : "down")} />
+      </div>
+      <div className={"options"} ref={contentRef}>
+        {options.map(({ id, name }) => (
+          <label key={id}>
+            <input
+              type={"checkbox"}
+              name={fieldId}
+              value={id}
+              tabIndex={-1}
+              onClick={() => toggleOption(name)}
+              {...register(fieldId, { required })}
+            />
+            {name}
+          </label>
+        ))}
+      </div>
+    </div>
+  )
+};
 
 const FileField: React.FC<FileFieldProps> = ({ id, required, register }) => (
   <input type={"file"} id={id} {...register(id, { required })} />
@@ -127,11 +195,9 @@ const ErrorMessage = ({ error }) => {
   const prevError = React.useRef(error);
 
   const changeErrorMessage = () => {
-    if (!error) {
-      setMessage("NO ERROR");
-    } else if (error.type === "required") {
+    if (error && error.type === "required") {
       setMessage("This field is required");
-    } else {
+    } else if (error) {
       setMessage(error.message);
     }
     prevError.current = error;
@@ -161,9 +227,13 @@ const FormField: React.FC<FormFieldProps> = ({ id, title, type, errors, required
     case FieldType.LongText:
       field = <LongTextField id={id} required={required} {...props} />
       break;
-    case FieldType.Dropdown:
+    case FieldType.SingleSelect:
       // @ts-ignore
-      field = <DropdownField id={id} required={required} {...props} />
+      field = <SingleSelectField id={id} required={required} {...props} />
+      break;
+    case FieldType.MultipleSelect:
+      // @ts-ignore
+      field = <MultipleSelectField id={id} required={required} {...props} />
       break;
     case FieldType.File:
       field = <FileField id={id} required={required} {...props} />

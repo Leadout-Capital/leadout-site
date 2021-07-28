@@ -1,14 +1,14 @@
-import { FieldType, FormField } from "../components/Form";
+import { FieldType, FormField, DropdownData } from "../components/Form";
 
-const ContactFormFields: FormField[] = [
+const ContactFormFields = (categoryOptions: DropdownData[]): FormField[] => [
   {
-    id: "Company Name",
+    id: "Co Name",
     title: "Company Name",
     type: FieldType.ShortText,
     required: true
   },
   {
-    id: "Company Website",
+    id: "Website",
     title: "Company Website",
     type: FieldType.Website,
     required: true
@@ -22,9 +22,9 @@ const ContactFormFields: FormField[] = [
   {
     id: "Category",
     title: "Category",
-    type: FieldType.Dropdown,
-    options: ["test 1", "test 2"],
-    required: true
+    type: FieldType.MultipleSelect,
+    options: categoryOptions,
+    required: false
   },
   {
     id: "Raising",
@@ -34,7 +34,7 @@ const ContactFormFields: FormField[] = [
     required: true
   },
   {
-    id: "Pitch Deck/Exec Summary",
+    id: "Pitch Deck / Exec Summary",
     title: "Pitch Deck/Exec Summary",
     type: FieldType.File,
     required: false
