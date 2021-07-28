@@ -1,5 +1,5 @@
 import * as React from "react";
-import Form, { FormState } from "../components/Form";
+import Form, { FormState, DropdownData } from "../components/Form";
 import ContactFormFields from "../constants/ContactFormFields";
 import "../stylesheets/contact.scss";
 import { graphql } from "gatsby";
@@ -7,7 +7,8 @@ import { graphql } from "gatsby";
 type QueryNode = {
   node: {
     data: {
-      Name: string
+      Name: string,
+      ID: string
     }
   }
 }
@@ -22,14 +23,31 @@ type ContactProps = {
 
 const Contact: React.FC<ContactProps> = ({ data }) => {
   // Isolate Name field in data, remove duplicates, and sort alphabetically
-  const categories = React.useMemo<string[]>(() => {
-    let raw = data.allAirtable.edges.map(({ node }) => node.data.Name);
-    return [...new Set(raw)].sort();
-  }, [data]);
+  const categories = React.useMemo<DropdownData[]>(() => (
+    data.allAirtable.edges.map(({ node }) => ({
+      id: node.data.ID,
+      name: node.data.Name
+    })).sort((rec1, rec2) => {
+      let rec1Name = rec1.name.toUpperCase();
+      let rec2Name = rec2.name.toUpperCase();
+      if (rec1Name < rec2Name) {
+        return -1;
+      } else if (rec1Name > rec2Name) {
+        return 1;
+      } else {
+        return 0
+      }
+    })
+  ), [data]);
 
   const submitContactForm = (data: FormState) => {
-    console.log(data);
-  }
+    fetch("../../.netlify/functions/airtable", {
+      method: "POST",
+      body: JSON.stringify(data)
+    })
+      .then(() => console.log("Form Sent!"))
+      .catch(error => console.error(error));
+  };
 
   return (
     <main className={"contact"}>
@@ -64,6 +82,7 @@ export const query = graphql`
         node {
           data {
             Name
+            ID
           }
         }
       }

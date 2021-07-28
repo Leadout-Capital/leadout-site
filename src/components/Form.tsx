@@ -24,6 +24,12 @@ export enum FieldType {
   Website
 }
 
+
+export type DropdownData = {
+  id: string,
+  name: string
+}
+
 type BasicField = {
   id: string,
   title: string,
@@ -33,12 +39,12 @@ type BasicField = {
 
 type SingleSelectField = BasicField & {
   type: FieldType.SingleSelect,
-  options: string[]
+  options: DropdownData[]
 };
 
 type MultipleSelectField = BasicField & {
   type: FieldType.MultipleSelect,
-  options: string[]
+  options: DropdownData[]
 };
 
 type TextField = BasicField & {
@@ -61,7 +67,7 @@ type TextFieldProps = SubFieldProps & {
   subtitle?: string
 }
 
-type DropdownFieldProps = SubFieldProps & { options: string[] };
+type DropdownFieldProps = SubFieldProps & { options: DropdownData[] };
 type FileFieldProps = SubFieldProps;
 
 type FormFieldProps = FormField & {
@@ -78,7 +84,7 @@ type CustomFormProps = FormProps & {
 }
 
 export interface FormState {
-  [key: string]: string
+  [key: string]: string | string[] | boolean
 }
 
 const ShortTextField: React.FC<TextFieldProps> = ({ id, required, subtitle = "", register }) => (
@@ -119,14 +125,14 @@ const LongTextField: React.FC<TextFieldProps> = ({ id, required, subtitle = "", 
   <textarea id={id} placeholder={subtitle} {...register(id, { required })} />
 );
 
-const SingleSelectField: React.FC<DropdownFieldProps> = ({ id, options, required, register }) => (
-  <select id={id} defaultValue={""} {...register(id, { required })}>
+const SingleSelectField: React.FC<DropdownFieldProps> = ({ id: fieldId, options, required, register }) => (
+  <select id={fieldId} defaultValue={""} {...register(fieldId, { required })}>
     <option value={""} disabled>--- Please select ---</option>
-    {options.map((value) => <option key={value} value={value}>{value}</option>)}
+    {options.map(({ id, name }) => <option key={id} value={id}>{name}</option>)}
   </select>
 );
 
-const MultipleSelectField: React.FC<DropdownFieldProps> = ({ id, options, required, register }) => {
+const MultipleSelectField: React.FC<DropdownFieldProps> = ({ id: fieldId, options, required, register }) => {
   const [hidden, setHidden] = React.useState(true);
   const [buttonHeight, setButtonHeight] = React.useState(48);
   const [contentHeight, setContentHeight] = React.useState(0);
@@ -162,16 +168,17 @@ const MultipleSelectField: React.FC<DropdownFieldProps> = ({ id, options, requir
         <FontAwesomeIcon icon={faChevronLeft} className={"arrow " + (hidden ? "left" : "down")} />
       </div>
       <div className={"options"} ref={contentRef}>
-        {options.map((value) => (
-          <label key={value}>
+        {options.map(({ id, name }) => (
+          <label key={id}>
             <input
               type={"checkbox"}
-              name={id}
-              value={value}
-              onClick={() => toggleOption(value)}
-              {...register(id, {required})}
+              name={fieldId}
+              value={id}
+              tabIndex={-1}
+              onClick={() => toggleOption(name)}
+              {...register(fieldId, { required })}
             />
-            {value}
+            {name}
           </label>
         ))}
       </div>

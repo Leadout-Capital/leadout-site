@@ -43,12 +43,12 @@ module.exports = {
     {
       resolve: "gatsby-source-airtable",
       options: {
-        apiKey: process.env.API_KEY,
+        apiKey: process.env.AIRTABLE_API_KEY,
         concurrency: 5, // default, see using markdown and attachments for more information
         tables: [
           {
-            baseId: process.env.GATSBY_AIRTABLE_BASE_ID,
-            tableName: process.env.GATSBY_CATEGORY_TITLE
+            baseId: process.env.AIRTABLE_BASE_ID,
+            tableName: process.env.CATEGORY_TITLE
           }
         ]
       }

@@ -1,6 +1,6 @@
-import { FieldType, FormField } from "../components/Form";
+import { FieldType, FormField, DropdownData } from "../components/Form";
 
-const ContactFormFields = (categoryOptions: string[]): FormField[] => [
+const ContactFormFields = (categoryOptions: DropdownData[]): FormField[] => [
   {
     id: "Co Name",
     title: "Company Name",
