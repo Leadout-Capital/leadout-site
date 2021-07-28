@@ -38,8 +38,10 @@
       padding: 30px 60px;
 
       .company-background {
-        height: 300px;
-        width: 500px;
+        width: calc((100vw - 120px) / 3 - 10px);
+        height: 500px;
+        max-height: 300px;
+        min-width: 300px;
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;

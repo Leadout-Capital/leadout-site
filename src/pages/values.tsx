@@ -12,7 +12,7 @@ export type Benefit = {
 const Values = () => {
   return (
     <main className={"values"}>
-      <ExecuteOnScroll className={"section core"}>
+      <ExecuteOnScroll className={"header section core"}>
         <h1>Our Core Fund Values</h1>
         <DelayEach
           className={"content"}
@@ -24,7 +24,7 @@ const Values = () => {
         <h1>Working with Leadout</h1>
         <div className={"content"}>
           {TeamBenefits.map(({ title, body }) => (
-            <ExecuteOnScroll key={title} className={"show-on-scroll"}>
+            <ExecuteOnScroll key={title} className={"show-on-scroll"} bottom={150}>
               <h2>{title}</h2>
               <p>{body}</p>
             </ExecuteOnScroll>

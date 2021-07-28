@@ -50,20 +50,8 @@
       }
     }
 
-    @media (max-width: variables.$fixed-size) {
-      padding: (variables.$fixed-size * 0.06) 30% (variables.$fixed-size * 0.06) (variables.$fixed-size * 0.06);
-
-      h1 {
-        font-size: (variables.$fixed-size * 0.035);
-      }
-
-      h2 {
-        font-size: (variables.$fixed-size * 0.02);
-      }
-
-      .background-text {
-        font-size: (variables.$fixed-size * 0.25)
-      }
+    @media (max-width: variables.$large-desktop) {
+      padding-right: 6vw;
     }
   }
 

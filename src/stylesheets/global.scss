@@ -15,7 +15,7 @@ body {
 
 header, .header {
   transition: variables.$lazy-transition;
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -33,6 +33,24 @@ header, .header {
 
   .highlight {
     color: variables.$accent;
+  }
+
+  @media (max-width: 100px / 0.06) {
+    padding-top: 100px;
+  }
+
+  @media (max-width: variables.$large-desktop) {
+    h1 {
+      font-size: (variables.$large-desktop * 0.035);
+    }
+
+    h2 {
+      font-size: (variables.$large-desktop * 0.02);
+    }
+
+    .background-text {
+      font-size: (variables.$fixed-size * 0.25)
+    }
   }
 }
 
