@@ -19,6 +19,8 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
+    "@netlify/functions": "^0.7.2",
+    "airtable": "^0.11.1",
     "gatsby": "^3.8.1",
     "gatsby-plugin-fontawesome-css": "^1.1.0",
     "gatsby-plugin-image": "^1.9.0",

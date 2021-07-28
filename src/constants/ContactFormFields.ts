@@ -1,6 +1,6 @@
 import { FieldType, FormField } from "../components/Form";
 
-const ContactFormFields: FormField[] = [
+const ContactFormFields = (categoryOptions: string[]): FormField[] => [
   {
     id: "Co Name",
     title: "Company Name",
@@ -22,9 +22,9 @@ const ContactFormFields: FormField[] = [
   {
     id: "Category",
     title: "Category",
-    type: FieldType.Dropdown,
-    options: ["test 1", "test 2"],
-    required: true
+    type: FieldType.MultipleSelect,
+    options: categoryOptions,
+    required: false
   },
   {
     id: "Raising",

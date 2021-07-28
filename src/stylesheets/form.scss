@@ -3,6 +3,7 @@
 
 $input-padding: 15px;
 $reset-color: color.adjust(variables.$dark, $alpha: -0.5);
+$input-color: color.adjust(variables.$light, $lightness: -10%);
 
 .custom-form {
   display: flex;
@@ -65,7 +66,7 @@ $reset-color: color.adjust(variables.$dark, $alpha: -0.5);
       input, textarea, select {
         font-weight: 300;
         border: color.adjust(variables.$accent, $alpha: -1) 2px solid;
-        background-color: color.adjust(variables.$light, $lightness: -10%);
+        background-color: $input-color;
         padding: $input-padding;
 
         &:focus {
@@ -87,6 +88,67 @@ $reset-color: color.adjust(variables.$dark, $alpha: -0.5);
         color: variables.$error;
         font-size: 12px;
         margin: 5px 0 15px;
+      }
+
+      .multiple-select {
+        transition: variables.$slow-transition;
+        background-color: $input-color;
+        border-radius: 5px;
+        overflow: hidden;
+        font-weight: 300;
+
+        .dropdown {
+          font-family: inherit;
+          padding: $input-padding;
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+
+          p {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0;
+            width: 100%;
+          }
+
+          .arrow {
+            transition: variables.$transition;
+            transform-origin: center;
+
+            &.down {
+              transform: rotate(-90deg);
+            }
+          }
+        }
+
+        .options {
+          transition: variables.$slow-transition;
+          overflow: hidden;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          padding: 5px;
+
+          label {
+            width: 50%;
+            float: right;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 5px;
+
+            input {
+              display: block;
+              margin-right: 5px;
+            }
+          }
+
+          .collapse {
+            width: 100%;
+          }
+        }
       }
     }
   }
