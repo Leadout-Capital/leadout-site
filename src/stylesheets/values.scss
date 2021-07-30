@@ -31,7 +31,16 @@
       }
 
       .background-text {
-        font-size: (variables.$fixed-size * 0.25)
+        font-size: (variables.$large-desktop * 0.25)
+      }
+    }
+
+    @media (max-width: variables.$mobile-width) {
+      padding: 35px;
+
+      h1 {
+        text-align: center;
+        margin-bottom: 0;
       }
     }
   }

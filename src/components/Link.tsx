@@ -3,6 +3,7 @@ import AniLink from "gatsby-plugin-transition-link/AniLink";
 import { AProps } from "react-html-props";
 
 const ACCENT_COLOR = "#79a5b9";
+export const TRANSITION_DURATION = 1.5;
 
 type LinkProps = AProps & {
   to
@@ -15,7 +16,7 @@ const Link: React.FC<LinkProps> = ({ to, ...props }) => (
     bg={ACCENT_COLOR}
     direction={"up"}
     to={to}
-    duration={1.5}
+    duration={TRANSITION_DURATION}
   />
 );
 

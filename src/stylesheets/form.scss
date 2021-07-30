@@ -185,4 +185,31 @@ $input-color: color.adjust(variables.$light, $lightness: -10%);
       }
     }
   }
+
+  @media (max-width: variables.$mobile-width) {
+    width: 100%;
+
+    .field {
+      flex-direction: column;
+
+      .title-container {
+        justify-content: flex-start;
+        padding: 0 0 $input-padding 0;
+
+        label {
+          text-align: left;
+        }
+      }
+
+      .input-container input[type=file] {
+        padding: 0;
+      }
+
+      .multiple-select {
+        label {
+          font-size: 0.9em;
+        }
+      }
+    }
+  }
 }

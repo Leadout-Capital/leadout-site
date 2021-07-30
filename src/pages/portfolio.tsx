@@ -25,18 +25,27 @@ type StealthCompany = {
 }
 
 const Portfolio = () => {
+  const [isMobile, setIsMobile] = React.useState<boolean>(false);
   const companiesRef = React.useRef<HTMLDivElement>();
 
   const scrollToCompanies = () => {
     if (!companiesRef.current) return;
     companiesRef.current.scrollIntoView({ block: "start", inline: "nearest", behavior: "smooth" });
   }
+
+  React.useEffect(() => {
+    const checkDimensions = () => setIsMobile(window.innerWidth <= 500);
+    checkDimensions();
+    window.addEventListener("resize", checkDimensions);
+    return () => window.removeEventListener("resize", checkDimensions);
+  })
+
   return (
     <main className={"portfolio"}>
       <header>
         <h1>
-          We look to identify, partner with, and support <span className={"highlight"}>non-obvious</span>,&nbsp;
-          <span className={"highlight"}>underrepresented</span> founders <span className={"highlight"}>early</span>.
+          We look to identify, partner with, and support <span className={"highlight"}>non-obvious</span>,
+          <span className={"highlight"}> under-represented</span> founders <span className={"highlight"}>early</span>.
         </h1>
         <h2>
           These founders are core to developing technology that expands access to capital, information and opportunity
@@ -47,12 +56,9 @@ const Portfolio = () => {
           <FontAwesomeIcon icon={faChevronDown} className={"icon"} onClick={scrollToCompanies}/>
         </div>
       </header>
-      <ExecuteOnScroll className={"portfolio-companies"} ref={companiesRef}>
-        <DelayEach
-          useP={false}
-          className={"company-wrapper"}
-          delay={0.1}
-          render={PortfolioCompanies.map((
+      {isMobile ? (
+        <div className={"portfolio-companies"}>
+          {PortfolioCompanies.map((
             {
               name,
               image,
@@ -60,6 +66,41 @@ const Portfolio = () => {
               description,
               stealth
             }) => (
+            stealth ? (
+              <div className={"company-wrapper"}>
+                <ExecuteOnScroll key={name} className={"show-on-scroll company-background stealth"}/>
+              </div>
+            ) : (
+              <div className={"company-wrapper"}>
+                <ExecuteOnScroll
+                  key={name}
+                  className={"show-on-scroll company-background"}
+                  style={{backgroundImage: `url(${image})`}}
+                >
+                  <div className={"dark company-container"}>
+                    <h3>{name}</h3>
+                    <p>{description}</p>
+                    <a href={website} target={"_blank"}>Visit website</a>
+                  </div>
+                </ExecuteOnScroll>
+              </div>
+            )
+          ))}
+        </div>
+      ) : (
+        <ExecuteOnScroll className={"portfolio-companies"} ref={companiesRef}>
+          <DelayEach
+            useP={false}
+            className={"company-wrapper"}
+            delay={0.1}
+            render={PortfolioCompanies.map((
+              {
+                name,
+                image,
+                website,
+                description,
+                stealth
+              }) => (
               stealth ? <div key={name} className={"company-background stealth"} /> : (
                 <div key={name} className={"company-background"} style={{ backgroundImage: `url(${image})` }}>
                   <div className={"dark company-container"}>
@@ -69,8 +110,9 @@ const Portfolio = () => {
                   </div>
                 </div>
               )
-        ))} />
-      </ExecuteOnScroll>
+            ))} />
+        </ExecuteOnScroll>
+      )}
     </main>
   )
 };

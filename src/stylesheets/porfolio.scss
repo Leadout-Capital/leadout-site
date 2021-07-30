@@ -26,6 +26,10 @@
           transform: translateY(15px);
         }
       }
+
+      @media (max-width: variables.$mobile-width) {
+        display: none;
+      }
     }
   }
 
@@ -91,9 +95,18 @@
       & > div {
         transition: variables.$transition;
       }
+
+      @media (max-width: variables.$mobile-width) {
+        padding: 0;
+
+        .company-background {
+          transition: variables.$lazy-transition;
+          width: 100%;
+        }
+      }
     }
 
-    &.not-scrolled .company-wrapper > div{
+    &.not-scrolled .company-wrapper > div {
       opacity: 0;
     }
   }

@@ -49,7 +49,16 @@ header, .header {
     }
 
     .background-text {
-      font-size: (variables.$fixed-size * 0.25)
+      font-size: (variables.$large-desktop * 0.25)
+    }
+  }
+
+  @media (max-width: variables.$mobile-width) {
+    padding: 100px 35px 35px 35px;
+
+    h1 {
+      font-size: calc((100vw - 70px) * 0.15);
+      line-height: 1.1;
     }
   }
 }
@@ -117,5 +126,11 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+}
+
+@media (max-width: variables.$mobile-width) {
+  body.open {
+    overflow: hidden;
   }
 }

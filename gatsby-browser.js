@@ -9,4 +9,4 @@ export const wrapPageElement = ({ element, props }) => (
     {element}
     <Footer {...props} />
   </div>
-)
+);

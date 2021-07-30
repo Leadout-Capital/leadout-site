@@ -1,3 +1,5 @@
+@use "variables";
+
 .team {
   display: flex;
   flex-direction: column;
@@ -35,6 +37,14 @@
       .bio-blurb p {
         opacity: 0;
         transform: translateX(150px);
+      }
+    }
+
+    @media (max-width: variables.$mobile-width) {
+      margin: 0 30px;
+      img {
+        width: 100%;
+        min-width: unset;
       }
     }
   }
