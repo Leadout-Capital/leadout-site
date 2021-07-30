@@ -1,44 +1,59 @@
 import * as React from "react";
+import { graphql } from "gatsby";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { ExecuteOnScroll } from "../components/OnScroll";
 import DelayEach from "../components/DelayEach";
-import PortfolioCompanies from "../constants/PortfolioCompanies";
 import "../stylesheets/porfolio.scss";
 
 export type PortfolioCompany = Company | StealthCompany;
 
+type QueryNode = {
+  node: PortfolioCompany
+}
+
+type PortfolioProps = {
+  data: {
+    allContentfulPortfolioCompany: {
+      edges: QueryNode[]
+    }
+  }
+}
+
 type Company = {
   name: string,
-  image: string,
+  image: { file: { url: string } },
   website: string,
-  description: string,
+  description: { childMarkdownRemark: { html: string } },
   stealth: false
 }
 
 type StealthCompany = {
   name?: string,
-  image?: string,
+  image?: { file: { url: string } },
   website?: string,
-  description?: string,
+  description?: { childMarkdownRemark: { html: string } },
   stealth: true
 }
 
-const Portfolio = () => {
+const Portfolio: React.FC<PortfolioProps> = ({ data }) => {
   const [isMobile, setIsMobile] = React.useState<boolean>(false);
   const companiesRef = React.useRef<HTMLDivElement>();
+  const companies = React.useMemo(() => data.allContentfulPortfolioCompany.edges.map(
+    ({ node }) => node
+  ), [data]);
 
   const scrollToCompanies = () => {
     if (!companiesRef.current) return;
     companiesRef.current.scrollIntoView({ block: "start", inline: "nearest", behavior: "smooth" });
-  }
+  };
 
   React.useEffect(() => {
     const checkDimensions = () => setIsMobile(window.innerWidth <= 500);
     checkDimensions();
     window.addEventListener("resize", checkDimensions);
     return () => window.removeEventListener("resize", checkDimensions);
-  })
+  });
 
   return (
     <main className={"portfolio"}>
@@ -58,7 +73,7 @@ const Portfolio = () => {
       </header>
       {isMobile ? (
         <div className={"portfolio-companies"}>
-          {PortfolioCompanies.map((
+          {companies.map((
             {
               name,
               image,
@@ -75,11 +90,11 @@ const Portfolio = () => {
                 <ExecuteOnScroll
                   key={name}
                   className={"show-on-scroll company-background"}
-                  style={{backgroundImage: `url(${image})`}}
+                  style={{ backgroundImage: `url(https:${image.file.url})` }}
                 >
                   <div className={"dark company-container"}>
                     <h3>{name}</h3>
-                    <p>{description}</p>
+                    <span dangerouslySetInnerHTML={{ __html: description.childMarkdownRemark.html }} />
                     <a href={website} target={"_blank"}>Visit website</a>
                   </div>
                 </ExecuteOnScroll>
@@ -93,7 +108,7 @@ const Portfolio = () => {
             useP={false}
             className={"company-wrapper"}
             delay={0.1}
-            render={PortfolioCompanies.map((
+            render={companies.map((
               {
                 name,
                 image,
@@ -102,10 +117,10 @@ const Portfolio = () => {
                 stealth
               }) => (
               stealth ? <div key={name} className={"company-background stealth"} /> : (
-                <div key={name} className={"company-background"} style={{ backgroundImage: `url(${image})` }}>
+                <div key={name} className={"company-background"} style={{ backgroundImage: `url(https:${image.file.url})` }}>
                   <div className={"dark company-container"}>
                     <h3>{name}</h3>
-                    <p>{description}</p>
+                    <span dangerouslySetInnerHTML={{ __html: description.childMarkdownRemark.html }} />
                     <a href={website} target={"_blank"}>Visit website</a>
                   </div>
                 </div>
@@ -118,3 +133,30 @@ const Portfolio = () => {
 };
 
 export default Portfolio;
+
+export const query = graphql`
+  {
+    allContentfulPortfolioCompany(
+      filter: { node_locale: { eq: "en-US" } }
+      sort: { fields: [index] }
+    ) {
+      edges {
+        node {
+          name
+          image {
+            file {
+              url
+            }
+          }
+          website
+          description {
+            childMarkdownRemark {
+              html
+            }
+          }
+          stealth
+        }
+      }
+    }
+  }
+`;

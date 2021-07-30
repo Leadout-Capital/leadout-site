@@ -97,6 +97,10 @@ $input-color: color.adjust(variables.$light, $lightness: -10%);
         overflow: hidden;
         font-weight: 300;
 
+        .loading {
+          margin: 0 10px;
+        }
+
         .dropdown {
           font-family: inherit;
           padding: $input-padding;

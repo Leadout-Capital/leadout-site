@@ -34,8 +34,6 @@ const ImageFade: React.FC<ImageFadeProps> = ({ data, className = "", ...props })
     return () => window.removeEventListener("scroll", checkScroll);
   }, [activeIndex]);
 
-  console.log(`url(${data[activeIndex].image}) ${(data[activeIndex].overlay ? data[activeIndex].overlay : "")}`);
-
   return (
     <div {...props} className={"image-fade " + className} ref={scrollRef}>
       <ExecuteOnScroll

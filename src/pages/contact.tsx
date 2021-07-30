@@ -1,53 +1,65 @@
 import * as React from "react";
-import Form, { FormState, DropdownData } from "../components/Form";
-import ContactFormFields from "../constants/ContactFormFields";
+import Form, { FormState, FieldType, FormField } from "../components/Form";
 import "../stylesheets/contact.scss";
 import { graphql } from "gatsby";
 
 type QueryNode = {
-  node: {
-    data: {
-      Name: string,
-      ID: string
-    }
+  node: FormField & {
+    options?: string[],
+    airtableTableName?: string,
+    airtableColumnName?: string
   }
 }
 
 type ContactProps = {
   data: {
-    allAirtable: {
+    allContentfulContactFormField: {
       edges: QueryNode[]
     }
   }
 }
 
 const Contact: React.FC<ContactProps> = ({ data }) => {
-  // Isolate Name field in data, remove duplicates, and sort alphabetically
-  const categories = React.useMemo<DropdownData[]>(() => (
-    data.allAirtable.edges.map(({ node }) => ({
-      id: node.data.ID,
-      name: node.data.Name
-    })).sort((rec1, rec2) => {
-      let rec1Name = rec1.name.toUpperCase();
-      let rec2Name = rec2.name.toUpperCase();
-      if (rec1Name < rec2Name) {
-        return -1;
-      } else if (rec1Name > rec2Name) {
-        return 1;
-      } else {
-        return 0
-      }
-    })
+  const [airtableData, setAirtableData] = React.useState({});
+  const formData = React.useMemo(() => (
+    data.allContentfulContactFormField.edges.filter(({ node: { key }}) => key !== "DUMMY")
+      .map(({ node: { options, airtableColumnName, airtableTableName, ...nodeData} }) => ({
+        ...nodeData,
+        options: options ? options.map((option) => ({ id: option, name: option })) : null
+      }))
   ), [data]);
 
   const submitContactForm = (data: FormState) => {
-    fetch("../../.netlify/functions/airtable", {
+    fetch("../../.netlify/functions/pushToAirtable", {
       method: "POST",
       body: JSON.stringify(data)
-    })
-      .then(() => console.log("Form Sent!"))
+    }).then(() => console.log("Form Sent!"))
       .catch(error => console.error(error));
   };
+
+  React.useEffect(() => {
+    const getAirtableData = (requestData) => {
+      fetch("../../.netlify/functions/getFromAirtable", {
+        method: "POST",
+        body: JSON.stringify(requestData)
+      }).then(async (response) => {
+        let result = await response.json();
+        setAirtableData(result);
+      }).catch((error) => console.error(error));
+    }
+    let importantData = data.allContentfulContactFormField.edges.filter(({ node: { key }}) => key !== "DUMMY").map(({ node }) => node);
+    let requestData = {};
+    for (let { key, type, airtableTableName, airtableColumnName } of importantData) {
+      if (
+        (type === FieldType.MultipleSelect || type === FieldType.SingleSelect)
+        && airtableTableName
+        && airtableColumnName
+      ) {
+        requestData[key] = { tableName: airtableTableName, columnName: airtableColumnName };
+      }
+    }
+    getAirtableData(requestData);
+  }, [data]);
 
   return (
     <main className={"contact"}>
@@ -60,7 +72,8 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
             your opportunity for investment here.
           </>
         }
-        fields={ContactFormFields(categories)}
+        fields={formData}
+        airtableData={airtableData}
         formId={"contact"}
         submit={submitContactForm}
       />
@@ -71,19 +84,21 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
 export default Contact;
 
 export const query = graphql`
-  query {
-    allAirtable(
-      filter: {
-        table: { eq: "Deal Flow Category" }
-        data: { Name: { ne: null } }
-      }
+  {
+    allContentfulContactFormField(
+      filter: { node_locale: { eq: "en-US" } }
+      sort: { fields: [index] }
     ) {
       edges {
         node {
-          data {
-            Name
-            ID
-          }
+          key
+          title
+          subtitle
+          required
+          type
+          options
+          airtableTableName
+          airtableColumnName
         }
       }
     }

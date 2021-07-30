@@ -2,52 +2,52 @@ import { FieldType, FormField, DropdownData } from "../components/Form";
 
 const ContactFormFields = (categoryOptions: DropdownData[]): FormField[] => [
   {
-    id: "Co Name",
+    key: "Co Name",
     title: "Company Name",
     type: FieldType.ShortText,
     required: true
   },
   {
-    id: "Website",
+    key: "Website",
     title: "Company Website",
     type: FieldType.Website,
     required: true
   },
   {
-    id: "Description",
+    key: "Description",
     title: "Description",
     type: FieldType.LongText,
     required: true
   },
   {
-    id: "Category",
+    key: "Category",
     title: "Category",
     type: FieldType.MultipleSelect,
     options: categoryOptions,
     required: false
   },
   {
-    id: "Raising",
+    key: "Raising",
     title: "Raising",
     subtitle: "What size round are you raising?",
     type: FieldType.LongText,
     required: true
   },
   {
-    id: "Pitch Deck / Exec Summary",
+    key: "Pitch Deck / Exec Summary",
     title: "Pitch Deck/Exec Summary",
     type: FieldType.File,
     required: false
   },
   {
-    id: "Located",
+    key: "Located",
     title: "Located",
     subtitle: "What timezone are you in?",
     type: FieldType.ShortText,
     required: true
   },
   {
-    id: "Company Contact",
+    key: "Company Contact",
     title: "Company Contact",
     subtitle: "Email address where we can reach you",
     type: FieldType.Email,
