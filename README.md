@@ -12,13 +12,11 @@
 
 ## Contentful
 
-Use [Contentful](https://app.contentful.com) to update text and image content on the website. You can also publish a
-build from Contentful. The `Content Models` page is preset &mdash; you probably won't need to change this unless you're
-making significant changes to the site. 
-
 ### How to make changes
 
-Most of the content you'll be updating is under the `Content` page. You can filter your view by `Content type`, or simply
+Use [Contentful](https://app.contentful.com) to update text and image content on the website. The `Content Models` page
+is preset &mdash; you probably won't need to change this unless you're making significant changes to the site. Most of
+the content you'll be updating is under the `Content` page. You can filter your view by `Content type`, or simply
 search for the field you're trying to update. Descriptions of each content model and how to use them is detailed under
 `Content Models`.
 To update a field, simply select it from the table in the center of the page. This will open a view where you can edit
