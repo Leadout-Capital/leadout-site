@@ -3,16 +3,25 @@
 
 .home {
   padding: 0;
-  height: 200%;
+  //height: 200%;
 
   & > * {
     position: relative;
     z-index: 5;
   }
 
+  // might break; used to fix weird scroll bug on index page
+  * {
+    overflow: hidden;
+  }
+
   .header {
     padding-right: 30%;
     overflow-x: hidden;
+
+    * {
+      overflow: hidden;
+    }
 
     h1 {
       margin: 40px 0;
@@ -50,19 +59,19 @@
       }
     }
 
-    @media (max-width: variables.$fixed-size) {
-      padding: (variables.$fixed-size * 0.06) 30% (variables.$fixed-size * 0.06) (variables.$fixed-size * 0.06);
+    @media (max-width: variables.$large-desktop) {
+      padding-right: 6vw;
+    }
 
-      h1 {
-        font-size: (variables.$fixed-size * 0.035);
-      }
-
-      h2 {
-        font-size: (variables.$fixed-size * 0.02);
-      }
-
+    @media (max-width: variables.$mobile-width) {
       .background-text {
-        font-size: (variables.$fixed-size * 0.25)
+        bottom: calc(100% - 100px);
+        left: 0;
+        width: 100vh;
+        overflow: hidden;
+        transform: rotate(90deg);
+        transform-origin: bottom left;
+        font-size: calc((100vh - 100px) * 0.25);
       }
     }
   }
@@ -112,7 +121,7 @@
 
       p {
         font-size: 2.75em;
-        margin: 0 0 30px 0;
+        margin: 0;
         font-weight: 300;
       }
 
@@ -128,6 +137,38 @@
         font-weight: 900;
         font-size: 100px;
         margin-right: 10px;
+      }
+
+      .start-quote-mobile {
+        display: none;
+      }
+    }
+
+    @media (max-width: variables.$mobile-width) {
+      .image {
+        background-position: center;
+      }
+
+      .panel {
+        background-color: transparent;
+        color: variables.$light;
+        box-shadow: none;
+      }
+
+      .quote {
+        padding: 50px;
+
+        p {
+          font-size: 1.5em;
+        }
+
+        .start-quote {
+          display: none;
+        }
+
+        .start-quote-mobile {
+          display: inline;
+        }
       }
     }
   }

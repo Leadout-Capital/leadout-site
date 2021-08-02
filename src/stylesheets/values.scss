@@ -10,16 +10,44 @@
 
     h1 {
       font-weight: 900;
-      font-size: 3vw;
+      font-size: 3.5vw;
+    }
+
+    h2 {
+      font-size: 2vw;
     }
 
     .content {
       max-width: 1600px;
     }
+
+    @media (max-width: variables.$large-desktop) {
+      h1 {
+        font-size: (variables.$large-desktop * 0.035);
+      }
+
+      h2 {
+        font-size: (variables.$large-desktop * 0.02);
+      }
+
+      .background-text {
+        font-size: (variables.$large-desktop * 0.25)
+      }
+    }
+
+    @media (max-width: variables.$mobile-width) {
+      padding: 35px;
+
+      h1 {
+        text-align: center;
+        margin-bottom: 0;
+      }
+    }
   }
 
   .core {
-    height: 100vh;
+    min-height: 100vh;
+    padding-top: 100px;
     text-align: center;
 
     .content > p {
@@ -39,7 +67,6 @@
     color: variables.$light;
 
     h2 {
-      font-size: 3em;
       margin: 60px 0 10px;
     }
 

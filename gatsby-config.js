@@ -4,7 +4,7 @@ require("dotenv").config({
 
 module.exports = {
   siteMetadata: {
-    siteUrl: "https://www.yourdomain.tld",
+    siteUrl: "https://www.leadoutcapital.com",
     title: "Leadout Site",
   },
   plugins: [
@@ -15,14 +15,6 @@ module.exports = {
     "gatsby-transformer-sharp",
     "gatsby-plugin-transition-link",
     "gatsby-plugin-fontawesome-css",
-    {
-      resolve: "gatsby-source-filesystem",
-      options: {
-        name: "images",
-        path: `${__dirname}/src/images/`,
-      },
-      __key: "images",
-    },
     {
       resolve: "gatsby-plugin-web-font-loader",
       options: {
@@ -44,7 +36,7 @@ module.exports = {
       resolve: "gatsby-source-airtable",
       options: {
         apiKey: process.env.AIRTABLE_API_KEY,
-        concurrency: 5, // default, see using markdown and attachments for more information
+        concurrency: 5,
         tables: [
           {
             baseId: process.env.AIRTABLE_BASE_ID,
@@ -52,6 +44,21 @@ module.exports = {
           }
         ]
       }
+    },
+    {
+      resolve: "gatsby-source-contentful",
+      options: {
+        spaceId: process.env.SPACE_ID,
+        accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
+      }
+    },
+    {
+      resolve: "gatsby-transformer-remark",
+      options: {
+        footnotes: true,
+        gfm: true,
+        plugins: []
+      },
     }
   ]
 };

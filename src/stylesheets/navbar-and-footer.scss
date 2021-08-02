@@ -1,4 +1,10 @@
 @use "variables";
+@use "sass:math";
+
+$close-button-height: 35px;
+$close-button-width: 50px;
+$close-button-line-height: 3px;
+$mobile-nav-height: 100px;
 
 nav {
   position: fixed;
@@ -28,7 +34,7 @@ nav {
       margin: 0;
     }
 
-    svg {
+    img {
       width: 80px;
       position: absolute;
     }
@@ -54,8 +60,97 @@ nav {
     }
   }
 
+  .close-button {
+    width: $close-button-width;
+    height: $close-button-height;
+    position: absolute;
+    right: 20px;
+    top: calc((100% - #{$close-button-height}) / 2);
+    background-color: transparent;
+    border: none;
+    z-index: 100;
+
+    .line {
+      transition: variables.$transition;
+      height: $close-button-line-height;
+      background-color: variables.$dark;
+      position: absolute;
+      width: 100%;
+      left: 0;
+      border-radius: math.div($close-button-line-height, 2);
+
+      &.top {
+        top: 0;
+        transform-origin: center;
+      }
+
+      &.center {
+        top: calc(50% - #{$close-button-line-height} / 2);
+      }
+
+      &.bottom {
+        bottom: 0;
+      }
+    }
+
+    &.open {
+      .top {
+        transform: translateY(math.div($close-button-height - $close-button-line-height, 2)) rotate(45deg);
+      }
+
+      .center {
+        transform: scaleY(0);
+      }
+
+      .bottom {
+        transform: translateY(math.div(-($close-button-height - $close-button-line-height), 2)) rotate(-45deg);
+      }
+    }
+  }
+
   &.top {
     box-shadow: 0 0 7px #0000;
+  }
+
+  // Including the +1px to avoid overlap at $mobile-width
+  @media (min-width: variables.$mobile-width + 1px) {
+    .close-button {
+      display: none;
+    }
+  }
+
+  @media (max-width: variables.$mobile-width) {
+    height: $mobile-nav-height;
+
+    ul {
+      transition: variables.$transition;
+      transform-origin: top;
+      position: absolute;
+      top: 100%;
+      width: 100vw;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: variables.$light;
+      padding-bottom: $mobile-nav-height;
+      height: calc(100vh - #{$mobile-nav-height});
+      transform: scaleY(0);
+      font-size: 1.2em;
+
+      li {
+        transform: translateX(-100px);
+        opacity: 0;
+      }
+
+      &.open {
+        transform: scaleY(1);
+
+        li {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+    }
   }
 }
 

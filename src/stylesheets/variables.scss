@@ -7,6 +7,9 @@ $error: #d73e3e;
 $transition: all 0.2s ease;
 $slow-transition: all 0.5s ease;
 $lazy-transition: all 0.75s ease;
-$fixed-size: 1330px;
 
 $font: Gotham, sans-serif;
+
+// Screen sizes
+$large-desktop: 1500px;
+$mobile-width: 500px;

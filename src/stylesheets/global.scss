@@ -15,7 +15,7 @@ body {
 
 header, .header {
   transition: variables.$lazy-transition;
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -31,8 +31,35 @@ header, .header {
     font-size: 2vw;
   }
 
-  .highlight {
+  strong {
     color: variables.$accent;
+  }
+
+  @media (max-width: 100px / 0.06) {
+    padding-top: 100px;
+  }
+
+  @media (max-width: variables.$large-desktop) {
+    h1 {
+      font-size: (variables.$large-desktop * 0.035);
+    }
+
+    h2 {
+      font-size: (variables.$large-desktop * 0.02);
+    }
+
+    .background-text {
+      font-size: (variables.$large-desktop * 0.25)
+    }
+  }
+
+  @media (max-width: variables.$mobile-width) {
+    padding: 100px 35px 35px 35px;
+
+    h1 {
+      font-size: calc((100vw - 70px) * 0.15);
+      line-height: 1.1;
+    }
   }
 }
 
@@ -99,5 +126,11 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+}
+
+@media (max-width: variables.$mobile-width) {
+  body.open {
+    overflow: hidden;
   }
 }

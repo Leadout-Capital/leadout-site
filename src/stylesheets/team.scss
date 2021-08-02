@@ -1,19 +1,23 @@
+@use "variables";
+
 .team {
   display: flex;
   flex-direction: column;
   align-items: center;
 
   .bio, .community {
-    width: 700px;
+    max-width: 700px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
+    margin: 0 100px;
 
     img {
       border-radius: 1000px;
-      width: 500px;
+      min-width: 400px;
+      width: 20vw;
     }
 
     h2 {
@@ -21,7 +25,7 @@
     }
 
     .bio-blurb {
-      width: 700px;
+      max-width: 700px;
     }
 
     &.not-scrolled {
@@ -35,10 +39,19 @@
         transform: translateX(150px);
       }
     }
+
+    @media (max-width: variables.$mobile-width) {
+      margin: 0 30px;
+      img {
+        width: 100%;
+        min-width: unset;
+      }
+    }
   }
 
   .bio {
     min-height: 100vh;
+    padding: 100px 0;
   }
 
   .community {

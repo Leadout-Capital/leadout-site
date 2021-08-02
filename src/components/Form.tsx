@@ -15,15 +15,14 @@ const URL_REGEX = new RegExp('^(https?:\\/\\/)?'+ // protocol
 const ERROR_TRANSITION = 0.2;
 
 export enum FieldType {
-  ShortText,
-  LongText,
-  SingleSelect,
-  MultipleSelect,
-  File,
-  Email,
-  Website
+  ShortText = "ShortText",
+  LongText = "LongText",
+  SingleSelect = "SingleSelect",
+  MultipleSelect = "MultipleSelect",
+  File = "File",
+  Email = "Email",
+  Website = "Website"
 }
-
 
 export type DropdownData = {
   id: string,
@@ -31,7 +30,7 @@ export type DropdownData = {
 }
 
 type BasicField = {
-  id: string,
+  key: string,
   title: string,
   subtitle?: string,
   required: boolean
@@ -68,11 +67,12 @@ type TextFieldProps = SubFieldProps & {
 }
 
 type DropdownFieldProps = SubFieldProps & { options: DropdownData[] };
-type FileFieldProps = SubFieldProps;
 
-type FormFieldProps = FormField & {
+type FormFieldProps = Omit<FormField, "key"> & {
+  id: string,
   errors: FieldErrors,
-  register: (...args: any[]) => any
+  register: (...args: any[]) => any,
+  airtableData?: DropdownData[]
 }
 
 type CustomFormProps = FormProps & {
@@ -80,6 +80,7 @@ type CustomFormProps = FormProps & {
   subtitle?: string | React.ReactNode,
   formId: string,
   fields: FormField[],
+  airtableData: { [key: string]: DropdownData[] },
   submit: (data: FormState) => void
 }
 
@@ -128,7 +129,9 @@ const LongTextField: React.FC<TextFieldProps> = ({ id, required, subtitle = "", 
 const SingleSelectField: React.FC<DropdownFieldProps> = ({ id: fieldId, options, required, register }) => (
   <select id={fieldId} defaultValue={""} {...register(fieldId, { required })}>
     <option value={""} disabled>--- Please select ---</option>
-    {options.map(({ id, name }) => <option key={id} value={id}>{name}</option>)}
+    {options ? (
+      options.map(({ id, name }) => <option key={id} value={id}>{name}</option>)
+    ) : <option value={"LOADING"} disabled>Loading data...</option>}
   </select>
 );
 
@@ -159,7 +162,7 @@ const MultipleSelectField: React.FC<DropdownFieldProps> = ({ id: fieldId, option
     setButtonHeight(getDims(buttonRef).height);
     setContentHeight(getDims(contentRef).height);
     setTextWidth(getDims(pRef).width);
-  }, [buttonRef.current, contentRef.current, pRef.current]);
+  }, [buttonRef.current, contentRef.current, pRef.current, options]);
 
   return (
     <div className={"multiple-select"} style={{ height: hidden ? buttonHeight : contentHeight + buttonHeight }}>
@@ -168,7 +171,7 @@ const MultipleSelectField: React.FC<DropdownFieldProps> = ({ id: fieldId, option
         <FontAwesomeIcon icon={faChevronLeft} className={"arrow " + (hidden ? "left" : "down")} />
       </div>
       <div className={"options"} ref={contentRef}>
-        {options.map(({ id, name }) => (
+        {options ? options.map(({ id, name }) => (
           <label key={id}>
             <input
               type={"checkbox"}
@@ -180,15 +183,13 @@ const MultipleSelectField: React.FC<DropdownFieldProps> = ({ id: fieldId, option
             />
             {name}
           </label>
-        ))}
+        )) : <p className={"loading"}>Loading options...</p>}
       </div>
     </div>
   )
 };
 
-const FileField: React.FC<FileFieldProps> = ({ id, required, register }) => (
-  <input type={"file"} id={id} {...register(id, { required })} />
-);
+const FileField = WebsiteField;
 
 const ErrorMessage = ({ error }) => {
   const [message, setMessage] = React.useState("NO ERROR");
@@ -218,7 +219,7 @@ const ErrorMessage = ({ error }) => {
   )
 }
 
-const FormField: React.FC<FormFieldProps> = ({ id, title, type, errors, required, ...props }) => {
+const FormField: React.FC<FormFieldProps> = ({ id, title, type, errors, required, airtableData, ...props }) => {
   let field;
   switch (type) {
     case FieldType.ShortText:
@@ -229,11 +230,11 @@ const FormField: React.FC<FormFieldProps> = ({ id, title, type, errors, required
       break;
     case FieldType.SingleSelect:
       // @ts-ignore
-      field = <SingleSelectField id={id} required={required} {...props} />
+      field = <SingleSelectField {...props} id={id} required={required} options={airtableData ? airtableData : props.options} />
       break;
     case FieldType.MultipleSelect:
       // @ts-ignore
-      field = <MultipleSelectField id={id} required={required} {...props} />
+      field = <MultipleSelectField {...props} id={id} required={required} options={airtableData ? airtableData : props.options} />
       break;
     case FieldType.File:
       field = <FileField id={id} required={required} {...props} />
@@ -263,7 +264,7 @@ const FormField: React.FC<FormFieldProps> = ({ id, title, type, errors, required
   )
 };
 
-const Form: React.FC<CustomFormProps> = ({ title, subtitle, fields, formId, submit, className = "", ...props }) => {
+const Form: React.FC<CustomFormProps> = ({ title, subtitle, fields, airtableData, formId, submit, className = "", ...props }) => {
   const { register, handleSubmit, clearErrors, formState: { errors } } = useForm<FormState>({
     criteriaMode: "all",
     reValidateMode: "onSubmit"
@@ -276,8 +277,9 @@ const Form: React.FC<CustomFormProps> = ({ title, subtitle, fields, formId, subm
       </div>
       {fields.map((field) => (
         <FormField
-          key={field.id}
-          id={`${formId}-${field.id}`}
+          key={field.key}
+          airtableData={airtableData[field.key]}
+          id={`${formId}-${field.key}`}
           register={register}
           errors={errors}
           {...field}

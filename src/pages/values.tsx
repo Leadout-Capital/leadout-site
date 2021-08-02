@@ -1,32 +1,49 @@
 import * as React from "react";
 import { ExecuteOnScroll } from "../components/OnScroll";
 import DelayEach from "../components/DelayEach";
-import { CoreValues, TeamBenefits } from "../constants/Values";
 import "../stylesheets/values.scss";
+import { graphql } from "gatsby";
 
 export type Benefit = {
   title: string,
   body: string
 }
 
-const Values = () => {
+type ValuesProps = {
+  data: {
+    coreValues: {
+      edges: QueryNode<ContentfulCoreValue>[]
+    },
+    teamBenefits: {
+      edges: QueryNode<ContentfulTeamBenefit>[]
+    },
+    coreValuesTitle: ContentfulTextField,
+    teamBenefitsTitle: ContentfulTextField
+  }
+};
+
+const Values: React.FC<ValuesProps> = ({ data }) => {
+  const coreValues = React.useMemo(() => data.coreValues.edges.map(({ node }) => node.body.childMarkdownRemark.html), [data]);
+  const teamBenefits = React.useMemo(() => data.teamBenefits.edges.map(({ node: { title, body } }) => ({ title, body: body.childMarkdownRemark.html })), [data]);
+
   return (
     <main className={"values"}>
-      <ExecuteOnScroll className={"section core"}>
-        <h1>Our Core Fund Values</h1>
+      <ExecuteOnScroll className={"header section core"}>
+        <h1 dangerouslySetInnerHTML={{ __html: data.coreValuesTitle.body.childMarkdownRemark.html }} />
         <DelayEach
           className={"content"}
-          render={CoreValues}
+          render={coreValues}
+          asString
           useP={true}
         />
       </ExecuteOnScroll>
       <div className={"section working-with-leadout"}>
-        <h1>Working with Leadout</h1>
+        <h1 dangerouslySetInnerHTML={{ __html: data.teamBenefitsTitle.body.childMarkdownRemark.html }} />
         <div className={"content"}>
-          {TeamBenefits.map(({ title, body }) => (
-            <ExecuteOnScroll key={title} className={"show-on-scroll"}>
+          {teamBenefits.map(({ title, body }) => (
+            <ExecuteOnScroll key={title} className={"show-on-scroll"} bottom={150}>
               <h2>{title}</h2>
-              <p>{body}</p>
+              <p dangerouslySetInnerHTML={{ __html: body }} />
             </ExecuteOnScroll>
           ))}
         </div>
@@ -36,3 +53,51 @@ const Values = () => {
 };
 
 export default Values;
+
+export const query = graphql`
+  query {
+    coreValues: allContentfulCoreValue(
+      filter: { node_locale: { eq: "en-US" } }
+      sort: { fields: [index] }
+    ) {
+      edges {
+        node {
+          body {
+            childMarkdownRemark {
+              html
+            }
+          }
+        }
+      }
+    }
+    teamBenefits: allContentfulTeamBenefit(
+      filter: { node_locale: { eq: "en-US" } }
+      sort: { fields: [index] }
+    ) {
+      edges {
+        node {
+          title
+          body {
+            childMarkdownRemark {
+              html
+            }
+          }
+        }
+      }
+    }
+    coreValuesTitle: contentfulTextField(name: { eq: "Core Values Title" }) {
+      body {
+        childMarkdownRemark {
+          html
+        }
+      }
+    }
+    teamBenefitsTitle: contentfulTextField(name: { eq: "Team Benefits Title" }) {
+      body {
+        childMarkdownRemark {
+          html
+        }
+      }
+    }
+  }
+`;

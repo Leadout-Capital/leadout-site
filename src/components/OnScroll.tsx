@@ -10,6 +10,10 @@ type OnScrollProps = DivProps & {
   defaultShown?: boolean
 };
 
+type ExecuteOnScrollProps = DivProps & {
+  bottom?: number
+}
+
 type ToggleOnScrollProps = DivProps & {
   topBound: number,
   bottomBound: number,
@@ -43,13 +47,13 @@ const OnScroll = React.forwardRef(({ handler, defaultShown = false, children, cl
   );
 });
 
-export const ExecuteOnScroll = React.forwardRef((props: DivProps, ref?: React.MutableRefObject<HTMLDivElement>) => {
+export const ExecuteOnScroll = React.forwardRef(({ bottom = 350, ...props }: ExecuteOnScrollProps, ref?: React.MutableRefObject<HTMLDivElement>) => {
   const onScroll = (
     scrollRef: React.RefObject<HTMLDivElement>,
     setShown: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
     if (!scrollRef.current) return;
-    if (scrollRef.current.getBoundingClientRect().y < window.innerHeight - 350) {
+    if (scrollRef.current.getBoundingClientRect().y < window.innerHeight - bottom) {
       setShown(true);
     }
   };
