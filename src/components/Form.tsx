@@ -24,7 +24,6 @@ export enum FieldType {
   Website = "Website"
 }
 
-
 export type DropdownData = {
   id: string,
   name: string
@@ -68,7 +67,6 @@ type TextFieldProps = SubFieldProps & {
 }
 
 type DropdownFieldProps = SubFieldProps & { options: DropdownData[] };
-type FileFieldProps = SubFieldProps;
 
 type FormFieldProps = Omit<FormField, "key"> & {
   id: string,
@@ -191,9 +189,7 @@ const MultipleSelectField: React.FC<DropdownFieldProps> = ({ id: fieldId, option
   )
 };
 
-const FileField: React.FC<FileFieldProps> = ({ id, required, register }) => (
-  <input type={"file"} id={id} {...register(id, { required })} />
-);
+const FileField = WebsiteField;
 
 const ErrorMessage = ({ error }) => {
   const [message, setMessage] = React.useState("NO ERROR");

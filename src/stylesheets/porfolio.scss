@@ -50,10 +50,6 @@
         background-position: center;
         background-repeat: no-repeat;
 
-        &.stealth {
-          background-image: url("../images/portfolio/stealth-company.png");
-        }
-
         .company-container {
           transition: variables.$transition;
           display: flex;

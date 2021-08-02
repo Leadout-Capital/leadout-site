@@ -1,19 +1,21 @@
 import * as React from "react";
+import { useStaticQuery, graphql } from "gatsby";
 import Link, { TRANSITION_DURATION } from "./Link";
 import { Helmet } from "react-helmet";
-import NavPages from "../constants/NavPages";
-import Logo from "../images/logo.svg";
 import "../stylesheets/navbar-and-footer.scss";
 
 const LINK_DELAY = 0.2;
 
-export type NavLink = {
-  title: string,
-  to: string
-};
-
 type NavbarProps = {
   path: string
+}
+
+type QueryData = {
+  navLinks: {
+    edges: QueryNode<ContentfulNavLink>[]
+  },
+  favicon: ContentfulFavicon,
+  logo: ContentfulImageField
 }
 
 const fixPath = (str: string) => str?.replaceAll("/", "");
@@ -27,10 +29,41 @@ const MobileMenuButton = ({ onClick, open }) => (
 )
 
 const Navbar: React.FC<NavbarProps> = ({ path }) => {
+  const data: QueryData = useStaticQuery(graphql`
+    query NavbarQuery {
+      navLinks: allContentfulNavLink(
+        filter: { node_locale: { eq: "en-US" } }
+        sort: { fields: [index] }
+      ) {
+        edges {
+          node {
+            title
+            to
+          }
+        }
+      }
+      favicon: contentfulFavicon(name: { eq: "Favicon" }) {
+        image {
+          file {
+            url
+          }
+        }
+      }
+      logo: contentfulImageField(name: { eq: "Logo" }) {
+        image {
+          file {
+            url
+          }
+        }
+      }
+    }
+  `);
+
   const [top, setTop] = React.useState<boolean>(true);
   const [open, setOpen] = React.useState<boolean>(false);
+  const navLinks = React.useMemo(() => data.navLinks.edges.map(({ node }) => node), [data]);
 
-  const matchingPages = NavPages
+  const matchingPages = navLinks
     .map((page, index) => ({ ...page, index }))
     .filter(({ to }) => fixPath(path) === fixPath(to));
   const matchingPage = matchingPages.length > 0 ? matchingPages[0] : null;
@@ -52,15 +85,18 @@ const Navbar: React.FC<NavbarProps> = ({ path }) => {
       <Helmet bodyAttributes={{ class: open ? "open" : "" }}>
         <meta charSet="utf-8" />
         <title>{pageTitle} | Leadout Capital</title>
-        {/*<link rel="canonical" href="http://mysite.com/example" />*/}
+        <link rel={"icon"} href={data.favicon.image.file.url} />
       </Helmet>
       <div className={"logo"}>
-        <Logo />
+        <img src={data.logo.image.file.url} alt={"Leadout Capital logo"} />
       </div>
       <MobileMenuButton onClick={() => setOpen(!open)} open={open} />
       <ul className={open ? "open" : ""}>
-        {NavPages.map(({ title, to }, i) => (
-          <li key={title} style={open ? { transition: `all 0.5s ease ${LINK_DELAY * i}s` } : { transition: `all 0.2s ease 0.2s` }}>
+        {navLinks.map(({ title, to }, i) => (
+          <li
+            key={title}
+            style={open ? { transition: `all 0.5s ease ${LINK_DELAY * i}s` } : { transition: `all 0.2s ease 0.2s` }}
+          >
             <Link
               to={to}
               className={(matchingPage?.index === i ? "active" : "")}

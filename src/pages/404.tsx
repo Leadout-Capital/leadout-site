@@ -1,16 +1,29 @@
 import * as React from "react"
-import Link from "../components/Link";
 import "../stylesheets/404.scss";
+import { graphql } from "gatsby";
 
-const NotFoundPage = () => (
+type NotFoundProps = {
+  data: {
+    contentfulTextField: ContentfulTextField
+  }
+}
+
+const NotFound: React.FC<NotFoundProps> = ({ data }) => (
   <main className={"not-found"}>
-    <header>
-      <h1>404: Page not found</h1>
-      <p>
-        We couldn't find the page you were looking for. Click <Link to={"/"}>here</Link> to return home.
-      </p>
-    </header>
+    <header dangerouslySetInnerHTML={{ __html: data.contentfulTextField.body.childMarkdownRemark.html }} />
   </main>
 );
 
-export default NotFoundPage
+export default NotFound;
+
+export const query = graphql`
+  query {
+    contentfulTextField(name: { eq: "Not Found Content" }) {
+      body {
+        childMarkdownRemark {
+          html
+        }
+      }
+    }
+  }
+`;

@@ -6,40 +6,34 @@ import { ExecuteOnScroll } from "../components/OnScroll";
 import DelayEach from "../components/DelayEach";
 import "../stylesheets/porfolio.scss";
 
-export type PortfolioCompany = Company | StealthCompany;
-
-type QueryNode = {
-  node: PortfolioCompany
+type PortfolioCompanyProps = {
+  name: string,
+  description: LongTextQuery,
+  website: string
 }
 
 type PortfolioProps = {
   data: {
-    allContentfulPortfolioCompany: {
-      edges: QueryNode[]
-    }
+    companies: {
+      edges: QueryNode<ContentfulPortfolioCompany>[]
+    },
+    header: ContentfulTextField,
+    stealthImage: ContentfulImageField
   }
-}
+};
 
-type Company = {
-  name: string,
-  image: { file: { url: string } },
-  website: string,
-  description: { childMarkdownRemark: { html: string } },
-  stealth: false
-}
-
-type StealthCompany = {
-  name?: string,
-  image?: { file: { url: string } },
-  website?: string,
-  description?: { childMarkdownRemark: { html: string } },
-  stealth: true
-}
+const PortfolioCompany: React.FC<PortfolioCompanyProps> = ({ name, description, website }) => (
+  <div className={"dark company-container"}>
+    <h3>{name}</h3>
+    <span dangerouslySetInnerHTML={{ __html: description.childMarkdownRemark.html }} />
+    <a href={website} target={"_blank"}>Visit website</a>
+  </div>
+);
 
 const Portfolio: React.FC<PortfolioProps> = ({ data }) => {
   const [isMobile, setIsMobile] = React.useState<boolean>(false);
   const companiesRef = React.useRef<HTMLDivElement>();
-  const companies = React.useMemo(() => data.allContentfulPortfolioCompany.edges.map(
+  const companies = React.useMemo(() => data.companies.edges.map(
     ({ node }) => node
   ), [data]);
 
@@ -58,15 +52,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ data }) => {
   return (
     <main className={"portfolio"}>
       <header>
-        <h1>
-          We look to identify, partner with, and support <span className={"highlight"}>non-obvious</span>,
-          <span className={"highlight"}> under-represented</span> founders <span className={"highlight"}>early</span>.
-        </h1>
-        <h2>
-          These founders are core to developing technology that expands access to capital, information and opportunity
-          for
-          overlooked markets and communities.
-        </h2>
+        <span dangerouslySetInnerHTML={{ __html: data.header.body.childMarkdownRemark.html }} />
         <div className={"down-arrow"}>
           <FontAwesomeIcon icon={faChevronDown} className={"icon"} onClick={scrollToCompanies}/>
         </div>
@@ -83,7 +69,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ data }) => {
             }) => (
             stealth ? (
               <div className={"company-wrapper"}>
-                <ExecuteOnScroll key={name} className={"show-on-scroll company-background stealth"}/>
+                <ExecuteOnScroll key={name} className={"show-on-scroll company-background stealth"} />
               </div>
             ) : (
               <div className={"company-wrapper"}>
@@ -92,11 +78,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ data }) => {
                   className={"show-on-scroll company-background"}
                   style={{ backgroundImage: `url(https:${image.file.url})` }}
                 >
-                  <div className={"dark company-container"}>
-                    <h3>{name}</h3>
-                    <span dangerouslySetInnerHTML={{ __html: description.childMarkdownRemark.html }} />
-                    <a href={website} target={"_blank"}>Visit website</a>
-                  </div>
+                  <PortfolioCompany name={name} description={description} website={website} />
                 </ExecuteOnScroll>
               </div>
             )
@@ -116,13 +98,15 @@ const Portfolio: React.FC<PortfolioProps> = ({ data }) => {
                 description,
                 stealth
               }) => (
-              stealth ? <div key={name} className={"company-background stealth"} /> : (
+              stealth ? (
+                <div
+                  key={name}
+                  className={"company-background"}
+                  style={{ backgroundImage: `url(https:${data.stealthImage.image.file.url})` }}
+                />
+              ) : (
                 <div key={name} className={"company-background"} style={{ backgroundImage: `url(https:${image.file.url})` }}>
-                  <div className={"dark company-container"}>
-                    <h3>{name}</h3>
-                    <span dangerouslySetInnerHTML={{ __html: description.childMarkdownRemark.html }} />
-                    <a href={website} target={"_blank"}>Visit website</a>
-                  </div>
+                  <PortfolioCompany name={name} description={description} website={website} />
                 </div>
               )
             ))} />
@@ -135,10 +119,10 @@ const Portfolio: React.FC<PortfolioProps> = ({ data }) => {
 export default Portfolio;
 
 export const query = graphql`
-  {
-    allContentfulPortfolioCompany(
+  query {
+    companies: allContentfulPortfolioCompany(
       filter: { node_locale: { eq: "en-US" } }
-      sort: { fields: [index] }
+      sort: { fields: [stealth, index] }
     ) {
       edges {
         node {
@@ -155,6 +139,20 @@ export const query = graphql`
             }
           }
           stealth
+        }
+      }
+    }
+    header: contentfulTextField(name: { eq: "Portfolio Header" }) {
+      body {
+        childMarkdownRemark {
+          html
+        }
+      }
+    }
+    stealthImage: contentfulImageField(name: { eq: "Stealth Company" }) {
+      image {
+        file {
+          url
         }
       }
     }

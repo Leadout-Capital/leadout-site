@@ -1,7 +1,6 @@
 import * as React from "react";
 import { ExecuteOnScroll } from "../components/OnScroll";
 import DelayEach from "../components/DelayEach";
-import TeamDescriptions from "../constants/TeamDescriptions";
 import "../stylesheets/team.scss";
 import {graphql} from "gatsby";
 
@@ -15,31 +14,24 @@ export type Bio = {
   name: string
 }
 
-type QueryNode = {
-  node: {
-    name: string,
-    role: string,
-    image: { file: { url: string } },
-    description: { childMarkdownRemark: { html: string } }
-  }
-}
-
 type TeamProps = {
   data: {
-    allContentfulTeamMember: {
-      edges: QueryNode[]
-    }
+    teamMembers: {
+      edges: QueryNode<ContentfulTeamMember>[]
+    },
+    communityBlurb: ContentfulTextField
   }
 }
 
+const splitByParagraph = (text: string) => (
+  text.replace("<p>", "").split("</p>").map((paragraph) => paragraph.trim())
+);
+
 const Team: React.FC<TeamProps> = ({ data }) => {
-  const teamBios = React.useMemo(() => data.allContentfulTeamMember.edges.map(({ node }) => {
-    let descriptionArr = node.description.childMarkdownRemark.html.replace("<p>", "").split("</p>")
-    return {
-      ...node,
-      description: descriptionArr
-    }
-  }), [data]);
+  const teamBios = React.useMemo(() => data.teamMembers.edges.map(({ node }) => ({
+    ...node,
+    description: splitByParagraph(node.description.childMarkdownRemark.html)
+  })), [data]);
   const scrollRef = React.useRef<HTMLDivElement>();
   const transition = (i: number) => ({ transition: `all ${DURATION}s ease ${DELAY * i}s` });
 
@@ -69,19 +61,7 @@ const Team: React.FC<TeamProps> = ({ data }) => {
           className={"bio-blurb"}
           useP={true}
           asString
-          render={[
-            "Core to our approach is the belief that you are only as good as your team. We are a partnership, an " +
-            "operating and advisory network, and a stellar group of LPs comprised of gritty and resilient founders. " +
-            "Our community hails from companies such as Apple, Amazon, Cloudera, Dropbox, Envoy, Facebook, Fare, " +
-            "Google, ipsy, Microsoft, Nextdoor, Niantic, Nvidia, Pinterest, Shoprunner, Slack, Square, Stripe, Uber, " +
-            "VMware, Wealthfront, and Wix, as well as sports, government, research and academia.",
-            "Read more about Leadout on " +
-            "<a href={'https://medium.com/@leadoutcapital/introducing-leadout-capital-i-dd356e7c822e'} target={'_blank'}>" +
-            "Ali's Medium" +
-            "</a> or at " +
-            "<a href={'https://www.forbes.com/sites/alexkonrad/2019/05/16/facebook-alumni-network-women-venture-capital-leadout-tech-investing/#5e3d9e8f3f81'} target={'_blank'}>" +
-            "Forbes</a>."
-          ]}
+          render={splitByParagraph(data.communityBlurb.body.childMarkdownRemark.html)}
         />
       </ExecuteOnScroll>
     </main>
@@ -92,7 +72,7 @@ export default Team;
 
 export const query = graphql`
   {
-    allContentfulTeamMember(
+    teamMembers: allContentfulTeamMember(
       filter: { node_locale: { eq: "en-US" } }
       sort: { fields: [index] }
     ) {
@@ -110,6 +90,13 @@ export const query = graphql`
               html
             }
           }
+        }
+      }
+    }
+    communityBlurb: contentfulTextField(name: { eq: "Team Community Blurb" }) {
+      body {
+        childMarkdownRemark {
+          html
         }
       }
     }

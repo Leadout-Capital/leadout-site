@@ -3,36 +3,59 @@ import Form, { FormState, FieldType, FormField } from "../components/Form";
 import "../stylesheets/contact.scss";
 import { graphql } from "gatsby";
 
-type QueryNode = {
-  node: FormField & {
-    options?: string[],
-    airtableTableName?: string,
-    airtableColumnName?: string
+type ContactProps = {
+  data: {
+    contactFormFields: {
+      edges: QueryNode<ContentfulContactFormField>[]
+    },
+    contactFormTitle: ContentfulTextField,
+    contactFormSubtitle: ContentfulTextField
   }
 }
 
-type ContactProps = {
-  data: {
-    allContentfulContactFormField: {
-      edges: QueryNode[]
-    }
-  }
-}
+const ID = "contact";
 
 const Contact: React.FC<ContactProps> = ({ data }) => {
   const [airtableData, setAirtableData] = React.useState({});
   const formData = React.useMemo(() => (
-    data.allContentfulContactFormField.edges.filter(({ node: { key }}) => key !== "DUMMY")
+    data.contactFormFields.edges.filter(({ node: { key }}) => key !== "DUMMY")
       .map(({ node: { options, airtableColumnName, airtableTableName, ...nodeData} }) => ({
         ...nodeData,
         options: options ? options.map((option) => ({ id: option, name: option })) : null
       }))
   ), [data]);
 
+  const getFieldObj = (fields: FormField[]) => {
+    let fieldObj = {};
+    for (let { key, ...field } of fields) {
+      fieldObj[key] = field;
+    }
+    return fieldObj;
+  }
+
+  const cleanFormData = (data: FormState, fields: FormField[]) => {
+    let fieldsMap = getFieldObj(fields);
+    let cleanedData = {};
+    for (let key of Object.keys(data)) {
+      let fieldData: string | string[] | boolean | null | [{ url: string }] = data[key];
+      // Remove form ID (`contact-`) from key
+      let cleanKey = key.substr(ID.length + 1);
+      // Take out edge case where MultipleSelect field is sometimes `false`
+      if (fieldsMap[cleanKey].type === FieldType.MultipleSelect && !Array.isArray(fieldData)) {
+        fieldData = [];
+      } else if (fieldsMap[cleanKey].type === FieldType.File && typeof fieldData === "string" && fieldData.length > 0) {
+        fieldData = [{ url: fieldData }];
+      }
+      cleanedData[cleanKey] = fieldData;
+    }
+    return cleanedData;
+  }
+
   const submitContactForm = (data: FormState) => {
+    cleanFormData(data, formData);
     fetch("../../.netlify/functions/pushToAirtable", {
       method: "POST",
-      body: JSON.stringify(data)
+      body: JSON.stringify(cleanFormData(data, formData))
     }).then(() => console.log("Form Sent!"))
       .catch(error => console.error(error));
   };
@@ -47,7 +70,7 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
         setAirtableData(result);
       }).catch((error) => console.error(error));
     }
-    let importantData = data.allContentfulContactFormField.edges.filter(({ node: { key }}) => key !== "DUMMY").map(({ node }) => node);
+    let importantData = data.contactFormFields.edges.filter(({ node: { key }}) => key !== "DUMMY").map(({ node }) => node);
     let requestData = {};
     for (let { key, type, airtableTableName, airtableColumnName } of importantData) {
       if (
@@ -74,7 +97,7 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
         }
         fields={formData}
         airtableData={airtableData}
-        formId={"contact"}
+        formId={ID}
         submit={submitContactForm}
       />
     </main>
@@ -84,8 +107,8 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
 export default Contact;
 
 export const query = graphql`
-  {
-    allContentfulContactFormField(
+  query {
+    contactFormFields: allContentfulContactFormField(
       filter: { node_locale: { eq: "en-US" } }
       sort: { fields: [index] }
     ) {
@@ -102,5 +125,19 @@ export const query = graphql`
         }
       }
     }
+    contactFormTitle: contentfulTextField(name: { eq: "Contact Form Title" }) {
+      body {
+        childMarkdownRemark {
+          html
+        }
+      }
+    }
+    contactFormSubtitle: contentfulTextField(name: { eq: "Contact Form Subtitle" }) {
+      body {
+        childMarkdownRemark {
+          html
+        }
+      }
+    }
   }
-`
+`;

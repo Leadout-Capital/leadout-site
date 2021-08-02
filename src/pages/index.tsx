@@ -1,53 +1,44 @@
 import * as React from "react";
 import ImageFade, { Section } from "../components/ImageFade";
 import { ToggleOnScroll } from "../components/OnScroll";
-import BikeRiding from "../images/bike-riding.jpeg";
-import BikeRidingMobile from "../images/bike-riding-mobile.jpeg";
-import AliHomepage from "../images/ali-homepage.jpeg";
-import AliHomepageMobile from "../images/ali-homepage-mobile.jpeg";
 import "../stylesheets/index.scss";
+import { graphql } from "gatsby";
 
-// TODO: get higher res photo of ali for this page
-
-const DATA = (isMobile: boolean): Section[] => [
-  {
-    key: "definition",
-    image: isMobile ? BikeRidingMobile : BikeRiding,
-    section: (
-      <div className={"light panel definition"}>
-        <h1>leadout</h1>
-        <h2>/l&#275;d out/</h2>
-        <h3>noun</h3>
-        <p>
-          To win a race, a professional cyclist relies on a &ldquo;leadout&rdquo;: an echelon formation created by
-          their teammates. The team creates a streamline to hold their sprinter teammate in a draft thereby
-          leveraging the racer’s speed and strength to sprint for the race win.
-        </p>
-      </div>
-    )
-  },
-  {
-    key: "quote",
-    image: isMobile ? AliHomepageMobile : AliHomepage,
-    overlay: "rgba(71, 71, 71, 0.8)",
-    section: (
-      <div className={"light panel quote"}>
-        <span className={"start-quote"}>&ldquo;</span>
-        <p>
-          <span className={"start-quote-mobile"}>&ldquo;</span>We believe in the value inherent in diversity, wide
-          network persistence and accessibility, and expanding the size of the market of new ideas, products and
-          leaders.&rdquo;
-        </p>
-        <h6>Ali Rosenthal, Managing Partner</h6>
-      </div>
-    )
+type IndexPageProps = {
+  data: {
+    definition: ContentfulHomepageSection,
+    quote: ContentfulHomepageSection,
+    header: ContentfulTextField
   }
-];
+}
 
-const IndexPage = () => {
+const rawToSection = (key: string, section: ContentfulHomepageSection, isMobile: boolean, textModifier = (html: string) => html): Section => ({
+  key,
+  image: (isMobile && section.mobileImage) ? section.mobileImage.file.url : section.image.file.url,
+  overlay: section.overlay,
+  section: (
+    <div className={"light panel " + key} dangerouslySetInnerHTML={{ __html: textModifier(section.content.childMarkdownRemark.html) }} />
+  )
+});
+
+// Adds quote marks to the quote section (adds both big and small left quotes for mobile/desktop)
+const addQuotations = (quoteText: string) => {
+  let trimmedText = quoteText.replace("<p>", "").replace("</p>", "");
+  return `
+    <span class="start-quote">&ldquo;</span>
+    <p>
+      <span class="start-quote-mobile">&ldquo;</span>${trimmedText}&rdquo;
+    </p>`;
+}
+
+const IndexPage: React.FC<IndexPageProps> = ({ data }) => {
   const [scrolled, setScrolled] = React.useState<boolean>(false);
   const [isMobile, setIsMobile] = React.useState<boolean>(false);
   const [innerHeight, setInnerHeight] = React.useState<number>(1000);
+  const sectionData = React.useMemo(() => [
+    rawToSection("definition", data.definition, isMobile),
+    rawToSection("quote", data.quote, isMobile, addQuotations)
+  ], [data, isMobile]);
 
   React.useEffect(() => {
     const checkScrolled = () => {
@@ -79,19 +70,60 @@ const IndexPage = () => {
         className={"header"}
         defaultShown
       >
-        <h2>
-          We are Leadout Capital, an early stage venture-capital fund
-        </h2>
-        <h1>
-          We back &ldquo;<span className={"highlight"}>non-obvious</span>,&rdquo;
-          <span className={"highlight"}> resilient</span> founders in
-          <span className={"highlight"}> overlooked</span>, <span className={"highlight"}>underserved</span> markets
-        </h1>
+        <span dangerouslySetInnerHTML={{ __html: data.header.body.childMarkdownRemark.html }} />
         <p className={"background-text"}>leadout</p>
       </ToggleOnScroll>
-      <ImageFade className={"dark"} data={DATA(isMobile)} />
+      <ImageFade className={"dark"} data={sectionData} />
     </main>
   )
 }
 
 export default IndexPage;
+
+export const query = graphql`
+  query {
+    definition: contentfulHomepageSection(name: { eq: "Definition" }) {
+      image {
+        file {
+          url
+        }
+      }
+      mobileImage {
+        file {
+          url
+        }
+      }
+      overlay
+      content {
+        childMarkdownRemark {
+          html
+        }
+      }
+    }
+    quote: contentfulHomepageSection(name: { eq: "Quote" }) {
+      image {
+        file {
+          url
+        }
+      }
+      mobileImage {
+        file {
+          url
+        }
+      }
+      overlay
+      content {
+        childMarkdownRemark {
+          html
+        }
+      }
+    }
+    header: contentfulTextField(name: { eq: "Homepage Header" }) {
+      body {
+        childMarkdownRemark {
+          html
+        }
+      }
+    }
+  }
+`;
