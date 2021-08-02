@@ -1,14 +1,14 @@
 # Leadout Capital Website
 
-##Table of Contents
+## Table of Contents
 
-- [Contentful](#Contentful)
-  - [How to make changes](#How to make changes)
-  - [Publishing changes](#Publishing changes)
-- [Netlify](#Netlify)
-  - [Updating API keys and other environment variables](#Updating API keys and other environment variables)
-  - [Building your site from Netlify](#Building your site from Netlify)
-  - [Setting up a custom domain](#Setting up a custom domain)
+- [Contentful](#contentful)
+  - [How to make changes](#how-to-make-changes)
+  - [Publishing changes](#publishing-changes)
+- [Netlify](#netlify)
+  - [Updating API keys and other environment variables](#updating-api-keys-and-other-environment-variables)
+  - [Building your site from Netlify](#building-your-site-from-netlify)
+  - [Setting up a custom domain](#setting-up-a-custom-domain)
 
 ## Contentful
 
