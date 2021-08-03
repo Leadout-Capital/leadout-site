@@ -23,6 +23,9 @@ To update a field, simply select it from the table in the center of the page. Th
 any of the sections. Make sure to read field descriptions before updating content, since editing certain fields may cause
 breaking changes in the site.
 
+When updating longer text fields, you can apply formatting using **Markdown**. Contentful provides a cheatsheet for
+Markdown, but you can also find one [here](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
+
 ### Publishing changes
 
 To publish your changes, select the green `Publish` button on the right side of the page, under the `Status` section.
