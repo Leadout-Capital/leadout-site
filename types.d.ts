@@ -70,6 +70,8 @@ type ImageQuery = {
   }
 };
 
+// Content models in Contentful
+
 type ContentfulTextField = {
   body: LongTextQuery
 };

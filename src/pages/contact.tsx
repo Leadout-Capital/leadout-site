@@ -18,7 +18,7 @@ const ID = "contact";
 const Contact: React.FC<ContactProps> = ({ data }) => {
   const [airtableData, setAirtableData] = React.useState({});
   const formData = React.useMemo(() => (
-    data.contactFormFields.edges.filter(({ node: { key }}) => key !== "DUMMY")
+    data.contactFormFields.edges
       .map(({ node: { options, airtableColumnName, airtableTableName, ...nodeData} }) => ({
         ...nodeData,
         options: options ? options.map((option) => ({ id: option, name: option })) : null
@@ -70,7 +70,7 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
         setAirtableData(result);
       }).catch((error) => console.error(error));
     }
-    let importantData = data.contactFormFields.edges.filter(({ node: { key }}) => key !== "DUMMY").map(({ node }) => node);
+    let importantData = data.contactFormFields.edges.map(({ node }) => node);
     let requestData = {};
     for (let { key, type, airtableTableName, airtableColumnName } of importantData) {
       if (
