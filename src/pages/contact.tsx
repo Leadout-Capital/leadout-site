@@ -1,7 +1,9 @@
 import * as React from "react";
-import Form, { FormState, FieldType, FormField } from "../components/Form";
+import Form, { FormState, FieldType, FormField, StatusMessageData } from "../components/Form";
 import "../stylesheets/contact.scss";
 import { graphql } from "gatsby";
+import * as filestack from "filestack-js";
+import { UseFormReset } from "react-hook-form";
 
 type ContactProps = {
   data: {
@@ -14,6 +16,66 @@ type ContactProps = {
 }
 
 const ID = "contact";
+
+// const uploadFile = async (file, apiKey, timestamp, signature) => {
+//   const url = `https://api.cloudinary.com/v1_1/${process.env.GATSBY_CLOUDINARY_CLOUD_NAME}/upload`;
+//   const formData = new FormData();
+//   formData.append("file", file);
+//   formData.append("api_key", apiKey);
+//   formData.append("timestamp", timestamp);
+//   formData.append("signature", signature);
+//   let cloudinaryResponse = await fetch(url, {
+//     method: "POST",
+//     body: formData
+//   });
+//   return await cloudinaryResponse.json();
+// }
+//
+// const uploadToCloudinary = async (data, fields) => {
+//   const apiKey = process.env.GATSBY_CLOUDINARY_API_KEY;
+//   const fileFields = fields.filter(({ type }) => type === FieldType.File);
+//   const fileData = fileFields.map(({ key }) => ({ key, files: Array.from(data[key]) }));
+//
+//   let sigResponse = await fetch("../../.netlify/functions/pushToCloudinary", { method: "POST" });
+//   let { timestamp, signature } = await sigResponse.json();
+//
+//   let publicUrls = {};
+//   for (let { key, files } of fileData) {
+//     publicUrls[key] = [];
+//     for (let file of files) {
+//       try {
+//         let { secure_url: fileUrl } = await uploadFile(file, apiKey, timestamp, signature);
+//         if (fileUrl) {
+//           publicUrls[key].push(fileUrl);
+//         }
+//       } catch (e) {
+//         console.error(e);
+//       }
+//     }
+//   }
+//   return publicUrls;
+// };
+
+const uploadToFilestack = async (data, fields) => {
+  const apiKey = process.env.GATSBY_FILESTACK_API_KEY;
+  const fileFields = fields.filter(({ type }) => type === FieldType.File);
+  const fileData = fileFields.map(({ key }) => ({ key, files: Array.from(data[key]) }));
+
+  const client = filestack.init(apiKey);
+  let dataWithUrls = { ...data };
+  for (let { key, files } of fileData) {
+    dataWithUrls[key] = [];
+    for (let file of files) {
+      try {
+        let { url } = await client.upload(file, {},{ filename: file.name });
+        dataWithUrls[key].push({ url, filename: file.name });
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
+  return dataWithUrls;
+};
 
 const Contact: React.FC<ContactProps> = ({ data }) => {
   const [airtableData, setAirtableData] = React.useState({});
@@ -51,13 +113,22 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
     return cleanedData;
   }
 
-  const submitContactForm = (data: FormState) => {
-    cleanFormData(data, formData);
-    fetch("../../.netlify/functions/pushToAirtable", {
-      method: "POST",
-      body: JSON.stringify(cleanFormData(data, formData))
-    }).then(() => console.log("Form Sent!"))
-      .catch(error => console.error(error));
+  const submitContactForm = async (data: FormState, stopLoading: () => void, setStatusMessage: (status: StatusMessageData) => void, reset: UseFormReset<FormState>) => {
+    try {
+      const cleanedData = cleanFormData(data, formData);
+      let dataWithUrls = await uploadToFilestack(cleanedData, formData);
+      await fetch("../../.netlify/functions/pushToAirtable", {
+        method: "POST",
+        body: JSON.stringify(dataWithUrls)
+      });
+      setStatusMessage({ message: "Form sent successfully!", isError: false });
+      reset();
+    } catch (error) {
+      console.error(error);
+      setStatusMessage({ message: error.message, isError: true });
+    } finally {
+      stopLoading();
+    }
   };
 
   React.useEffect(() => {

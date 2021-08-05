@@ -1,8 +1,9 @@
 import * as React from "react";
-import { useForm, FieldErrors } from "react-hook-form";
+import { useForm, FieldErrors, FieldError, UseFormWatch, UseFormReset } from "react-hook-form";
 import { FormProps } from "react-html-props";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Loading from "../images/loading.svg";
 import "../stylesheets/form.scss";
 
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -67,12 +68,15 @@ type TextFieldProps = SubFieldProps & {
 }
 
 type DropdownFieldProps = SubFieldProps & { options: DropdownData[] };
+type MultipleSelectFieldProps = DropdownFieldProps & { watch: UseFormWatch<FormState> }
+type FileFieldProps = SubFieldProps;
 
 type FormFieldProps = Omit<FormField, "key"> & {
   id: string,
   errors: FieldErrors,
   register: (...args: any[]) => any,
-  airtableData?: DropdownData[]
+  airtableData?: DropdownData[],
+  watch: UseFormWatch<FormState>
 }
 
 type CustomFormProps = FormProps & {
@@ -81,12 +85,32 @@ type CustomFormProps = FormProps & {
   formId: string,
   fields: FormField[],
   airtableData: { [key: string]: DropdownData[] },
-  submit: (data: FormState) => void
+  submit: (
+    data: FormState,
+    stopLoading: () => void,
+    setStatusMessage?: (status: StatusMessageData) => void,
+    reset?: UseFormReset<FormState>
+  ) => void
 }
 
 export interface FormState {
   [key: string]: string | string[] | boolean
 }
+
+export type StatusMessageData = {
+  message?: string,
+  isError: boolean
+};
+
+type ErrorMessageProps = {
+  status: FieldError,
+  isError: true
+};
+
+type StatusMessageProps = ErrorMessageProps | {
+  status: StatusMessageData,
+  isError?: boolean
+};
 
 const ShortTextField: React.FC<TextFieldProps> = ({ id, required, subtitle = "", register }) => (
   <input type={"text"} id={id} placeholder={subtitle} {...register(id, { required })} />
@@ -135,24 +159,23 @@ const SingleSelectField: React.FC<DropdownFieldProps> = ({ id: fieldId, options,
   </select>
 );
 
-const MultipleSelectField: React.FC<DropdownFieldProps> = ({ id: fieldId, options, required, register }) => {
+const MultipleSelectField: React.FC<MultipleSelectFieldProps> = ({ id: fieldId, watch, options, required, register }) => {
   const [hidden, setHidden] = React.useState(true);
   const [buttonHeight, setButtonHeight] = React.useState(48);
   const [contentHeight, setContentHeight] = React.useState(0);
   const [textWidth, setTextWidth] = React.useState(1000);
-  const [selected, setSelected] = React.useState<string[]>([]);
 
   const buttonRef = React.useRef<HTMLDivElement>();
   const contentRef = React.useRef<HTMLDivElement>();
   const pRef = React.useRef<HTMLDivElement>();
 
-  const toggleOption = (option: string) => {
-    if (selected.includes(option)) {
-      setSelected(selected.filter((value) => value !== option));
-    } else {
-      setSelected([...selected, option])
+  const selected = watch(fieldId);
+  const selectedNames = React.useMemo(() => {
+    if (!(selected && Array.isArray(selected))) {
+      return [];
     }
-  };
+    return options.filter(({id}) => selected.includes(id)).map(({name}) => name);
+  }, [selected]);
 
   React.useEffect(() => {
     if (!(buttonRef.current && contentRef.current && pRef.current)) {
@@ -167,7 +190,9 @@ const MultipleSelectField: React.FC<DropdownFieldProps> = ({ id: fieldId, option
   return (
     <div className={"multiple-select"} style={{ height: hidden ? buttonHeight : contentHeight + buttonHeight }}>
       <div className={"dropdown"} onClick={() => setHidden(!hidden)} ref={buttonRef}>
-        <p style={{ maxWidth: textWidth }} ref={pRef}>{selected.length > 0 ? selected.join(", ") : "No options selected..."}</p>
+        <p style={{ maxWidth: textWidth }} ref={pRef}>
+          {selectedNames.length > 0 ? selectedNames.join(", ") : "No options selected..."}
+        </p>
         <FontAwesomeIcon icon={faChevronLeft} className={"arrow " + (hidden ? "left" : "down")} />
       </div>
       <div className={"options"} ref={contentRef}>
@@ -178,7 +203,6 @@ const MultipleSelectField: React.FC<DropdownFieldProps> = ({ id: fieldId, option
               name={fieldId}
               value={id}
               tabIndex={-1}
-              onClick={() => toggleOption(name)}
               {...register(fieldId, { required })}
             />
             {name}
@@ -189,19 +213,22 @@ const MultipleSelectField: React.FC<DropdownFieldProps> = ({ id: fieldId, option
   )
 };
 
-const FileField = WebsiteField;
+const FileField: React.FC<FileFieldProps> = ({ id, required, register }) => (
+  <input type={"file"} id={id} {...register(id, { required })} />
+);
 
-const ErrorMessage = ({ error }) => {
+const StatusMessage: React.FC<StatusMessageProps> = ({ status, isError = false }) => {
   const [message, setMessage] = React.useState("NO ERROR");
-  const prevError = React.useRef(error);
+  const prevError = React.useRef(status);
 
   const changeErrorMessage = () => {
-    if (error && error.type === "required") {
+    // @ts-ignore
+    if (isError && status?.type === "required") {
       setMessage("This field is required");
-    } else if (error) {
-      setMessage(error.message);
+    } else if (status) {
+      setMessage(status.message);
     }
-    prevError.current = error;
+    prevError.current = status;
   };
 
   React.useEffect(() => {
@@ -210,14 +237,14 @@ const ErrorMessage = ({ error }) => {
     } else {
       setTimeout(changeErrorMessage, ERROR_TRANSITION * 1000);
     }
-  }, [error]);
+  }, [status]);
 
   return (
-    <p className={"error"} style={{ transitionDuration: ERROR_TRANSITION + "s", opacity: error ? 1 : 0 }}>
+    <p className={"status" + (isError ? " error" : "")} style={{ transitionDuration: ERROR_TRANSITION + "s", opacity: status ? 1 : 0 }}>
       {message}
     </p>
-  )
-}
+  );
+};
 
 const FormField: React.FC<FormFieldProps> = ({ id, title, type, errors, required, airtableData, ...props }) => {
   let field;
@@ -258,25 +285,41 @@ const FormField: React.FC<FormFieldProps> = ({ id, title, type, errors, required
       </div>
       <div className={"input-container"}>
         {field}
-        <ErrorMessage error={errors[id]} />
+        <StatusMessage status={errors[id]} isError />
       </div>
     </div>
   )
 };
 
 const Form: React.FC<CustomFormProps> = ({ title, subtitle, fields, airtableData, formId, submit, className = "", ...props }) => {
-  const { register, handleSubmit, clearErrors, formState: { errors } } = useForm<FormState>({
+  const [loading, setLoading] = React.useState(false);
+  const [status, setStatus] = React.useState<StatusMessageData>({ isError: false });
+  const { register, handleSubmit, reset, clearErrors, formState: { errors }, watch } = useForm<FormState>({
     criteriaMode: "all",
     reValidateMode: "onSubmit"
   });
+
+  const onSubmit = (data) => {
+    setLoading(true);
+    submit(data, () => setLoading(false), setStatus, reset);
+  };
+
+  const onReset = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setStatus({ isError: false });
+    reset();
+    clearErrors();
+  }
+
   return (
-    <form noValidate id={formId} className={"custom-form " + className} onSubmit={handleSubmit(submit)} {...props}>
+    <form noValidate id={formId} className={"custom-form " + className} onSubmit={handleSubmit(onSubmit)} {...props}>
       <div className={"form-header"}>
         <h1>{title}</h1>
         {subtitle && <h2>{subtitle}</h2>}
       </div>
       {fields.map((field) => (
         <FormField
+          watch={watch}
           key={field.key}
           airtableData={airtableData[field.key]}
           id={`${formId}-${field.key}`}
@@ -286,9 +329,12 @@ const Form: React.FC<CustomFormProps> = ({ title, subtitle, fields, airtableData
         />
       ))}
       <div className={"buttons"}>
-        <input type={"reset"} onClick={() => clearErrors()} />
-        <input type={"submit"} />
+        <button className={"reset"} onClick={onReset}>Reset</button>
+        <button className={"submit"} onClick={handleSubmit(onSubmit)}>
+          {loading ? <Loading/> : "Submit"}
+        </button>
       </div>
+      <StatusMessage status={status} isError={status.isError} />
     </form>
   );
 };

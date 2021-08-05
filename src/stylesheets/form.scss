@@ -25,7 +25,7 @@ $input-color: color.adjust(variables.$light, $lightness: -10%);
     }
   }
 
-  input, textarea, select {
+  input, textarea, select, button {
     transition: variables.$transition;
     border-radius: 5px;
     outline: none;
@@ -159,25 +159,35 @@ $input-color: color.adjust(variables.$light, $lightness: -10%);
 
   .buttons {
     align-self: flex-end;
+    height: 50px;
+    display: flex;
+    align-items: stretch;
 
-    input {
-      padding: 15px;
+    button {
       cursor: pointer;
       border-width: 2px;
       border-style: solid;
+      min-width: 100px;
 
-      &[type=submit] {
+      &.submit {
         background-color: variables.$accent;
         border: variables.$accent;
         color: variables.$light;
         font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         &:hover {
           background-color: color.adjust(variables.$accent, $alpha: -0.1);
         }
+
+        svg {
+          height: 40px;
+        }
       }
 
-      &[type=reset] {
+      &.reset {
         background-color: transparent;
         border-color: $reset-color;
         color: $reset-color;
@@ -187,6 +197,14 @@ $input-color: color.adjust(variables.$light, $lightness: -10%);
           opacity: 0.7;
         }
       }
+    }
+  }
+
+  & > .status {
+    align-self: flex-end;
+
+    &.error {
+      color: variables.$error;
     }
   }
 
