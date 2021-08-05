@@ -37,6 +37,17 @@ the production website by selecting `Production` from the dropdown and clicking 
 You can also trigger deploys straight from Netlify (see below), but this is not recommended unless you are altering the
 website code or environment.
 
+## Filestack
+
+The site uploads PDFs (for pitch decks) from the Contact from to Filestack in order to obtain a public URL to access the
+file (which is necessary to store it on Airtable). It is currently on the
+[free tier](https://www.filestack.com/pricing/#/marketplace), which allows for 500 uploads and 1 GB of storage per month.
+This should be sufficient for the site, but you can always purchase a higher tier or create a custom plan if you need
+more.
+
+The website is currently linked to my ([emily@leadoutcapital.com](mailto:emily@leadoutcapital.com)) Filestack account,
+so make sure to [create your own](https://dev.filestack.com/signup/free/) before deploying the site.
+
 ## Netlify
 
 We are using [Netlify](https://app.netlify.com/teams/leadout-capital/overview) to stage and host the website. On the
@@ -65,6 +76,9 @@ This includes API keys and tokens from Airtable and Contentful.
    - `DEAL_FLOW_TITLE` and `CATEGORY_TITLE`: The titles for your Deal Flow and Deal Flow Category tables. They should
      match exactly to the table titles that are displayed in Airtable (so make sure you change them if you've edited
      the table titles). As of writing, they should be `Deal Flow` and `Deal Flow Category` respectively.
+   - `GATSBY_FILESTACK_API_KEY`: The key to link the site to your Filestack account. Once you've created and logged into
+     your Filestack account, the API key should be located in the top right corner of your dashboard. Exclude the
+     parentheses.
 
 2. **Edit the key in Netlify**:
    - Select a site (`leadout-capital-preview` or `leadout-capital-production`) to edit. This should bring you to the

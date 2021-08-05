@@ -19,8 +19,6 @@ const handler: Handler = async (event) => {
     let requests: EventBody = JSON.parse(event.body);
     let result = {};
 
-    console.log("here");
-
     for (let key of Object.keys(requests)) {
       let { tableName, columnName } = requests[key]
       await base(tableName).select({ fields: [columnName] }).eachPage((records, fetchNextPage) => {
@@ -42,7 +40,7 @@ const handler: Handler = async (event) => {
     return {
       statusCode: error.statusCode || 500,
       body: JSON.stringify({ error: error.message })
-    }
+    };
   }
 }
 

@@ -16,6 +16,13 @@ module.exports = {
     "gatsby-plugin-transition-link",
     "gatsby-plugin-fontawesome-css",
     {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        name: "images",
+        path: `${__dirname}/src/images/`,
+      },
+    },
+    {
       resolve: "gatsby-plugin-web-font-loader",
       options: {
         custom: {
@@ -58,7 +65,7 @@ module.exports = {
         footnotes: true,
         gfm: true,
         plugins: []
-      },
+      }
     }
   ]
 };
