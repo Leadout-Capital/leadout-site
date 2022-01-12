@@ -4,6 +4,8 @@ public
 .idea/
 
 .env.*
+.env
+
 # Local Netlify folder
 .netlify/functions-serve
 .netlify/state.json
