@@ -16,6 +16,8 @@ const handler: Handler = async (event) => {
     const apiKey = process.env.AIRTABLE_API_KEY;
     const base = new Airtable({ apiKey }).base(baseId);
 
+    console.log(event.body);
+
     let requests: EventBody = JSON.parse(event.body);
     let result = {};
 
@@ -37,6 +39,7 @@ const handler: Handler = async (event) => {
       body: JSON.stringify(result)
     };
   } catch (error) {
+    console.log('error!!!', error);
     return {
       statusCode: error.statusCode || 500,
       body: JSON.stringify({ error: error.message })

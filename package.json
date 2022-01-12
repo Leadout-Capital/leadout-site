@@ -12,7 +12,9 @@
     "start": "gatsby develop",
     "build": "gatsby build",
     "serve": "gatsby serve",
-    "clean": "gatsby clean"
+    "clean": "gatsby clean",
+    "netlify": "netlify dev",
+    "prebuild": "netlify-lambda install"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
@@ -39,6 +41,8 @@
     "gatsby-transformer-sharp": "^3.9.0",
     "gsap": "^3.7.1",
     "iframe-resizer-react": "^1.1.0",
+    "netlify-cli": "^8.6.23",
+    "netlify-lambda": "^2.0.15",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
