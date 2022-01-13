@@ -38,17 +38,15 @@
 
   .portfolio-companies {
     .company-wrapper {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 500px));
       justify-content: center;
       padding: 30px 60px;
+      gap: 30px;
 
       .company-background {
-        width: calc((100vw - 120px) / 3 - 10px);
         height: 500px;
         max-height: 300px;
-        min-width: 300px;
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
@@ -93,6 +91,10 @@
 
       & > div {
         transition: variables.$transition;
+      }
+
+      @media (max-width: variables.$xl-desktop) {
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
       }
 
       @media (max-width: variables.$mobile-width) {
