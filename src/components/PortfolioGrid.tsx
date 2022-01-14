@@ -40,7 +40,11 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ isMobile, companie
               }) => (
               stealth ? (
                 <div className={"company-wrapper"}>
-                  <ExecuteOnScroll key={name} className={"show-on-scroll company-background stealth"} />
+                  <ExecuteOnScroll
+                    key={name}
+                    className={"show-on-scroll company-background stealth"}
+                    style={{ backgroundImage: `url(https:${stealthImage.image.file.url})` }}
+                  />
                 </div>
               ) : (
                 <div className={"company-wrapper"}>

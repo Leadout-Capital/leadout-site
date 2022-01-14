@@ -40,6 +40,13 @@
     padding: 30px 60px;
     font-size: 2vw;
     text-align: center;
+    @media (max-width: variables.$large-desktop) {
+      font-size: 30px;
+    }
+  }
+
+  .portfolio-grids {
+    margin-bottom: 60px;
   }
 
   .portfolio-companies {

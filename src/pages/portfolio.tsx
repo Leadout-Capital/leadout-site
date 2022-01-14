@@ -54,9 +54,11 @@ const Portfolio: React.FC<PortfolioProps> = ({ data }) => {
           <FontAwesomeIcon icon={faChevronDown} className={"icon"} onClick={scrollToCompanies}/>
         </div>
       </header>
-      <PortfolioGrid isMobile={isMobile} companies={companies} companiesRef={companiesRef} stealthImage={data.stealthImage} sectionTitle="Companies" />
-      <PortfolioGrid isMobile={isMobile} companies={alumni} companiesRef={null} stealthImage={data.stealthImage} sectionTitle="Alumni" />
-      <PortfolioGrid isMobile={isMobile} companies={involved} companiesRef={null} stealthImage={data.stealthImage} sectionTitle="Companies we are involved with" />
+      <div className="portfolio-grids">
+        <PortfolioGrid isMobile={isMobile} companies={companies} companiesRef={companiesRef} stealthImage={data.stealthImage} sectionTitle="Companies" />
+        <PortfolioGrid isMobile={isMobile} companies={alumni} companiesRef={null} stealthImage={data.stealthImage} sectionTitle="Alumni" />
+        <PortfolioGrid isMobile={isMobile} companies={involved} companiesRef={null} stealthImage={data.stealthImage} sectionTitle="Companies we are involved with" />
+      </div>
     </main>
   )
 };
