@@ -17,6 +17,12 @@ type PortfolioProps = {
     companies: {
       edges: QueryNode<ContentfulPortfolioCompany>[]
     },
+    alumni: {
+      edges: QueryNode<ContentfulPortfolioCompany>[]
+    },
+    involved: {
+      edges: QueryNode<ContentfulPortfolioCompany>[]
+    },
     header: ContentfulTextField,
     stealthImage: ContentfulImageField
   }
@@ -34,6 +40,12 @@ const Portfolio: React.FC<PortfolioProps> = ({ data }) => {
   const [isMobile, setIsMobile] = React.useState<boolean>(false);
   const companiesRef = React.useRef<HTMLDivElement>();
   const companies = React.useMemo(() => data.companies.edges.map(
+    ({ node }) => node
+  ), [data]);
+  const alumni = React.useMemo(() => data.alumni.edges.map(
+    ({ node }) => node
+  ), [data]);
+  const involved = React.useMemo(() => data.involved.edges.map(
     ({ node }) => node
   ), [data]);
 
@@ -57,40 +69,14 @@ const Portfolio: React.FC<PortfolioProps> = ({ data }) => {
           <FontAwesomeIcon icon={faChevronDown} className={"icon"} onClick={scrollToCompanies}/>
         </div>
       </header>
-      {isMobile ? (
-        <div className={"portfolio-companies"}>
-          {companies.map((
-            {
-              name,
-              image,
-              website,
-              description,
-              stealth
-            }) => (
-            stealth ? (
-              <div className={"company-wrapper"}>
-                <ExecuteOnScroll key={name} className={"show-on-scroll company-background stealth"} />
-              </div>
-            ) : (
-              <div className={"company-wrapper"}>
-                <ExecuteOnScroll
-                  key={name}
-                  className={"show-on-scroll company-background"}
-                  style={{ backgroundImage: `url(https:${image.file.url})` }}
-                >
-                  <PortfolioCompany name={name} description={description} website={website} />
-                </ExecuteOnScroll>
-              </div>
-            )
-          ))}
-        </div>
-      ) : (
-        <ExecuteOnScroll className={"portfolio-companies"} ref={companiesRef}>
-          <DelayEach
-            useP={false}
-            className={"company-wrapper"}
-            delay={0.1}
-            render={companies.map((
+
+
+      {/* The main portfolio logos */}
+      <section>
+      <h2 className="portfolio-header">Companies</h2>
+        {isMobile ? (
+          <div className={"portfolio-companies"}>
+            {companies.map((
               {
                 name,
                 image,
@@ -99,19 +85,176 @@ const Portfolio: React.FC<PortfolioProps> = ({ data }) => {
                 stealth
               }) => (
               stealth ? (
-                <div
-                  key={name}
-                  className={"company-background"}
-                  style={{ backgroundImage: `url(https:${data.stealthImage.image.file.url})` }}
-                />
+                <div className={"company-wrapper"}>
+                  <ExecuteOnScroll key={name} className={"show-on-scroll company-background stealth"} />
+                </div>
               ) : (
-                <div key={name} className={"company-background"} style={{ backgroundImage: `url(https:${image.file.url})` }}>
-                  <PortfolioCompany name={name} description={description} website={website} />
+                <div className={"company-wrapper"}>
+                  <ExecuteOnScroll
+                    key={name}
+                    className={"show-on-scroll company-background"}
+                    style={{ backgroundImage: `url(https:${image.file.url})` }}
+                  >
+                    <PortfolioCompany name={name} description={description} website={website} />
+                  </ExecuteOnScroll>
                 </div>
               )
-            ))} />
-        </ExecuteOnScroll>
-      )}
+            ))}
+          </div>
+        ) : (
+          <ExecuteOnScroll className={"portfolio-companies"} ref={companiesRef}>
+            <DelayEach
+              useP={false}
+              className={"company-wrapper"}
+              delay={0.1}
+              render={companies.map((
+                {
+                  name,
+                  image,
+                  website,
+                  description,
+                  stealth
+                }) => (
+                stealth ? (
+                  <div
+                    key={name}
+                    className={"company-background"}
+                    style={{ backgroundImage: `url(https:${data.stealthImage.image.file.url})` }}
+                  />
+                ) : (
+                  <div key={name} className={"company-background"} style={{ backgroundImage: `url(https:${image.file.url})` }}>
+                    <PortfolioCompany name={name} description={description} website={website} />
+                  </div>
+                )
+              ))} />
+          </ExecuteOnScroll>
+        )}
+      </section>
+
+
+      {/* Alumni logos */}
+      <section>
+        <h2 className="portfolio-header">Alumni</h2>
+        {isMobile ? (
+          <div className={"portfolio-companies"}>
+            {alumni.map((
+              {
+                name,
+                image,
+                website,
+                description,
+                stealth
+              }) => (
+              stealth ? (
+                <div className={"company-wrapper"}>
+                  <ExecuteOnScroll key={name} className={"show-on-scroll company-background stealth"} />
+                </div>
+              ) : (
+                <div className={"company-wrapper"}>
+                  <ExecuteOnScroll
+                    key={name}
+                    className={"show-on-scroll company-background"}
+                    style={{ backgroundImage: `url(https:${image.file.url})` }}
+                  >
+                    <PortfolioCompany name={name} description={description} website={website} />
+                  </ExecuteOnScroll>
+                </div>
+              )
+            ))}
+          </div>
+        ) : (
+          <ExecuteOnScroll className={"portfolio-companies"}>
+            <DelayEach
+              useP={false}
+              className={"company-wrapper"}
+              delay={0.1}
+              render={alumni.map((
+                {
+                  name,
+                  image,
+                  website,
+                  description,
+                  stealth
+                }) => (
+                stealth ? (
+                  <div
+                    key={name}
+                    className={"company-background"}
+                    style={{ backgroundImage: `url(https:${data.stealthImage.image.file.url})` }}
+                  />
+                ) : (
+                  <div key={name} className={"company-background"} style={{ backgroundImage: `url(https:${image.file.url})` }}>
+                    <PortfolioCompany name={name} description={description} website={website} />
+                  </div>
+                )
+              ))} />
+          </ExecuteOnScroll>
+        )}
+      </section>
+
+
+
+      {/* Involved logos */}
+      <section>
+      <h2 className="portfolio-header">Companies we are involved with</h2>
+        {isMobile ? (
+          <div className={"portfolio-companies"}>
+            {involved.map((
+              {
+                name,
+                image,
+                website,
+                description,
+                stealth
+              }) => (
+              stealth ? (
+                <div className={"company-wrapper"}>
+                  <ExecuteOnScroll key={name} className={"show-on-scroll company-background stealth"} />
+                </div>
+              ) : (
+                <div className={"company-wrapper"}>
+                  <ExecuteOnScroll
+                    key={name}
+                    className={"show-on-scroll company-background"}
+                    style={{ backgroundImage: `url(https:${image.file.url})` }}
+                  >
+                    <PortfolioCompany name={name} description={description} website={website} />
+                  </ExecuteOnScroll>
+                </div>
+              )
+            ))}
+          </div>
+        ) : (
+          <ExecuteOnScroll className={"portfolio-companies"}>
+            <DelayEach
+              useP={false}
+              className={"company-wrapper"}
+              delay={0.1}
+              render={involved.map((
+                {
+                  name,
+                  image,
+                  website,
+                  description,
+                  stealth
+                }) => (
+                stealth ? (
+                  <div
+                    key={name}
+                    className={"company-background"}
+                    style={{ backgroundImage: `url(https:${data.stealthImage.image.file.url})` }}
+                  />
+                ) : (
+                  <div key={name} className={"company-background"} style={{ backgroundImage: `url(https:${image.file.url})` }}>
+                    <PortfolioCompany name={name} description={description} website={website} />
+                  </div>
+                )
+              ))} />
+          </ExecuteOnScroll>
+        )}
+      </section>
+
+
     </main>
   )
 };
@@ -121,7 +264,51 @@ export default Portfolio;
 export const query = graphql`
   query {
     companies: allContentfulPortfolioCompany(
-      filter: { node_locale: { eq: "en-US" } }
+      filter: {node_locale: {eq: "en-US"}, alumni: {ne: true}, involved: {ne: true}}
+      sort: { fields: [stealth, index] }
+    ) {
+      edges {
+        node {
+          name
+          image {
+            file {
+              url
+            }
+          }
+          website
+          description {
+            childMarkdownRemark {
+              html
+            }
+          }
+          stealth
+        }
+      }
+    }
+    alumni: allContentfulPortfolioCompany(
+      filter: {node_locale: {eq: "en-US"}, alumni: {eq: true}, involved: {ne: true}}
+      sort: { fields: [stealth, index] }
+    ) {
+      edges {
+        node {
+          name
+          image {
+            file {
+              url
+            }
+          }
+          website
+          description {
+            childMarkdownRemark {
+              html
+            }
+          }
+          stealth
+        }
+      }
+    }
+    involved: allContentfulPortfolioCompany(
+      filter: {node_locale: {eq: "en-US"}, alumni: {ne: true}, involved: {eq: true}}
       sort: { fields: [stealth, index] }
     ) {
       edges {
