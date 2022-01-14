@@ -2,15 +2,8 @@ import * as React from "react";
 import { graphql } from "gatsby";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { ExecuteOnScroll } from "../components/OnScroll";
-import DelayEach from "../components/DelayEach";
 import "../stylesheets/porfolio.scss";
-
-type PortfolioCompanyProps = {
-  name: string,
-  description: LongTextQuery,
-  website: string
-}
+import { PortfolioGrid } from "../components/PortfolioGrid";
 
 type PortfolioProps = {
   data: {
@@ -27,14 +20,6 @@ type PortfolioProps = {
     stealthImage: ContentfulImageField
   }
 };
-
-const PortfolioCompany: React.FC<PortfolioCompanyProps> = ({ name, description, website }) => (
-  <div className={"dark company-container"}>
-    <h3>{name}</h3>
-    <span dangerouslySetInnerHTML={{ __html: description.childMarkdownRemark.html }} />
-    <a href={website} target={"_blank"}>Visit website</a>
-  </div>
-);
 
 const Portfolio: React.FC<PortfolioProps> = ({ data }) => {
   const [isMobile, setIsMobile] = React.useState<boolean>(false);
@@ -69,192 +54,9 @@ const Portfolio: React.FC<PortfolioProps> = ({ data }) => {
           <FontAwesomeIcon icon={faChevronDown} className={"icon"} onClick={scrollToCompanies}/>
         </div>
       </header>
-
-
-      {/* The main portfolio logos */}
-      <section>
-      <h2 className="portfolio-header">Companies</h2>
-        {isMobile ? (
-          <div className={"portfolio-companies"}>
-            {companies.map((
-              {
-                name,
-                image,
-                website,
-                description,
-                stealth
-              }) => (
-              stealth ? (
-                <div className={"company-wrapper"}>
-                  <ExecuteOnScroll key={name} className={"show-on-scroll company-background stealth"} />
-                </div>
-              ) : (
-                <div className={"company-wrapper"}>
-                  <ExecuteOnScroll
-                    key={name}
-                    className={"show-on-scroll company-background"}
-                    style={{ backgroundImage: `url(https:${image.file.url})` }}
-                  >
-                    <PortfolioCompany name={name} description={description} website={website} />
-                  </ExecuteOnScroll>
-                </div>
-              )
-            ))}
-          </div>
-        ) : (
-          <ExecuteOnScroll className={"portfolio-companies"} ref={companiesRef}>
-            <DelayEach
-              useP={false}
-              className={"company-wrapper"}
-              delay={0.1}
-              render={companies.map((
-                {
-                  name,
-                  image,
-                  website,
-                  description,
-                  stealth
-                }) => (
-                stealth ? (
-                  <div
-                    key={name}
-                    className={"company-background"}
-                    style={{ backgroundImage: `url(https:${data.stealthImage.image.file.url})` }}
-                  />
-                ) : (
-                  <div key={name} className={"company-background"} style={{ backgroundImage: `url(https:${image.file.url})` }}>
-                    <PortfolioCompany name={name} description={description} website={website} />
-                  </div>
-                )
-              ))} />
-          </ExecuteOnScroll>
-        )}
-      </section>
-
-
-      {/* Alumni logos */}
-      <section>
-        <h2 className="portfolio-header">Alumni</h2>
-        {isMobile ? (
-          <div className={"portfolio-companies"}>
-            {alumni.map((
-              {
-                name,
-                image,
-                website,
-                description,
-                stealth
-              }) => (
-              stealth ? (
-                <div className={"company-wrapper"}>
-                  <ExecuteOnScroll key={name} className={"show-on-scroll company-background stealth"} />
-                </div>
-              ) : (
-                <div className={"company-wrapper"}>
-                  <ExecuteOnScroll
-                    key={name}
-                    className={"show-on-scroll company-background"}
-                    style={{ backgroundImage: `url(https:${image.file.url})` }}
-                  >
-                    <PortfolioCompany name={name} description={description} website={website} />
-                  </ExecuteOnScroll>
-                </div>
-              )
-            ))}
-          </div>
-        ) : (
-          <ExecuteOnScroll className={"portfolio-companies"}>
-            <DelayEach
-              useP={false}
-              className={"company-wrapper"}
-              delay={0.1}
-              render={alumni.map((
-                {
-                  name,
-                  image,
-                  website,
-                  description,
-                  stealth
-                }) => (
-                stealth ? (
-                  <div
-                    key={name}
-                    className={"company-background"}
-                    style={{ backgroundImage: `url(https:${data.stealthImage.image.file.url})` }}
-                  />
-                ) : (
-                  <div key={name} className={"company-background"} style={{ backgroundImage: `url(https:${image.file.url})` }}>
-                    <PortfolioCompany name={name} description={description} website={website} />
-                  </div>
-                )
-              ))} />
-          </ExecuteOnScroll>
-        )}
-      </section>
-
-
-
-      {/* Involved logos */}
-      <section>
-      <h2 className="portfolio-header">Companies we are involved with</h2>
-        {isMobile ? (
-          <div className={"portfolio-companies"}>
-            {involved.map((
-              {
-                name,
-                image,
-                website,
-                description,
-                stealth
-              }) => (
-              stealth ? (
-                <div className={"company-wrapper"}>
-                  <ExecuteOnScroll key={name} className={"show-on-scroll company-background stealth"} />
-                </div>
-              ) : (
-                <div className={"company-wrapper"}>
-                  <ExecuteOnScroll
-                    key={name}
-                    className={"show-on-scroll company-background"}
-                    style={{ backgroundImage: `url(https:${image.file.url})` }}
-                  >
-                    <PortfolioCompany name={name} description={description} website={website} />
-                  </ExecuteOnScroll>
-                </div>
-              )
-            ))}
-          </div>
-        ) : (
-          <ExecuteOnScroll className={"portfolio-companies"}>
-            <DelayEach
-              useP={false}
-              className={"company-wrapper"}
-              delay={0.1}
-              render={involved.map((
-                {
-                  name,
-                  image,
-                  website,
-                  description,
-                  stealth
-                }) => (
-                stealth ? (
-                  <div
-                    key={name}
-                    className={"company-background"}
-                    style={{ backgroundImage: `url(https:${data.stealthImage.image.file.url})` }}
-                  />
-                ) : (
-                  <div key={name} className={"company-background"} style={{ backgroundImage: `url(https:${image.file.url})` }}>
-                    <PortfolioCompany name={name} description={description} website={website} />
-                  </div>
-                )
-              ))} />
-          </ExecuteOnScroll>
-        )}
-      </section>
-
-
+      <PortfolioGrid isMobile={isMobile} companies={companies} companiesRef={companiesRef} stealthImage={data.stealthImage} sectionTitle="Companies" />
+      <PortfolioGrid isMobile={isMobile} companies={alumni} companiesRef={null} stealthImage={data.stealthImage} sectionTitle="Alumni" />
+      <PortfolioGrid isMobile={isMobile} companies={involved} companiesRef={null} stealthImage={data.stealthImage} sectionTitle="Companies we are involved with" />
     </main>
   )
 };
