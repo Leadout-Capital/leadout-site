@@ -99,5 +99,15 @@ export const query = graphql`
         }
       }
     }
+    faqs: contentfulFaqSection {
+      faq {
+        question
+        answer {
+          childMarkdownRemark {
+            html
+          }
+        }
+      }
+    }
   }
 `;
