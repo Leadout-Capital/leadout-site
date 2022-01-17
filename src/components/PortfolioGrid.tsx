@@ -21,7 +21,10 @@ const PortfolioCompany: React.FC<PortfolioCompanyProps> = ({ name, description, 
   <div className={"dark company-container"}>
     <h3>{name}</h3>
     <span dangerouslySetInnerHTML={{ __html: description.childMarkdownRemark.html }} />
-    <a href={website} target={"_blank"}>Visit website</a>
+    <div className="link-wrapper">
+      <a href={website} target={"_blank"}>Visit website</a>
+      {jobs && <a href={jobs} target={"_blank"}>Open Jobs</a>}
+    </div>
   </div>
 );
 

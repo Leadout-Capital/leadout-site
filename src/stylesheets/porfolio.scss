@@ -99,6 +99,12 @@
             background-color: color.adjust(variables.$dark, $alpha: -0.25);
             opacity: 1;
           }
+
+          .link-wrapper {
+            gap: 5px;
+            display: flex;
+            flex-direction: row;
+          }
         }
       }
 
