@@ -5,7 +5,8 @@ import { ExecuteOnScroll } from './OnScroll';
 type PortfolioCompanyProps = {
   name: string,
   description: LongTextQuery,
-  website: string
+  website: string,
+  jobs?: string
 }
 
 type PortfolioGridProps = {
@@ -16,7 +17,7 @@ type PortfolioGridProps = {
   sectionTitle: string;
 }
 
-const PortfolioCompany: React.FC<PortfolioCompanyProps> = ({ name, description, website }) => (
+const PortfolioCompany: React.FC<PortfolioCompanyProps> = ({ name, description, website, jobs }) => (
   <div className={"dark company-container"}>
     <h3>{name}</h3>
     <span dangerouslySetInnerHTML={{ __html: description.childMarkdownRemark.html }} />
@@ -35,6 +36,7 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ isMobile, companie
                 name,
                 image,
                 website,
+                jobs,
                 description,
                 stealth
               }) => (
@@ -53,7 +55,7 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ isMobile, companie
                     className={"show-on-scroll company-background"}
                     style={{ backgroundImage: `url(https:${image.file.url})` }}
                   >
-                    <PortfolioCompany name={name} description={description} website={website} />
+                    <PortfolioCompany name={name} description={description} website={website} jobs={jobs} />
                   </ExecuteOnScroll>
                 </div>
               )
@@ -70,6 +72,7 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ isMobile, companie
                   name,
                   image,
                   website,
+                  jobs,
                   description,
                   stealth
                 }) => (
@@ -81,7 +84,7 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ isMobile, companie
                   />
                 ) : (
                   <div key={name} className={"company-background"} style={{ backgroundImage: `url(https:${image.file.url})` }}>
-                    <PortfolioCompany name={name} description={description} website={website} />
+                    <PortfolioCompany name={name} description={description} website={website} jobs={jobs} />
                   </div>
                 )
               ))} />
