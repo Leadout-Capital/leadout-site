@@ -80,6 +80,7 @@ export const query = graphql`
             }
           }
           website
+          jobs
           description {
             childMarkdownRemark {
               html
@@ -102,6 +103,7 @@ export const query = graphql`
             }
           }
           website
+          jobs
           description {
             childMarkdownRemark {
               html
@@ -124,6 +126,7 @@ export const query = graphql`
             }
           }
           website
+          jobs
           description {
             childMarkdownRemark {
               html
