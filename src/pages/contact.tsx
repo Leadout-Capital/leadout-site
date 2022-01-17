@@ -117,7 +117,6 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
   const submitContactForm = async (data: FormState, stopLoading: () => void, setStatusMessage: (status: StatusMessageData) => void, reset: UseFormReset<FormState>) => {
     try {
       const cleanedData = cleanFormData(data, formData);
-      console.log(cleanedData, 'the cleaned data!!!');
       let dataWithUrls = await uploadToFilestack(cleanedData, formData);
       await fetch("../../.netlify/functions/pushToAirtable", {
         method: "POST",

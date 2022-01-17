@@ -16,8 +16,6 @@ const handler: Handler = async (event) => {
 
     const base = new Airtable({ apiKey: apiKey }).base(baseId);
 
-    console.log(data);
-
     // @ts-ignore
     let record = await base(tableName).create([{fields: data}]);
 
@@ -26,7 +24,6 @@ const handler: Handler = async (event) => {
       body: JSON.stringify({ recordId: record })
     };
   } catch (error) {
-    console.log(error);
     return {
       statusCode: error.statusCode || 500,
       body: JSON.stringify({ error: error.message })
