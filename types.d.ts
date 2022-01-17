@@ -44,6 +44,7 @@ type Company = {
   name: string,
   image: ImageQuery,
   website: string,
+  jobs?: string;
   description: LongTextQuery,
   stealth: false
 };
@@ -52,6 +53,7 @@ type StealthCompany = {
   name?: string,
   image?: ImageQuery,
   website?: string,
+  jobs?: string;
   description?: LongTextQuery,
   stealth: true
 };
