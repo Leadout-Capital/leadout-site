@@ -82,6 +82,7 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
   const formData = React.useMemo(() => (
     data.contactFormFields.edges
       .map(({ node: { options, airtableColumnName, airtableTableName, ...nodeData} }) => ({
+        airtableColumnName,
         ...nodeData,
         options: options ? options.map((option) => ({ id: option, name: option })) : null
       }))
@@ -108,7 +109,7 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
       } else if (fieldsMap[cleanKey].type === FieldType.File && typeof fieldData === "string" && fieldData.length > 0) {
         fieldData = [{ url: fieldData }];
       }
-      cleanedData[cleanKey] = fieldData;
+      cleanedData[fieldsMap[cleanKey].airtableColumnName || cleanKey] = fieldData;
     }
     return cleanedData;
   }
@@ -116,6 +117,7 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
   const submitContactForm = async (data: FormState, stopLoading: () => void, setStatusMessage: (status: StatusMessageData) => void, reset: UseFormReset<FormState>) => {
     try {
       const cleanedData = cleanFormData(data, formData);
+      console.log(cleanedData, 'the cleaned data!!!');
       let dataWithUrls = await uploadToFilestack(cleanedData, formData);
       await fetch("../../.netlify/functions/pushToAirtable", {
         method: "POST",
