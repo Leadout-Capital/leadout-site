@@ -15,7 +15,9 @@ const FAQ = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
-      <h2>{question}</h2>
+      <button onClick={() => setIsOpen(!isOpen)}>
+        <h2>{question}</h2>
+      </button>
       <p dangerouslySetInnerHTML={{ __html: answer }} />
     </div>
   )
