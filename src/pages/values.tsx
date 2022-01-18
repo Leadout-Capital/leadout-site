@@ -18,7 +18,8 @@ type ValuesProps = {
       edges: QueryNode<ContentfulTeamBenefit>[]
     },
     coreValuesTitle: ContentfulTextField,
-    teamBenefitsTitle: ContentfulTextField
+    teamBenefitsTitle: ContentfulTextField,
+    faqs: faqs
   }
 };
 
