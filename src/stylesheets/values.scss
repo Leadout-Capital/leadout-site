@@ -76,14 +76,21 @@
   }
 
   .faq {
+    background-color: variables.$accent;
+    margin-bottom: 2px;
+    h2 {
+    }
     button {
       width: 100%;
       background: none;
       border: none;
       text-align: left;
+      padding-left: 10px;
+      padding-right: 10px;
     }
-    .hide {
-      visibility: hidden;
+    .answer-container {
+      padding: 20px 10px;
+      margin: 0px;
     }
   }
 }

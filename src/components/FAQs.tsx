@@ -15,12 +15,15 @@ export const FAQs = ({ faqs }) => {
 
 const FAQ = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const renderAnswer = () => (
+    isOpen && <div className="answer-container" dangerouslySetInnerHTML={{ __html: answer }} />
+  )
   return (
     <div className="faq">
       <button onClick={() => setIsOpen(!isOpen)}>
         <h2>{question}</h2>
       </button>
-      <p dangerouslySetInnerHTML={{ __html: answer }} className={isOpen ? '' : 'hide'} />
+      {renderAnswer()}
     </div>
   )
 }
