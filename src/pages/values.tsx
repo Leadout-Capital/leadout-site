@@ -3,6 +3,7 @@ import { ExecuteOnScroll } from "../components/OnScroll";
 import DelayEach from "../components/DelayEach";
 import "../stylesheets/values.scss";
 import { graphql } from "gatsby";
+import { FAQs } from "../components/FAQs";
 
 export type Benefit = {
   title: string,
@@ -19,13 +20,16 @@ type ValuesProps = {
     },
     coreValuesTitle: ContentfulTextField,
     teamBenefitsTitle: ContentfulTextField,
-    faqs: faqs
+    faqSection: {
+      faq: Array<faq>,
+    },
   }
 };
 
 const Values: React.FC<ValuesProps> = ({ data }) => {
   const coreValues = React.useMemo(() => data.coreValues.edges.map(({ node }) => node.body.childMarkdownRemark.html), [data]);
   const teamBenefits = React.useMemo(() => data.teamBenefits.edges.map(({ node: { title, body } }) => ({ title, body: body.childMarkdownRemark.html })), [data]);
+  const faqs = React.useMemo(() => data.faqSection.faq.map(({ question, answer }) => ({ question, answer: answer.childMarkdownRemark.html })), [data]);
 
   return (
     <main className={"values"}>
@@ -49,6 +53,7 @@ const Values: React.FC<ValuesProps> = ({ data }) => {
           ))}
         </div>
       </div>
+      <FAQs faqs={faqs} />
     </main>
   )
 };
@@ -100,7 +105,7 @@ export const query = graphql`
         }
       }
     }
-    faqs: contentfulFaqSection {
+    faqSection: contentfulFaqSection {
       faq {
         question
         answer {

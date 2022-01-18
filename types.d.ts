@@ -110,11 +110,9 @@ type ContentfulTeamBenefit = {
   body: LongTextQuery
 };
 
-type faqs = {
-  faq: {
-    question: string;
-    answer: LongTextQuery;
-  }[]
+type faq = {
+  question: string;
+  answer: LongTextQuery;
 }
 
 type ContentfulNavLink = {
