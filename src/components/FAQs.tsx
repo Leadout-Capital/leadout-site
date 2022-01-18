@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export const FAQs = ({ faqs }) => {
   return (
@@ -11,9 +11,12 @@ export const FAQs = ({ faqs }) => {
   )
 }
 
-const FAQ = ({ question, answer }) => (
-  <div>
-    <h2>{question}</h2>
-    <p dangerouslySetInnerHTML={{ __html: answer }} />
-  </div>
-)
+const FAQ = ({ question, answer }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div>
+      <h2>{question}</h2>
+      <p dangerouslySetInnerHTML={{ __html: answer }} />
+    </div>
+  )
+}
