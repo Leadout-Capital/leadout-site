@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 
 export const FAQs = ({ faqs }) => {
   return (
-    <section>
-      <h1>The FAQs</h1>
-      {faqs.map((faq, i) => (
-        <FAQ {...faq} key={i} />
-      ))}
+    <section className="section">
+      <h1>FAQs</h1>
+      <div className="content">
+        {faqs.map((faq, i) => (
+          <FAQ {...faq} key={i} />
+        ))}
+      </div>
     </section>
   )
 }
@@ -14,11 +16,11 @@ export const FAQs = ({ faqs }) => {
 const FAQ = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div>
+    <div className="faq">
       <button onClick={() => setIsOpen(!isOpen)}>
         <h2>{question}</h2>
       </button>
-      <p dangerouslySetInnerHTML={{ __html: answer }} />
+      <p dangerouslySetInnerHTML={{ __html: answer }} className={isOpen ? '' : 'hide'} />
     </div>
   )
 }
