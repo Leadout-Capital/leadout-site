@@ -21,6 +21,7 @@ const FAQ = ({ question, answer }) => {
   return (
     <div className="faq">
       <button onClick={() => setIsOpen(!isOpen)}>
+        <div className={`triangle ${isOpen ? 'open' : ''}`} />
         <h2>{question}</h2>
       </button>
       {renderAnswer()}
