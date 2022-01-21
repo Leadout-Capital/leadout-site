@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 export const FAQs = ({ faqs }) => {
   return (
     <section className="section">
-      <h1>FAQs</h1>
+      <h1 className="faq-title">FAQs</h1>
       <div className="content">
         {faqs.map((faq, i) => (
           <FAQ {...faq} key={i} />

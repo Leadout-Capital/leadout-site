@@ -19,6 +19,7 @@
 
     .content {
       max-width: 1600px;
+      width: 100%;
     }
 
     @media (max-width: variables.$large-desktop) {
@@ -75,21 +76,31 @@
     }
   }
 
+  .faq-title {
+    @media (max-width: variables.$mobile-width) {
+      padding-bottom: 20px;
+    }
+  }
+
   .faq {
     background-color: variables.$accent;
     margin-bottom: 2px;
+    color: variables.$light;
     h2 {
+      font-size: (variables.$large-desktop * 0.015);
+      color: variables.$light;
     }
     button {
       width: 100%;
       background: none;
       border: none;
       text-align: left;
-      padding-left: 10px;
-      padding-right: 10px;
+      padding-left: 20px;
+      padding-right: 20px;
+      cursor: pointer;
     }
     .answer-container {
-      padding: 20px 10px;
+      padding: 10px 20px;
       margin: 0px;
     }
   }
