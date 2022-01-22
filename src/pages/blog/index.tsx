@@ -16,7 +16,6 @@ const Blog: React.FC<BlogProps> = ({ data }) => {
     <main className={"contact"}>
       <p>The blog!</p>
       <PostGrid posts={data.posts.edges} />
-      )}
     </main>
   )
 };
