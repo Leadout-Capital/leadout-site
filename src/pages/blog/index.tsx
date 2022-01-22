@@ -1,7 +1,7 @@
 import * as React from "react";
 import "../../stylesheets/contact.scss";
 import { graphql } from "gatsby";
-import { PostCard } from "../../components/Blog/PostCard";
+import { PostGrid } from "../../components/Blog/PostGrid";
 
 type BlogProps = {
   data: {
@@ -15,7 +15,7 @@ const Blog: React.FC<BlogProps> = ({ data }) => {
   return (
     <main className={"contact"}>
       <p>The blog!</p>
-      {data.posts.edges.map((post) => <PostCard post={post} />
+      <PostGrid posts={data.posts.edges} />
       )}
     </main>
   )
