@@ -26,7 +26,7 @@ const Blog: React.FC<BlogProps> = ({ data }) => {
             <p>by: {author}</p>
             <p>Excerpt: {post.node.body?.childMarkdownRemark?.excerpt}</p>
             <p>Time to read: {post.node.body?.childMarkdownRemark?.timeToRead}</p>
-            <p>Category: {post.node.category.name} {post.node.category.color}</p>
+            <p>Category: {post.node.category?.name} {post.node.category?.color}</p>
           </div>
         )
       }
