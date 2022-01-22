@@ -6,13 +6,13 @@ export const PostCard: React.FC<{ post: QueryNode<ContentfulBlogPost> }> = ({ po
     const author = 'Leadout Capital';
 
     return (
-      <div>
+      <article className="post-card">
         <p>{post.node.title}</p>
         <p>{formattedDate}</p>
         <p>by: {author}</p>
         <p>Excerpt: {post.node.body?.childMarkdownRemark?.excerpt}</p>
         <p>Time to read: {post.node.body?.childMarkdownRemark?.timeToRead}</p>
         <p>Category: {post.node.category?.name} {post.node.category?.color}</p>
-      </div>
+      </article>
     )
 };
