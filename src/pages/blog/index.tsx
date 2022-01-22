@@ -17,10 +17,13 @@ const Blog: React.FC<BlogProps> = ({ data }) => {
       <p>The blog!</p>
       {data.posts.edges.map((post) => {
         const formattedDate = format(parseISO(post.node.date), 'MMMM dd, yyyy');
+        const author = 'Leadout Capital';
+
         return (
           <div>
             <p>{post.node.title}</p>
             <p>{formattedDate}</p>
+            <p>by: {author}</p>
           </div>
         )
       }
