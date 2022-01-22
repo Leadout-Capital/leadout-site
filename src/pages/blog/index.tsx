@@ -4,11 +4,9 @@ import { graphql } from "gatsby";
 
 type BlogProps = {
   data: {
-    contactFormFields: {
-      edges: QueryNode<ContentfulContactFormField>[]
+    posts: {
+      edges: QueryNode<ContentfulBlogPost>[]
     },
-    contactFormTitle: ContentfulTextField,
-    contactFormSubtitle: ContentfulTextField
   }
 }
 
@@ -24,34 +22,14 @@ export default Blog;
 
 export const query = graphql`
   query {
-    contactFormFields: allContentfulContactFormField(
-      filter: { node_locale: { eq: "en-US" } }
-      sort: { fields: [index] }
-    ) {
+    posts: allContentfulBlogPost( filter: { node_locale: { eq: "en-US" } } ) {
       edges {
         node {
-          key
           title
-          subtitle
-          required
-          type
-          options
-          airtableTableName
-          airtableColumnName
-        }
-      }
-    }
-    contactFormTitle: contentfulTextField(name: { eq: "Contact Form Title" }) {
-      body {
-        childMarkdownRemark {
-          html
-        }
-      }
-    }
-    contactFormSubtitle: contentfulTextField(name: { eq: "Contact Form Subtitle" }) {
-      body {
-        childMarkdownRemark {
-          html
+          category {
+            name
+            color
+          }
         }
       }
     }

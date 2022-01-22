@@ -84,6 +84,16 @@ type ContentfulContactFormField = Omit<FormField, "options"> & {
   airtableColumnName?: string
 };
 
+type ContentfulBlogPost = {
+  title: string;
+  category: ContentfulBlogCategory;
+}
+
+type ContentfulBlogCategory = {
+  name: string;
+  color: string;
+}
+
 type ContentfulHomepageSection = {
   name: string,
   image: ImageQuery,
