@@ -88,6 +88,13 @@ type ContentfulBlogPost = {
   title: string;
   date: string;
   category: ContentfulBlogCategory;
+  body: {
+    childMarkdownRemark: {
+      excerpt: string;
+      timeToRead: number;
+      html: string;
+    }
+  }
 }
 
 type ContentfulBlogCategory = {

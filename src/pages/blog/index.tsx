@@ -24,6 +24,9 @@ const Blog: React.FC<BlogProps> = ({ data }) => {
             <p>{post.node.title}</p>
             <p>{formattedDate}</p>
             <p>by: {author}</p>
+            <p>Excerpt: {post.node.body?.childMarkdownRemark?.excerpt}</p>
+            <p>Time to read: {post.node.body?.childMarkdownRemark?.timeToRead}</p>
+            <p>Category: {post.node.category.name} {post.node.category.color}</p>
           </div>
         )
       }
@@ -47,6 +50,13 @@ export const query = graphql`
           category {
             name
             color
+          }
+          body {
+            childMarkdownRemark {
+              excerpt(pruneLength: 100)
+              timeToRead
+              html
+            }
           }
         }
       }
