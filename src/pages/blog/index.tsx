@@ -1,6 +1,7 @@
 import * as React from "react";
 import "../../stylesheets/contact.scss";
 import { graphql } from "gatsby";
+import { format, parseISO } from "date-fns";
 
 type BlogProps = {
   data: {
@@ -14,11 +15,15 @@ const Blog: React.FC<BlogProps> = ({ data }) => {
   return (
     <main className={"contact"}>
       <p>The blog!</p>
-      {data.posts.edges.map((post) =>
-        <div>
-          <p>{post.node.title}</p>
-          <p>{post.node.date}</p>
-        </div>
+      {data.posts.edges.map((post) => {
+        const formattedDate = format(parseISO(post.node.date), 'MMMM dd, yyyy');
+        return (
+          <div>
+            <p>{post.node.title}</p>
+            <p>{formattedDate}</p>
+          </div>
+        )
+      }
       )}
     </main>
   )
