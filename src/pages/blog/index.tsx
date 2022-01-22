@@ -1,7 +1,6 @@
 import * as React from "react";
 import "../../stylesheets/contact.scss";
 import { graphql } from "gatsby";
-import { format, parseISO } from "date-fns";
 import { PostCard } from "../../components/Blog/PostCard";
 
 type BlogProps = {

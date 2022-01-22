@@ -1,7 +1,7 @@
 import { format, parseISO } from 'date-fns';
 import React from 'react';
 
-export const PostCard = ({ post }) => {
+export const PostCard: React.FC<{ post: QueryNode<ContentfulBlogPost> }> = ({ post }) => {
   const formattedDate = format(parseISO(post.node.date), 'MMMM dd, yyyy');
     const author = 'Leadout Capital';
 

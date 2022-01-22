@@ -92,7 +92,7 @@ type ContentfulBlogPost = {
     childMarkdownRemark: {
       excerpt: string;
       timeToRead: number;
-      html: string;
+      html?: string;
     }
   }
 }
