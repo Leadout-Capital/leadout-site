@@ -86,6 +86,7 @@ type ContentfulContactFormField = Omit<FormField, "options"> & {
 
 type ContentfulBlogPost = {
   title: string;
+  date: string;
   category: ContentfulBlogCategory;
 }
 
