@@ -1,5 +1,5 @@
 import * as React from "react";
-import "../stylesheets/contact.scss";
+import "../../stylesheets/contact.scss";
 import { graphql } from "gatsby";
 
 type BlogProps = {
