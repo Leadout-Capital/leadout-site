@@ -1,6 +1,7 @@
 import { PostGrid } from '../components/Blog/PostGrid';
 import { graphql } from 'gatsby';
 import React from 'react';
+import { PageNav } from '../components/Blog/PageNav';
 
 type BlogProps = {
   data: {
@@ -8,14 +9,21 @@ type BlogProps = {
       edges: QueryNode<ContentfulBlogPost>[]
     },
   }
+  pageContext: {
+    currentPage: number;
+    limit: number;
+    numPages: number;
+    skip: number;
+  }
 }
 
-const blogIndexTemplate: React.FC<BlogProps> = ({ data }) => {
+const blogIndexTemplate: React.FC<BlogProps> = ({ data, pageContext }) => {
   return (
-    <div className="blog">
+    <main className="blog">
       <h1>Blog</h1>
       <PostGrid posts={data.posts.edges} />
-    </div>
+      <PageNav page={pageContext.currentPage} totalPages={pageContext.numPages} url={'/blog'} />
+    </main>
   );
 };
 
