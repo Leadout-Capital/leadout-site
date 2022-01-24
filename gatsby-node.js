@@ -67,7 +67,6 @@ const turnPostsIntoPages = async ({ graphql, actions, reporter }) => {
           title: post.title,
         },
       })
-      console.log(`/blog/${post.slug}/`);
     })
   }
 }
