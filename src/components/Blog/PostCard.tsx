@@ -1,10 +1,13 @@
 import { format, parseISO } from 'date-fns';
 import { Link } from 'gatsby';
+import _ from 'lodash';
 import React from 'react';
 
 export const PostCard: React.FC<{ post: QueryNode<ContentfulBlogPost> }> = ({ post }) => {
   const formattedDate = format(parseISO(post.node.date), 'MMMM dd, yyyy');
   const author = 'Leadout Capital';
+  const articleSlug = _.kebabCase(post.node.title);
+  const categorySlug = _.kebabCase(post.node.category.name);
 
   return (
     <div className="post-card">
@@ -12,10 +15,10 @@ export const PostCard: React.FC<{ post: QueryNode<ContentfulBlogPost> }> = ({ po
         <article>
           <div className="text-wrapper">
             <div className="category-container">
-              <CategoryButton color={post.node.category.color} category={post.node.category.name} />
+              <CategoryButton color={post.node.category.color} category={post.node.category.name} url={`/blog/category/${categorySlug}`} />
             </div>
             {post.node.title ? (
-              <Link to={`/blog/${post.node.title}`}>
+              <Link to={`/blog/${articleSlug}`}>
                 <p className="title">{post.node.title}</p>
               </Link>
             ) : (
@@ -53,6 +56,6 @@ export const PostCard: React.FC<{ post: QueryNode<ContentfulBlogPost> }> = ({ po
 };
 
 
-const CategoryButton = ({ category, color }) => (
-  <div className={`category ${color}`}><Link to="/blog/category">{category}</Link></div>
+const CategoryButton = ({ category, color, url }) => (
+  <div className={`category ${color}`}><Link to={url}>{category}</Link></div>
 )
