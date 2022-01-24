@@ -1,3 +1,4 @@
+import { PostGrid } from '../components/Blog/PostGrid';
 import { graphql } from 'gatsby';
 import React from 'react';
 
@@ -10,14 +11,19 @@ type BlogProps = {
 }
 
 const blogIndexTemplate: React.FC<BlogProps> = ({ data }) => {
-  return <div className="blog"><p>The blog list!!</p></div>;
+  return (
+    <div className="blog">
+      <h1>Blog</h1>
+      <PostGrid posts={data.posts.edges} />
+    </div>
+  );
 };
 
 export default blogIndexTemplate;
 
 export const query = graphql`
   query BlogListQuery($skip: Int!, $limit: Int!) {
-    allContentfulBlogPost(
+    posts: allContentfulBlogPost(
       filter: {node_locale: {eq: "en-US"}}
       sort: {order: DESC, fields: date}
       limit: $limit
