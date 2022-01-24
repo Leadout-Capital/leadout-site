@@ -1,20 +1,29 @@
-import { PostGrid } from '../components/Blog/PostGrid';
-import { graphql } from 'gatsby';
 import React from 'react';
+import { graphql } from 'gatsby';
+import { PostGrid } from '../components/Blog/PostGrid';
+import { PageNav } from '../components/Blog/PageNav';
 
 type BlogProps = {
   data: {
     posts: {
       edges: QueryNode<ContentfulBlogPost>[]
     },
+  },
+  pageContext: {
+    currentPage: number;
+    limit: number;
+    numPages: number;
+    skip: number;
+    slug: string;
   }
 }
 
-const blogListTemplate: React.FC<BlogProps> = ({ data }) => {
+const blogListTemplate: React.FC<BlogProps> = ({ data, pageContext }) => {
   return (
     <div className="blog">
       <h1>Blog</h1>
       <PostGrid posts={data.posts.edges} />
+      <PageNav page={pageContext.currentPage} totalPages={pageContext.numPages} url={`/blog/category/${pageContext.slug}`} />
     </div>
   );
 };

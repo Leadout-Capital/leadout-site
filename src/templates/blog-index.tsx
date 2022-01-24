@@ -1,6 +1,6 @@
-import { PostGrid } from '../components/Blog/PostGrid';
-import { graphql } from 'gatsby';
 import React from 'react';
+import { graphql } from 'gatsby';
+import { PostGrid } from '../components/Blog/PostGrid';
 import { PageNav } from '../components/Blog/PageNav';
 
 type BlogProps = {
@@ -8,7 +8,7 @@ type BlogProps = {
     posts: {
       edges: QueryNode<ContentfulBlogPost>[]
     },
-  }
+  },
   pageContext: {
     currentPage: number;
     limit: number;
