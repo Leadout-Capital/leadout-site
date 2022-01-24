@@ -1,4 +1,5 @@
 const path = require('path')
+const postsPerPage = 1;
 
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
@@ -102,7 +103,6 @@ const turnCategoriesIntoPages = async ({ graphql, actions, reporter }) => {
   }
 
   const categories = result.data.allContentfulBlogCategory.nodes
-  const postsPerPage = 1;
 
   if (categories.length > 0) {
     categories.forEach((category, index) => {
