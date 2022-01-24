@@ -23,7 +23,7 @@ exports.createSchemaCustomization = ({ actions }) => {
   createTypes(typeDefs)
 };
 
-turnPostsIntoPages = async ({ graphql, actions, reporter }) => {
+const turnPostsIntoPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
 
   // Define a template for blog post
@@ -32,7 +32,7 @@ turnPostsIntoPages = async ({ graphql, actions, reporter }) => {
   const result = await graphql(
     `
       {
-        allContentfulBlogPost {
+        allContentfulBlogPost(filter: {node_locale: {eq: "en-US"}}) {
           nodes {
             title
             slug
@@ -70,8 +70,94 @@ turnPostsIntoPages = async ({ graphql, actions, reporter }) => {
   }
 }
 
+const turnCategoriesIntoPages = async ({ graphql, actions, reporter }) => {
+  const { createPage } = actions;
+
+  const template = path.resolve('./src/templates/blog-list-template.tsx');
+
+  const result = await graphql(
+    `
+      {
+        allContentfulBlogCategory(filter: {node_locale: {eq: "en-US"}}) {
+          nodes {
+            name
+            slug
+          }
+        }
+      }
+    `
+  )
+
+  if (result.errors) {
+    reporter.panicOnBuild(
+      `There was an error loading your Contentful categories`,
+      result.errors
+    )
+    return
+  }
+
+  const categories = result.data.allContentfulBlogCategory.nodes
+
+  if (categories.length > 0) {
+    categories.forEach((category, index) => {
+      createPage({
+        path: `/blog/category/${category.slug}/`,
+        component: template,
+        context: {
+          slug: category.slug,
+        },
+      })
+      console.log(`/blog/category/${category.slug}/`);
+    })
+  }
+}
+
+const turnAuthorsIntoPages = async ({ graphql, actions, reporter }) => {
+  const { createPage } = actions;
+
+  const template = path.resolve('./src/templates/blog-list-template.tsx');
+
+  const result = await graphql(
+    `
+      {
+        allContentfulBlogAuthor(filter: {node_locale: {eq: "en-US"}}) {
+          nodes {
+            name
+            slug
+          }
+        }
+      }
+    `
+  )
+
+  if (result.errors) {
+    reporter.panicOnBuild(
+      `There was an error loading your Contentful authors`,
+      result.errors
+    )
+    return
+  }
+
+  const authors = result.data.allContentfulBlogAuthor.nodes
+
+  if (authors.length > 0) {
+    authors.forEach((author, index) => {
+      createPage({
+        path: `/blog/author/${author.slug}/`,
+        component: template,
+        context: {
+          slug: author.slug,
+        },
+      })
+      console.log(`/blog/author/${author.slug}/`);
+    })
+  }
+}
+
 exports.createPages = async (params) => {
   await Promise.all([
     turnPostsIntoPages(params),
+    turnCategoriesIntoPages(params),
+    turnAuthorsIntoPages(params),
   ])
 }
