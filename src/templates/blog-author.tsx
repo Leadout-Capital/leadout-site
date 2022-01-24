@@ -8,9 +8,9 @@ const blogListTemplate = () => {
 export default blogListTemplate;
 
 export const query = graphql`
-  query categoryBlogListQuery($skip: Int!, $limit: Int!, $slug: String!) {
+  query AuthorBlogListQuery($skip: Int!, $limit: Int!, $slug: String!) {
     allContentfulBlogPost(
-      filter: {category: {slug: {eq: $slug}, node_locale: {eq: "en-US"}}}
+      filter: {author: {slug: {eq: $slug}, node_locale: {eq: "en-US"}}}
       sort: {order: DESC, fields: date}
       limit: $limit
       skip: $skip

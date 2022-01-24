@@ -130,17 +130,22 @@ const turnCategoriesIntoPages = async ({ graphql, actions, reporter }) => {
 const turnAuthorsIntoPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
 
-  const template = path.resolve('./src/templates/blog-category.tsx');
+  const template = path.resolve('./src/templates/blog-author.tsx');
 
   const result = await graphql(
     `
       {
-        allContentfulBlogAuthor(filter: {node_locale: {eq: "en-US"}}) {
-          nodes {
-            name
+        allContentfulBlogAuthor(
+          filter: {node_locale: {eq: "en-US"}}
+        ) {
+        nodes {
+          name
+          slug
+          blog_post {
             slug
           }
         }
+      }
       }
     `
   )
@@ -157,14 +162,23 @@ const turnAuthorsIntoPages = async ({ graphql, actions, reporter }) => {
 
   if (authors.length > 0) {
     authors.forEach((author, index) => {
-      createPage({
-        path: `/blog/author/${author.slug}/`,
-        component: template,
-        context: {
-          slug: author.slug,
-        },
+
+      const postCount = author.blog_post?.length || 0;
+      const numPages = Math.ceil(postCount / postsPerPage);
+
+      Array.from({ length: numPages }).forEach((_, i) => {
+        createPage({
+          path: i === 0 ? `/blog/author/${author.slug}/` : `/blog/author/${author.slug}/${i + 1}`,
+          component: template,
+          context: {
+            limit: postsPerPage,
+            skip: i * postsPerPage,
+            numPages,
+            currentPage: i + 1,
+            slug: author.slug
+          }
+        })
       })
-      console.log(`/blog/author/${author.slug}/`);
     })
   }
 }
