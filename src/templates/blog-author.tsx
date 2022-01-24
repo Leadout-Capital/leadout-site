@@ -43,12 +43,15 @@ export const query = graphql`
         node {
           title
           date
+          slug
           category {
             name
             color
+            slug
           }
           author {
             name
+            slug
             image {
               file {
                 url

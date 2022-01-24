@@ -42,13 +42,16 @@ export const query = graphql`
       edges {
         node {
           title
+          slug
           date
           category {
             name
+            slug
             color
           }
           author {
             name
+            slug
             image {
               file {
                 url
