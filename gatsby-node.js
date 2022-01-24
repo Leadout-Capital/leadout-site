@@ -107,7 +107,7 @@ const turnCategoriesIntoPages = async ({ graphql, actions, reporter }) => {
   if (categories.length > 0) {
     categories.forEach((category, index) => {
 
-      const postCount = category.blog_post?.length || 0;
+      const postCount = category.blog_post ? category.blog_post.length || 0 : 0;
       const numPages = Math.ceil(postCount / postsPerPage);
 
       Array.from({ length: numPages }).forEach((_, i) => {
@@ -164,7 +164,7 @@ const turnAuthorsIntoPages = async ({ graphql, actions, reporter }) => {
   if (authors.length > 0) {
     authors.forEach((author, index) => {
 
-      const postCount = author.blog_post?.length || 0;
+      const postCount = author.blog_post ? author.blog_post.length || 0 : 0;
       const numPages = Math.ceil(postCount / postsPerPage);
 
       Array.from({ length: numPages }).forEach((_, i) => {
