@@ -11,6 +11,72 @@
   }
 }
 
+.page-nav {
+  width: 100%;
+  max-width: 1140px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  .inner-wrapper {
+    margin-left: auto;
+    margin-right: auto;
+    box-pack: justify;
+    justify-content: space-between;
+    box-align: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 9999px;
+    background-color: #fff;
+    max-width: none;
+    padding: 0.25rem;
+    display: flex;
+    @media (min-width: 640px) {
+      max-width: 500px;
+    }
+  }
+
+  .col {
+    width: 33.3333%;
+  }
+
+  .inner {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    color: #718096;
+  }
+
+  .button {
+    text-align: center;
+    line-height: inherit;
+    text-decoration: none;
+    font-size: inherit;
+    padding: 0.5rem 1rem;
+    border-image: initial;
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    justify-content: space-evenly;
+    outline: 0px;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    border-width: 3px;
+    border-style: solid;
+    transition: all 250ms ease 0s;
+    color: #edf2f7;
+    background-color: #718096;
+    border-color: #718096;
+    min-width: 100%;
+
+    &:hover {
+      background-color: #667eea;
+      border-color: #667eea;
+    }
+  }
+}
+
 .post-grid {
   display: flex;
   flex-wrap: wrap;
