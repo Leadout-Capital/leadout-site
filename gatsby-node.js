@@ -73,17 +73,22 @@ const turnPostsIntoPages = async ({ graphql, actions, reporter }) => {
 const turnCategoriesIntoPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
 
-  const template = path.resolve('./src/templates/blog-list-template.tsx');
+  const template = path.resolve('./src/templates/blog-category.tsx');
 
   const result = await graphql(
     `
       {
-        allContentfulBlogCategory(filter: {node_locale: {eq: "en-US"}}) {
-          nodes {
-            name
+        allContentfulBlogCategory(
+          filter: {node_locale: {eq: "en-US"}}
+        ) {
+        nodes {
+          name
+          slug
+          blog_post {
             slug
           }
         }
+      }
       }
     `
   )
@@ -97,17 +102,27 @@ const turnCategoriesIntoPages = async ({ graphql, actions, reporter }) => {
   }
 
   const categories = result.data.allContentfulBlogCategory.nodes
+  const postsPerPage = 1;
 
   if (categories.length > 0) {
     categories.forEach((category, index) => {
-      createPage({
-        path: `/blog/category/${category.slug}/`,
-        component: template,
-        context: {
-          slug: category.slug,
-        },
+
+      const postCount = category.blog_post?.length || 0;
+      const numPages = Math.ceil(postCount / postsPerPage);
+
+      Array.from({ length: numPages }).forEach((_, i) => {
+        createPage({
+          path: i === 0 ? `/blog/category/${category.slug}/` : `/blog/category/${category.slug}/${i + 1}`,
+          component: template,
+          context: {
+            limit: postsPerPage,
+            skip: i * postsPerPage,
+            numPages,
+            currentPage: i + 1,
+            slug: category.slug
+          }
+        })
       })
-      console.log(`/blog/category/${category.slug}/`);
     })
   }
 }
@@ -115,7 +130,7 @@ const turnCategoriesIntoPages = async ({ graphql, actions, reporter }) => {
 const turnAuthorsIntoPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
 
-  const template = path.resolve('./src/templates/blog-list-template.tsx');
+  const template = path.resolve('./src/templates/blog-category.tsx');
 
   const result = await graphql(
     `
