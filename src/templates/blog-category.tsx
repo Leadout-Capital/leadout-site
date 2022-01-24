@@ -16,13 +16,14 @@ type BlogProps = {
     numPages: number;
     skip: number;
     slug: string;
+    title: string;
   }
 }
 
 const blogListTemplate: React.FC<BlogProps> = ({ data, pageContext }) => {
   return (
     <div className="blog">
-      <h1>Blog</h1>
+      <h1>{pageContext.title}</h1>
       <PostGrid posts={data.posts.edges} />
       <PageNav page={pageContext.currentPage} totalPages={pageContext.numPages} url={`/blog/category/${pageContext.slug}`} />
     </div>
