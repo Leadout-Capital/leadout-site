@@ -1,0 +1,35 @@
+@use "variables";
+
+.post {
+  padding: 200px 20px;
+  @media (max-width: variables.$mobile-width) {
+    padding: 100px 5px 5px 5px;
+  }
+}
+
+.post-wrapper {
+  max-width: 960px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  @media (min-width: '640px') {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.post-meta {
+  margin-bottom: 50px;
+}
+
+.post-body {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: rgb(1 1 1 / 5%) 1px 1px 5px 0px;
+  @media (min-width: '640px') {
+    padding: 4rem;
+  }
+}
