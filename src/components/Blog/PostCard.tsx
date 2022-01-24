@@ -12,7 +12,7 @@ export const PostCard: React.FC<{ post: QueryNode<ContentfulBlogPost> }> = ({ po
         <article>
           <div className="text-wrapper">
             <div className="category-container">
-              <CategoryButton />
+              <CategoryButton color={post.node.category.color} category={post.node.category.name} />
             </div>
             {post.node.title ? (
               <Link to={`/blog/${post.node.title}`}>
@@ -53,6 +53,6 @@ export const PostCard: React.FC<{ post: QueryNode<ContentfulBlogPost> }> = ({ po
 };
 
 
-const CategoryButton = () => (
-  <div className="category blue"><Link to="/blog/category">Category</Link></div>
+const CategoryButton = ({ category, color }) => (
+  <div className={`category ${color}`}><Link to="/blog/category">{category}</Link></div>
 )
