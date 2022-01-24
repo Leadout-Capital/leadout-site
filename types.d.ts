@@ -87,6 +87,7 @@ type ContentfulContactFormField = Omit<FormField, "options"> & {
 type ContentfulBlogPost = {
   title: string;
   date: string;
+  slug: string;
   category: ContentfulBlogCategory;
   body: {
     childMarkdownRemark: {
@@ -97,6 +98,7 @@ type ContentfulBlogPost = {
   }
   author: {
     name: string;
+    slug: string;
     image: {
       file: {
         url: string;
@@ -108,6 +110,7 @@ type ContentfulBlogPost = {
 type ContentfulBlogCategory = {
   name: string;
   color: string;
+  slug: string;
 }
 
 type ContentfulHomepageSection = {

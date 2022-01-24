@@ -1,7 +1,8 @@
-import { format, parseISO } from 'date-fns';
-import { Link } from 'gatsby';
-import _ from 'lodash';
 import React from 'react';
+import { Link } from 'gatsby';
+import { format, parseISO } from 'date-fns';
+import _ from 'lodash';
+import { CategoryButton } from './CategoryButton';
 
 export const PostCard: React.FC<{ post: QueryNode<ContentfulBlogPost> }> = ({ post }) => {
   const formattedDate = format(parseISO(post.node.date), 'MMMM dd, yyyy');
@@ -55,8 +56,3 @@ export const PostCard: React.FC<{ post: QueryNode<ContentfulBlogPost> }> = ({ po
     </div>
   )
 };
-
-
-const CategoryButton = ({ category, color, url }) => (
-  <div className={`category ${color}`}><Link to={url}>{category}</Link></div>
-)
