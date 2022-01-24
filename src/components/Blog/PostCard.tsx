@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'gatsby';
 import { format, parseISO } from 'date-fns';
 import { CategoryButton } from './CategoryButton';
+import { Clock } from '../../components/Icons/Clock';
 
 export const PostCard: React.FC<{ post: QueryNode<ContentfulBlogPost> }> = ({ post }) => {
   const formattedDate = format(parseISO(post.node.date), 'MMMM dd, yyyy');
@@ -40,7 +41,7 @@ export const PostCard: React.FC<{ post: QueryNode<ContentfulBlogPost> }> = ({ po
                   <p className="date">{formattedDate}</p>
                   <p className="time">
                     {' '}
-                    ・{post.node.body?.childMarkdownRemark?.timeToRead} min
+                    ・<Clock /> {post.node.body?.childMarkdownRemark?.timeToRead} min
                   </p>
                 </div>
               </div>

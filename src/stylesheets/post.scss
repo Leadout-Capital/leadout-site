@@ -138,6 +138,9 @@
         }
         .time {
           display: inline-block;
+          svg {
+            padding-top: 0.125rem;
+          }
         }
       }
     }

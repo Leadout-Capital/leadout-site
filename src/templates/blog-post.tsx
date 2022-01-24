@@ -3,6 +3,7 @@ import { graphql, Link } from 'gatsby';
 import React from 'react';
 import "../stylesheets/post.scss";
 import { format, parseISO } from 'date-fns';
+import { Clock } from '../components/Icons/Clock';
 
 type PostProps = {
   data: {
@@ -37,7 +38,7 @@ const blogPost: React.FC<PostProps> = ({ data }) => {
                   <p className="date">{formattedDate}</p>
                   <p className="time">
                     {' '}
-                    ・{data.post.body?.childMarkdownRemark?.timeToRead} min
+                    ・<Clock /> {data.post.body?.childMarkdownRemark?.timeToRead} min
                   </p>
                 </div>
               </div>
