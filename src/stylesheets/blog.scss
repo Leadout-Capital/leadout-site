@@ -53,7 +53,7 @@
       a {
         color: #e2e8f0;
       }
-      &.red {
+      &.blue, &.green, &.yellow, &.purple {
         background-color: #718096;
       }
     }
@@ -64,8 +64,17 @@
     }
 
     // colors
-    &.red {
-      background-color: red;
+    &.blue {
+      background-color: #bee3f8;
+    }
+    &.green {
+      background-color: #c6f6d5;
+    }
+    &.yellow {
+      background-color: #fefcbf;
+    }
+    &.purple {
+      background-color: #e9d8fd;
     }
   }
 

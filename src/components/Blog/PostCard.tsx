@@ -54,5 +54,5 @@ export const PostCard: React.FC<{ post: QueryNode<ContentfulBlogPost> }> = ({ po
 
 
 const CategoryButton = () => (
-  <div className="category red"><Link to="/blog/category">Category</Link></div>
+  <div className="category blue"><Link to="/blog/category">Category</Link></div>
 )
