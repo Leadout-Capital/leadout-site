@@ -63,6 +63,7 @@
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
+        filter: sepia(100%) hue-rotate(145deg) saturate(300%);
 
         .company-container {
           transition: variables.$transition;
