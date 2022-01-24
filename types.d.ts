@@ -95,6 +95,14 @@ type ContentfulBlogPost = {
       html?: string;
     }
   }
+  author: {
+    name: string;
+    image: {
+      file: {
+        url: string;
+      }
+    }
+  }
 }
 
 type ContentfulBlogCategory = {

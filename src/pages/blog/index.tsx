@@ -36,6 +36,14 @@ export const query = graphql`
             name
             color
           }
+          author {
+            name
+            image {
+              file {
+                url
+              }
+            }
+          }
           body {
             childMarkdownRemark {
               excerpt(pruneLength: 100)

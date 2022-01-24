@@ -8,6 +8,7 @@ export const PostCard: React.FC<{ post: QueryNode<ContentfulBlogPost> }> = ({ po
   const author = 'Leadout Capital';
   const articleSlug = _.kebabCase(post.node.title);
   const categorySlug = _.kebabCase(post.node.category.name);
+  const authorSlug = _.kebabCase(post.node.author.name);
 
   return (
     <div className="post-card">
@@ -26,19 +27,19 @@ export const PostCard: React.FC<{ post: QueryNode<ContentfulBlogPost> }> = ({ po
             )}
             {post.node.body?.childMarkdownRemark?.excerpt ? <p className="excerpt">{post.node.body?.childMarkdownRemark?.excerpt}</p> : ''}
             <div className="author-details">
-              {/* {post.author.thumbnail ? (
-                <Link href={post.author.url}>
+              {post.node.author ? (
+                <Link to={`/blog/author/${authorSlug}`}>
                   <div className="author-image-wrapper">
-                    <Image {...post.author.thumbnail} />
+                    <img src={post.node.author.image.file.url} alt={post.node.author.name} />
                   </div>
                 </Link>
               ) : (
                 ''
-              )} */}
+              )}
               <div className="author-text">
-                {/* <Link href={post.author.url}> */}
+                <Link to={`/blog/author/${authorSlug}`}>
                   <p className="name">{author}</p>
-                {/* </Link> */}
+                </Link>
                 <div className="date-time">
                   <p className="date">{formattedDate}</p>
                   <p className="time">
