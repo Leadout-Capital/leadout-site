@@ -151,4 +151,53 @@
   img {
     width: 100%;
   }
+
+
+  p, ul, li {
+    line-height: 1.8;
+    font-size: 1.125rem;
+    @media (min-width: '640px') {
+      font-size: 1.25rem;
+    }
+  }
+
+  p, li {
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+  }
+
+  h1,h2,h3 {
+    margin-block-start: 2em;
+    margin-block-end: 2em;
+  }
+
+  h1 {
+    margin: 0px 0px 1rem;
+    font-weight: bold;
+    line-height: 1.33;
+    font-size: 1.8rem;
+    @media (min-width: '640px') {
+      font-size: 2rem;
+    }
+  }
+
+  h2 {
+    margin: 0px 0px 1rem;
+    font-weight: bold;
+    line-height: 1.33;
+    font-size: 1.35rem;
+    @media (min-width: '640px') {
+      font-size: 1.5rem;
+    }
+  }
+
+  h3 {
+    margin: 0px 0px 1rem;
+    font-weight: bold;
+    line-height: 1.33;
+    font-size: 1.125rem;
+    @media (min-width: '640px') {
+      font-size: 1.25rem;
+    }
+  }
 }
