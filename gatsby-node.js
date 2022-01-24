@@ -1,5 +1,5 @@
 const path = require('path')
-const postsPerPage = 1;
+const postsPerPage = 10;
 
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
