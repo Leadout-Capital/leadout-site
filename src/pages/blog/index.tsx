@@ -14,7 +14,7 @@ type BlogProps = {
 const Blog: React.FC<BlogProps> = ({ data }) => {
   return (
     <main className={"blog"}>
-      <p>The blog!</p>
+      <h1>Blog</h1>
       <PostGrid posts={data.posts.edges} />
     </main>
   )
