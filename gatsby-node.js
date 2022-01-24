@@ -64,6 +64,7 @@ const turnPostsIntoPages = async ({ graphql, actions, reporter }) => {
         component: blogPost,
         context: {
           slug: post.slug,
+          title: post.title,
         },
       })
       console.log(`/blog/${post.slug}/`);
@@ -119,7 +120,8 @@ const turnCategoriesIntoPages = async ({ graphql, actions, reporter }) => {
             skip: i * postsPerPage,
             numPages,
             currentPage: i + 1,
-            slug: category.slug
+            slug: category.slug,
+            title: category.name,
           }
         })
       })
@@ -175,7 +177,8 @@ const turnAuthorsIntoPages = async ({ graphql, actions, reporter }) => {
             skip: i * postsPerPage,
             numPages,
             currentPage: i + 1,
-            slug: author.slug
+            slug: author.slug,
+            title: author.name,
           }
         })
       })
@@ -223,6 +226,7 @@ const createBlogIndexPages = async ({ graphql, actions, reporter }) => {
         skip: i * postsPerPage,
         numPages,
         currentPage: i + 1,
+        title: 'Blog',
       }
     })
   })

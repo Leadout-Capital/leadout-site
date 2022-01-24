@@ -8,6 +8,9 @@ const LINK_DELAY = 0.2;
 
 type NavbarProps = {
   path: string
+  pageContext: {
+    title: string;
+  }
 }
 
 type QueryData = {
@@ -28,7 +31,7 @@ const MobileMenuButton = ({ onClick, open }) => (
   </button>
 )
 
-const Navbar: React.FC<NavbarProps> = ({ path }) => {
+const Navbar: React.FC<NavbarProps> = ({ path, pageContext }) => {
   const data: QueryData = useStaticQuery(graphql`
     query NavbarQuery {
       navLinks: allContentfulNavLink(
@@ -67,7 +70,7 @@ const Navbar: React.FC<NavbarProps> = ({ path }) => {
     .map((page, index) => ({ ...page, index }))
     .filter(({ to }) => fixPath(path) === fixPath(to));
   const matchingPage = matchingPages.length > 0 ? matchingPages[0] : null;
-  const pageTitle = matchingPage ? matchingPage.title : "404";
+  const pageTitle = matchingPage?.title || pageContext?.title || "404";
 
   const closeDuringTransition = () => {
     setTimeout(() => setOpen(false), TRANSITION_DURATION / 2 * 1000);
