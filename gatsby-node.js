@@ -183,10 +183,57 @@ const turnAuthorsIntoPages = async ({ graphql, actions, reporter }) => {
   }
 }
 
+const createBlogIndexPages = async ({ graphql, actions, reporter }) => {
+  const { createPage } = actions;
+
+  const template = path.resolve('./src/templates/blog-index.tsx');
+
+  const result = await graphql(
+    `
+      {
+        allContentfulBlogPost(
+          filter: { node_locale: { eq: "en-US" }  }
+        ) {
+          nodes {
+            title
+            slug
+          }
+        }
+      }
+    `
+  )
+
+  if (result.errors) {
+    reporter.panicOnBuild(
+      `There was an error loading your Contentful posts`,
+      result.errors
+    )
+    return
+  }
+
+  const posts = result.data.allContentfulBlogPost.nodes;
+  const numPages = Math.ceil(posts.length / postsPerPage);
+
+  Array.from({ length: numPages }).forEach((_, i) => {
+    createPage({
+      path: i === 0 ? `/blog` : `/blog/${i + 1}`,
+      component: template,
+      context: {
+        limit: postsPerPage,
+        skip: i * postsPerPage,
+        numPages,
+        currentPage: i + 1,
+      }
+    })
+  })
+
+}
+
 exports.createPages = async (params) => {
   await Promise.all([
     turnPostsIntoPages(params),
     turnCategoriesIntoPages(params),
     turnAuthorsIntoPages(params),
+    createBlogIndexPages(params),
   ])
 }

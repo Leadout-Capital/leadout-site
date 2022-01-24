@@ -18,6 +18,25 @@ export const query = graphql`
       edges {
         node {
           title
+          date
+          category {
+            name
+            color
+          }
+          author {
+            name
+            image {
+              file {
+                url
+              }
+            }
+          }
+          body {
+            childMarkdownRemark {
+              excerpt(pruneLength: 100)
+              timeToRead
+            }
+          }
         }
       }
     }
