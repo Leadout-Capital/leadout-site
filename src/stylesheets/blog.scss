@@ -136,13 +136,14 @@
 .post-grid {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .post-card {
   max-width: none;
   min-width: 18rem;
   box-flex: 1;
-  flex-grow: 1;
+  // flex-grow: 1;
   padding: 0.5rem;
   box-sizing: border-box;
   margin: 0;

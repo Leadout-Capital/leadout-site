@@ -22,11 +22,11 @@ type BlogProps = {
 
 const blogListTemplate: React.FC<BlogProps> = ({ data, pageContext }) => {
   return (
-    <div className="blog">
+    <main className="blog">
       <h1>{pageContext.title}</h1>
       <PostGrid posts={data.posts.edges} />
       <PageNav page={pageContext.currentPage} totalPages={pageContext.numPages} url={`/blog/category/${pageContext.slug}`} />
-    </div>
+    </main>
   );
 };
 

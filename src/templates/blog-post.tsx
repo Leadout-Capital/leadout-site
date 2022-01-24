@@ -13,7 +13,7 @@ type PostProps = {
 const blogPost: React.FC<PostProps> = ({ data }) => {
   const formattedDate = format(parseISO(data.post.date), 'MMMM dd, yyyy');
   return (
-    <div className="post">
+    <main className="post">
       <div className="post-wrapper">
         <div className="post-meta">
           <CategoryButton color={data.post.category.color} category={data.post.category.name} url={`/blog/category/${data.post.category.slug}`} />
@@ -44,7 +44,7 @@ const blogPost: React.FC<PostProps> = ({ data }) => {
         </div>
         <div dangerouslySetInnerHTML={{ __html: data.post.body.childMarkdownRemark.html }} className="post-body"/>
       </div>
-    </div>
+    </main>
   );
 };
 
