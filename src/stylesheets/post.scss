@@ -21,7 +21,13 @@
 }
 
 .post-meta {
-  margin-bottom: 50px;
+  h1 {
+    // font-size: 1.875rem;
+    font-size: 2.25rem;
+    @media (min-width: '640px') {
+      font-size: 3rem;
+    }
+  }
 
   .author-details {
     font-size: 0.875rem;
@@ -74,13 +80,16 @@
       flex: 1;
       flex-wrap: wrap;
       box-pack: justify;
-      justify-content: space-between;
       color: #a0aec0;
-      flex-direction: column;
+
+      @media (min-width: 640px) {
+        justify-content: space-between;
+        flex-direction: column;
+      }
 
       .name {
         line-height: 1.8;
-        font-size: 0.75rem;
+        font-size: 0.875rem;
         display: inline-block;
         flex-basis: 100%;
         box-sizing: border-box;
@@ -90,7 +99,7 @@
         color: #718096;
         font-weight: bold;
         @media (min-width: 640px) {
-          font-size: 0.875rem;
+          font-size: 1rem;
         }
         transition: all 250ms ease;
         // &:hover {
@@ -113,11 +122,11 @@
           min-width: 0;
           white-space: nowrap;
           color: #a0aec0;
-          font-size: 0.75rem;
+          font-size: 0.875rem;
           font-weight: normal;
           line-height: 1.8;
           @media (min-width: 640px) {
-            font-size: 0.875rem;
+            font-size: 1rem;
           }
         }
         .time {
@@ -133,6 +142,8 @@
   border-radius: 1rem;
   padding: 2rem;
   box-shadow: rgb(1 1 1 / 5%) 1px 1px 5px 0px;
+  margin-top: 50px;
+  margin-bottom: 50px;
   @media (min-width: '640px') {
     padding: 4rem;
   }
