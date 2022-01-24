@@ -7,7 +7,7 @@
   align-items: center;
 
   @media (max-width: variables.$mobile-width) {
-    padding: 100px 35px 35px 35px;
+    padding: 100px 5px 5px 5px;
   }
 }
 
@@ -113,10 +113,7 @@
         box-pack: center;
         justify-content: center;
         flex: 1;
-        padding: 1rem;
-        @media (min-width: 640px) {
-          padding: 2rem;
-        }
+        padding: 2rem;
 
         a {
           text-decoration: none;
@@ -162,7 +159,7 @@
           align-items: center;
 
           .author-image-wrapper {
-            display: none;
+            display: inline-block;
             box-sizing: border-box;
             margin: 0;
             min-width: 0;
@@ -174,9 +171,6 @@
             border-color: #e2e8f0;
             opacity: 0.9;
             margin-right: 1rem;
-            @media (min-width: 640px) {
-              display: inline-block;
-            }
 
             img {
               object-fit: cover;
@@ -206,9 +200,7 @@
             box-pack: justify;
             justify-content: space-between;
             color: #a0aec0;
-            @media (min-width: 640px) {
-              flex-direction: column;
-            }
+            flex-direction: column;
 
             .name {
               line-height: 1.8;
@@ -249,7 +241,6 @@
                 font-weight: normal;
                 line-height: 1.8;
                 @media (min-width: 640px) {
-                  display: inline-block;
                   font-size: 0.875rem;
                 }
               }
