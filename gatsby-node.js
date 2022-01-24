@@ -23,7 +23,7 @@ exports.createSchemaCustomization = ({ actions }) => {
   createTypes(typeDefs)
 };
 
-exports.createPages = async ({ graphql, actions, reporter }) => {
+turnPostsIntoPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
 
   // Define a template for blog post
@@ -68,4 +68,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       console.log(`/blog/${post.slug}/`);
     })
   }
+}
+
+exports.createPages = async (params) => {
+  await Promise.all([
+    turnPostsIntoPages(params),
+  ])
 }
