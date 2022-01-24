@@ -64,6 +64,7 @@ export const query = graphql`
       }
       author {
         name
+        slug
         image {
           file {
             url
