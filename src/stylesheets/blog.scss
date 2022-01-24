@@ -1,7 +1,7 @@
 @use "variables";
 
 .blog {
-  padding: 200px 60px;
+  padding: 200px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,6 +9,12 @@
   @media (max-width: variables.$mobile-width) {
     padding: 100px 35px 35px 35px;
   }
+}
+
+.post-grid {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 960px;
 }
 
 .post-card {
@@ -22,10 +28,6 @@
   flex-basis: 100%;
   @media (min-width: 640px) {
     flex-basis: 50%;
-    max-width: 380px;
-  }
-  @media (min-width: 768px) {
-    flex-basis: 33.333333%;
   }
 
   .category-container {
