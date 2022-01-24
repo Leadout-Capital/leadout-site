@@ -1,7 +1,15 @@
 import { graphql } from 'gatsby';
 import React from 'react';
 
-const blogIndexTemplate = () => {
+type BlogProps = {
+  data: {
+    posts: {
+      edges: QueryNode<ContentfulBlogPost>[]
+    },
+  }
+}
+
+const blogIndexTemplate: React.FC<BlogProps> = ({ data }) => {
   return <div className="blog"><p>The blog list!!</p></div>;
 };
 
