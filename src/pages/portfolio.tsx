@@ -56,8 +56,8 @@ const Portfolio: React.FC<PortfolioProps> = ({ data }) => {
       </header>
       <div className="portfolio-grids">
         <PortfolioGrid isMobile={isMobile} companies={companies} companiesRef={companiesRef} stealthImage={data.stealthImage} sectionTitle="Companies" />
-        <PortfolioGrid isMobile={isMobile} companies={alumni} companiesRef={null} stealthImage={data.stealthImage} sectionTitle="Alumni" />
-        <PortfolioGrid isMobile={isMobile} companies={involved} companiesRef={null} stealthImage={data.stealthImage} sectionTitle="Companies we are involved with" />
+        {/* <PortfolioGrid isMobile={isMobile} companies={alumni} companiesRef={null} stealthImage={data.stealthImage} sectionTitle="Alumni" /> */}
+        {/* <PortfolioGrid isMobile={isMobile} companies={involved} companiesRef={null} stealthImage={data.stealthImage} sectionTitle="Companies we are involved with" /> */}
       </div>
     </main>
   )
