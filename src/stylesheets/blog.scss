@@ -37,18 +37,14 @@
   cursor: pointer;
   transition: all 250ms ease;
   &:hover {
-    a {
-      color: #e2e8f0;
-    }
+    color: #e2e8f0;
     &.Blue, &.Green, &.Yellow, &.Purple {
       background-color: #718096;
     }
   }
 
-  a {
-    text-decoration: none;
-    color: #2d3748;
-  }
+  text-decoration: none;
+  color: #2d3748;
 
   // colors
   &.Blue {
