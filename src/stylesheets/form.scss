@@ -3,7 +3,7 @@
 
 $input-padding: 15px;
 $reset-color: color.adjust(variables.$dark, $alpha: -0.5);
-$input-color: color.adjust(variables.$light, $lightness: -10%);
+$input-color: color.adjust(variables.$light, $lightness: -3%);
 
 .custom-form {
   display: flex;
