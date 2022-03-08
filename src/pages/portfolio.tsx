@@ -68,7 +68,10 @@ export default Portfolio;
 export const query = graphql`
   query {
     companies: allContentfulPortfolioCompany(
-      filter: {node_locale: {eq: "en-US"}, alumni: {ne: true}, involved: {ne: true}}
+      filter: {
+        node_locale: {eq: "en-US"},
+        # alumni: {ne: true}, involved: {ne: true}
+      }
       sort: { fields: [stealth, index] }
     ) {
       edges {
