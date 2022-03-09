@@ -77,6 +77,7 @@ export const query = graphql`
       edges {
         node {
           name
+          alumni
           image {
             file {
               url

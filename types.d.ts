@@ -47,6 +47,7 @@ type Company = {
   jobs?: string;
   description: LongTextQuery,
   stealth: false
+  alumni: boolean;
 };
 
 type StealthCompany = {
@@ -56,6 +57,7 @@ type StealthCompany = {
   jobs?: string;
   description?: LongTextQuery,
   stealth: true
+  alumni: boolean;
 };
 
 type PortfolioCompany = Company | StealthCompany;

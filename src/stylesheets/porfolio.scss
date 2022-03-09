@@ -63,7 +63,25 @@
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
-        // filter: sepia(100%) hue-rotate(145deg) saturate(300%);
+        position: relative;
+
+        .alumni {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          p {
+            color: black;
+            text-align: center;
+            width: 100%;
+          }
+        }
+
+        &:hover {
+          .alumni {
+            opacity: 0;
+            transition: variables.$lazy-transition;
+          }
+        }
 
         .company-container {
           transition: variables.$transition;
