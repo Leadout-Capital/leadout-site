@@ -20,16 +20,16 @@ type ValuesProps = {
     },
     coreValuesTitle: ContentfulTextField,
     teamBenefitsTitle: ContentfulTextField,
-    faqSection: {
-      faq: Array<faq>,
-    },
+    faqs: {
+      nodes: Array<faq>,
+    }
   }
 };
 
 const Values: React.FC<ValuesProps> = ({ data }) => {
   const coreValues = React.useMemo(() => data.coreValues.edges.map(({ node }) => node.body.childMarkdownRemark.html), [data]);
   const teamBenefits = React.useMemo(() => data.teamBenefits.edges.map(({ node: { title, body } }) => ({ title, body: body.childMarkdownRemark.html })), [data]);
-  const faqs = React.useMemo(() => data.faqSection.faq.map(({ question, answer }) => ({ question, answer: answer.childMarkdownRemark.html })), [data]);
+  const faqs = React.useMemo(() => data.faqs.nodes.map(({ question, answer }) => ({ question, answer: answer.childMarkdownRemark.html })), [data]);
 
   return (
     <main className={"values"}>
@@ -105,15 +105,16 @@ export const query = graphql`
         }
       }
     }
-    faqSection: contentfulFaqSection {
-      faq {
-        question
-        answer {
-          childMarkdownRemark {
-            html
-          }
+    faqs: allContentfulFrequentlyAskedQuestion(filter: {node_locale: {eq: "en-US"}}) {
+    nodes {
+      id
+      question
+      answer {
+        childMarkdownRemark {
+          html
         }
       }
     }
+  }
   }
 `;
