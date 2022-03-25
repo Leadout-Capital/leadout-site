@@ -6,7 +6,7 @@ type PortfolioCompanyProps = {
   name: string,
   description: LongTextQuery,
   website: string,
-  jobs?: string
+  jobs?: string,
   alumni: boolean;
 }
 
@@ -25,7 +25,7 @@ const PortfolioCompany: React.FC<PortfolioCompanyProps> = ({ name, description, 
       <span dangerouslySetInnerHTML={{ __html: description.childMarkdownRemark.html }} />
       <div className="link-wrapper">
         <a href={website} target={"_blank"}>Visit website</a>
-        {jobs && <a href={jobs} target={"_blank"}>Open Jobs</a>}
+        {jobs && jobs !== '0' && <a href={jobs} target={"_blank"}>Open Jobs</a>}
       </div>
     </div>
     {/* {alumni && <div className="alumni"><p>Alumni</p></div>} */}
