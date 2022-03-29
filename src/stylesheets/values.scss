@@ -86,6 +86,9 @@
     background-color: variables.$accent;
     margin-bottom: 2px;
     color: variables.$light;
+    a {
+      color: variables.$light;
+    }
     h2 {
       font-size: (variables.$large-desktop * 0.015);
       color: variables.$light;
