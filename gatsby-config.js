@@ -66,6 +66,7 @@ module.exports = {
         gfm: true,
         plugins: []
       }
-    }
+    },
+    `gatsby-plugin-sitemap`,
   ]
 };
