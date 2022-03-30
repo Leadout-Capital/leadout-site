@@ -72,16 +72,6 @@ module.exports = {
       }
     },
     `gatsby-plugin-sitemap`,
-    {
-      resolve: 'gatsby-plugin-robots-txt',
-      options: {
-        host: 'https://www.leadoutcapital.com',
-        sitemap: [
-          'https://www.leadoutcapital.com/sitemap/sitemap-index.xml',
-          'https://www.leadoutcapital.com/sitemap/sitemap-0.xml',
-        ],
-        policy: [policy],
-      },
-    },
+    'gatsby-plugin-robots-txt'
   ]
 };
