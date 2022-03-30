@@ -6,10 +6,6 @@ const policy = {
   userAgent: '*',
 };
 
-if (process.env.ENVIRONMENT !== 'prod') {
-  policy.disallow = '/';
-}
-
 module.exports = {
   siteMetadata: {
     siteUrl: "https://www.leadoutcapital.com",
