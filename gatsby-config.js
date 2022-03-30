@@ -2,6 +2,14 @@ require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 })
 
+const policy = {
+  userAgent: '*',
+};
+
+if (process.env.ENVIRONMENT !== 'prod') {
+  policy.disallow = '/';
+}
+
 module.exports = {
   siteMetadata: {
     siteUrl: "https://www.leadoutcapital.com",
@@ -68,5 +76,16 @@ module.exports = {
       }
     },
     `gatsby-plugin-sitemap`,
+    {
+      resolve: 'gatsby-plugin-robots-txt',
+      options: {
+        host: 'https://www.leadoutcapital.com',
+        sitemap: [
+          'https://www.leadoutcapital.com/sitemap/sitemap-index.xml',
+          'https://www.leadoutcapital.com/sitemap/sitemap-0.xml',
+        ],
+        policy: [policy],
+      },
+    },
   ]
 };
