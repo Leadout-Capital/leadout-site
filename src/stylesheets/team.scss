@@ -4,13 +4,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 100px;
 
   .bio, .community {
-    max-width: 700px;
+    max-width: 900px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
     text-align: left;
     margin: 0 100px;
 
@@ -26,7 +25,7 @@
     }
 
     .bio-blurb {
-      max-width: 700px;
+      max-width: 900px;
     }
 
     &.not-scrolled {
@@ -51,11 +50,18 @@
   }
 
   .bio {
-    min-height: 100vh;
-    padding: 100px 0;
+    padding: 50px 0;
+    flex-direction: row;
+    gap: 50px;
+    justify-content: center;
+
+    @media (max-width: variables.$desktop-width) {
+      flex-direction: column;
+    }
   }
 
   .community {
-    min-height: 50vh;
+    flex-direction: column;
+    padding-bottom: 50px;
   }
 }

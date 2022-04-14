@@ -40,16 +40,18 @@ const Team: React.FC<TeamProps> = ({ data }) => {
       {teamBios.map(({ name, role, image, description }) => (
         <ExecuteOnScroll key={name} className={"bio"}>
           <img src={image.file.url} alt={`${name}, ${role}`} style={transition(0)} />
-          <h2 style={transition(1)}>{name}, {role}</h2>
-          <DelayEach
-            duration={DURATION}
-            delay={DELAY}
-            startingDelay={DELAY * 2}
-            className={"bio-blurb"}
-            render={description}
-            useP={true}
-            asString
-          />
+          <div>
+            <h2 style={transition(1)}>{name}, {role}</h2>
+            <DelayEach
+              duration={DURATION}
+              delay={DELAY}
+              startingDelay={DELAY * 2}
+              className={"bio-blurb"}
+              render={description}
+              useP={true}
+              asString
+            />
+          </div>
         </ExecuteOnScroll>
       ))}
       <ExecuteOnScroll className={"community"}>
