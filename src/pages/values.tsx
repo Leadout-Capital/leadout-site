@@ -34,7 +34,7 @@ const Values: React.FC<ValuesProps> = ({ data }) => {
   return (
     <main className={"values"}>
       <ExecuteOnScroll className={"header section core"}>
-        <h1 dangerouslySetInnerHTML={{ __html: data.coreValuesTitle.body.childMarkdownRemark.html }} />
+        <h2>{data.coreValuesTitle.body.childMarkdownRemark.rawMarkdownBody}</h2>
         <DelayEach
           className={"content"}
           render={coreValues}
@@ -43,11 +43,11 @@ const Values: React.FC<ValuesProps> = ({ data }) => {
         />
       </ExecuteOnScroll>
       <div className={"section working-with-leadout"}>
-        <h1 dangerouslySetInnerHTML={{ __html: data.teamBenefitsTitle.body.childMarkdownRemark.html }} />
+        <h2>{data.teamBenefitsTitle.body.childMarkdownRemark.rawMarkdownBody}</h2>
         <div className={"content"}>
           {teamBenefits.map(({ title, body }) => (
             <ExecuteOnScroll key={title} className={"show-on-scroll"} bottom={150}>
-              <h2>{title}</h2>
+              <h3>{title}</h3>
               <p dangerouslySetInnerHTML={{ __html: body }} />
             </ExecuteOnScroll>
           ))}
@@ -95,6 +95,7 @@ export const query = graphql`
       body {
         childMarkdownRemark {
           html
+          rawMarkdownBody
         }
       }
     }
@@ -102,6 +103,7 @@ export const query = graphql`
       body {
         childMarkdownRemark {
           html
+          rawMarkdownBody
         }
       }
     }

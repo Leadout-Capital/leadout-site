@@ -64,7 +64,8 @@ type PortfolioCompany = Company | StealthCompany;
 
 type LongTextQuery = {
   childMarkdownRemark: {
-    html: string
+    html: string;
+    rawMarkdownBody: string;
   }
 };
 

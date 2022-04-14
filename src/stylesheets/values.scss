@@ -8,12 +8,12 @@
     justify-content: center;
     padding: 60px 120px;
 
-    h1 {
+    h2 {
       font-weight: 900;
       font-size: 3.5vw;
     }
 
-    h2 {
+    h3 {
       font-size: 2vw;
     }
 
@@ -23,11 +23,11 @@
     }
 
     @media (max-width: variables.$large-desktop) {
-      h1 {
+      h2 {
         font-size: (variables.$large-desktop * 0.035);
       }
 
-      h2 {
+      h3 {
         font-size: (variables.$large-desktop * 0.02);
       }
 
@@ -39,23 +39,22 @@
     @media (max-width: variables.$mobile-width) {
       padding: 35px;
 
-      h1 {
+      h2 {
         text-align: center;
         margin-bottom: 0;
       }
     }
   }
 
+  .core .content > p, .working-with-leadout p {
+    margin: 80px 0;
+    font-size: 2rem;
+    font-weight: 400;
+  }
+
   .core {
     min-height: 100vh;
     padding-top: 100px;
-    text-align: center;
-
-    .content > p {
-      margin: 80px 0;
-      font-size: 2em;
-      font-weight: 600;
-    }
 
     &.not-scrolled .content > p {
       opacity: 0;
@@ -67,12 +66,12 @@
     background-color: variables.$accent;
     color: variables.$light;
 
-    h2 {
+    h3 {
       margin: 60px 0 10px;
     }
 
     p {
-      font-size: 1.5em;
+      font-size: 2rem;
     }
   }
 
