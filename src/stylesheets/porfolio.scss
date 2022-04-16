@@ -162,4 +162,42 @@
       opacity: 0;
     }
   }
+
+  .filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    button {
+      all: unset;
+      cursor: pointer;
+    }
+
+    .select-field-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .options {
+      position: absolute;
+      left: 0;
+      top: 5px;
+      height: 400px;
+      width: 250px;
+      overflow-y: scroll;
+      z-index: 10;
+      background-color: variables.$light;
+      padding: 0;
+      border: 0.05rem solid variables.$dark;
+
+      li {
+        list-style-type: none;
+        padding: 10px;
+        border-bottom: 0.05rem solid variables.$dark;
+        cursor: pointer;
+      }
+    }
+  }
 }
