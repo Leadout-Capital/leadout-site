@@ -167,7 +167,35 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+
+    padding: 50px 60px;
+
+    p {
+      border-right: 2px solid variables.$dark;
+      padding: 0px 20px;
+      height: 100%;
+      margin: 0px;
+    }
+
+    .chevron-down::before {
+      transition: variables.$transition;
+      border-style: solid;
+      border-width: 0.25em 0.25em 0 0;
+      content: '';
+      display: inline-block;
+      height: 0.45em;
+      left: 0.15em;
+      position: relative;
+      top: -0.15em;
+      transform: rotate(135deg);
+      vertical-align: top;
+      width: 0.45em;
+    }
+
+    .chevron-open::before {
+      transform: rotate(-45deg);
+      top: 0.15em;
+    }
 
     .active {
       color: variables.$accent;
@@ -176,12 +204,16 @@
     button {
       all: unset;
       cursor: pointer;
+      border-right: 2px solid variables.$dark;
+      padding: 0px 20px;
+      height: 100%;
     }
 
     .select-field-wrapper {
       position: relative;
       display: flex;
       align-items: center;
+      justify-content: center;
     }
 
     .options {
@@ -201,6 +233,20 @@
         padding: 10px;
         border-bottom: 0.05rem solid variables.$dark;
         cursor: pointer;
+      }
+
+      li:last-child {
+        border-bottom: none;
+      }
+    }
+
+    @media (max-width: variables.$mobile-width) {
+      flex-direction: column;
+      width: 100%;
+      padding: 0px;
+      gap: 10px;
+      p, button {
+        border-right: none;
       }
     }
   }

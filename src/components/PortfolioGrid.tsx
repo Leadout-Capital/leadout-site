@@ -32,19 +32,8 @@ const PortfolioCompany: React.FC<PortfolioCompanyProps> = ({ name, description, 
 );
 
 export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ isMobile, companies, companiesRef, stealthImage }) => {
-  const [selectedStatus, setSelectedStatus] = useState('Active');
-  const [selectedSector, setSelectedSector] = useState('Consumer');
-
-  // const filters = [
-  //   selectedStatus && { type: 'status', name: selectedStatus },
-  //   selectedSector && { type: 'sector', name: selectedSector }
-  // ];
-
-  // const filteredPortfolio = companies.filter((el) => {
-  //   filters.every((filterEl) => filterEl ? el.status === filterEl.name || el.portfolioCompanySectors.some((sector) => sector.sectorName === selectedSector) : true);
-  // })
-
-  // const filteredPortfolio = companies;
+  const [selectedStatus, setSelectedStatus] = useState(undefined);
+  const [selectedSector, setSelectedSector] = useState(undefined);
 
   const filteredPortfolio = companies.filter(
     (company) => selectedStatus ? company.status === selectedStatus : true
@@ -53,7 +42,6 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ isMobile, companie
     );
   return (
     <section>
-      {/* <h2 className="portfolio-header">{sectionTitle}</h2> */}
       <PortfolioFilter
         companies={companies}
         selectedStatus={selectedStatus}

@@ -35,20 +35,24 @@ export const PortfolioFilter = ({
 
       <div className="select-field-wrapper">
         <Listbox value={selectedSector} onChange={setSelectedSector}>
-          <Listbox.Button className={selectedSector && 'active'}>{selectedSector || 'Sector'}</Listbox.Button>
-          <Listbox.Options className="options">
-            <Listbox.Option key={0} value={undefined}>
-              All
-            </Listbox.Option>
-            {sectors.map((sector) => (
-              <Listbox.Option
-                key={sector}
-                value={sector}
-              >
-                {sector}
-              </Listbox.Option>
-            ))}
-          </Listbox.Options>
+          {({open}) => (
+            <>
+              <Listbox.Button className={selectedSector && 'active'}>{selectedSector || 'Sector'} <span className={`chevron-down ${open ? 'chevron-open' : ''}`} /></Listbox.Button>
+              <Listbox.Options className="options">
+                <Listbox.Option key={0} value={undefined}>
+                  All
+                </Listbox.Option>
+                {sectors.map((sector) => (
+                  <Listbox.Option
+                    key={sector}
+                    value={sector}
+                  >
+                    {sector}
+                  </Listbox.Option>
+                ))}
+              </Listbox.Options>
+            </>
+          )}
         </Listbox>
       </div>
     </div>
