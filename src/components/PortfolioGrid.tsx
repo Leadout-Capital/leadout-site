@@ -18,7 +18,7 @@ type PortfolioGridProps = {
   sectionTitle: string;
 }
 
-const PortfolioCompany: React.FC<PortfolioCompanyProps> = ({ name, description, website, jobs, alumni }) => (
+const PortfolioCompany: React.FC<PortfolioCompanyProps> = ({ name, description, website, jobs }) => (
   <>
     <div className={"dark company-container"}>
       <h3>{name}</h3>

@@ -52,14 +52,12 @@ export const query = graphql`
     companies: allContentfulPortfolioCompany(
       filter: {
         node_locale: {eq: "en-US"},
-        # alumni: {ne: true}, involved: {ne: true}
       }
       sort: { fields: [stealth, index] }
     ) {
       edges {
         node {
           name
-          alumni
           image {
             file {
               url
