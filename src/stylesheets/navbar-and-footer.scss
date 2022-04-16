@@ -15,7 +15,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: variables.$light;
+  background-color: variables.$accent;
   box-shadow: 0 0 7px #0004;
   transition: variables.$transition;
 
@@ -110,6 +110,7 @@ nav {
 
   &.top {
     box-shadow: 0 0 7px #0000;
+    background-color: variables.$light;
   }
 
   // Including the +1px to avoid overlap at $mobile-width
@@ -149,6 +150,7 @@ nav {
           opacity: 1;
           transform: translateX(0);
         }
+
       }
     }
   }
