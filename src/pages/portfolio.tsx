@@ -71,6 +71,10 @@ export const query = graphql`
             }
           }
           stealth
+          portfolioCompanySectors {
+            sectorName
+          }
+          status
         }
       }
     }

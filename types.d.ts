@@ -41,13 +41,16 @@ type FileField = BasicField & {
 type FormField = SingleSelectField | MultipleSelectField | TextField | FileField;
 
 type Company = {
-  name: string,
-  image: ImageQuery,
-  website: string,
+  name: string;
+  image: ImageQuery;
+  website: string;
   jobs?: string;
-  description: LongTextQuery,
-  stealth: false
-  alumni: boolean;
+  description: LongTextQuery;
+  stealth: false;
+  status: string;
+  portfolioCompanySectors: {
+    sectorName: string;
+  }[];
 };
 
 type StealthCompany = {
@@ -57,7 +60,10 @@ type StealthCompany = {
   jobs?: string;
   description?: LongTextQuery,
   stealth: true
-  alumni: boolean;
+  status: string;
+  portfolioCompanySectors: {
+    sectorName: string;
+  }[];
 };
 
 type PortfolioCompany = Company | StealthCompany;
