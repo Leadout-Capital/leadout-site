@@ -90,9 +90,9 @@ const Navbar: React.FC<NavbarProps> = ({ path, pageContext }) => {
         <title>{pageTitle} | Leadout Capital</title>
         <link rel={"icon"} href={data.favicon.image.file.url} />
       </Helmet>
-      <div className={"logo"}>
+      <Link to="/" className={"logo"}>
         <img src={data.logo.image.file.url} alt={"Leadout Capital logo"} />
-      </div>
+      </Link>
       <MobileMenuButton onClick={() => setOpen(!open)} open={open} />
       <ul className={open ? "open" : ""}>
         {navLinks.map(({ title, to }, i) => (
