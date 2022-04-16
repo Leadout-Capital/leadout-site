@@ -1,25 +1,13 @@
 @use "variables";
 
 .values {
-  .section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 120px;
-
+  .core, .working-with-leadout {
     h2 {
       font-weight: 900;
       font-size: 3.5vw;
     }
-
     h3 {
       font-size: 2vw;
-    }
-
-    .content {
-      max-width: 1600px;
-      width: 100%;
     }
 
     @media (max-width: variables.$large-desktop) {
@@ -37,12 +25,32 @@
     }
 
     @media (max-width: variables.$mobile-width) {
-      padding: 35px;
-
       h2 {
         text-align: center;
         margin-bottom: 0;
       }
+    }
+
+  }
+}
+
+.values {
+  .section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 120px;
+
+
+
+    .content {
+      max-width: 1600px;
+      width: 100%;
+    }
+
+    @media (max-width: variables.$mobile-width) {
+      padding: 35px;
     }
   }
 
@@ -50,6 +58,11 @@
     margin: 80px 0;
     font-size: 2rem;
     font-weight: 400;
+
+    @media (max-width: variables.$mobile-width) {
+      font-size: 1.5rem;
+      margin: 40px 0px;
+    }
   }
 
   .core {
@@ -68,10 +81,6 @@
 
     h3 {
       margin: 60px 0 10px;
-    }
-
-    p {
-      font-size: 2rem;
     }
   }
 
