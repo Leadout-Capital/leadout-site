@@ -28,7 +28,6 @@ const PortfolioCompany: React.FC<PortfolioCompanyProps> = ({ name, description, 
         {jobs && jobs !== '0' && <a href={jobs} target={"_blank"}>Open Jobs</a>}
       </div>
     </div>
-    {/* {alumni && <div className="alumni"><p>Alumni</p></div>} */}
   </>
 );
 
