@@ -1,7 +1,5 @@
 import * as React from "react";
 import { graphql } from "gatsby";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import "../stylesheets/porfolio.scss";
 import { PortfolioGrid } from "../components/PortfolioGrid";
 
