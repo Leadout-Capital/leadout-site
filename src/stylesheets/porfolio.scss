@@ -169,6 +169,10 @@
     align-items: center;
     gap: 10px;
 
+    .active {
+      color: variables.$accent;
+    }
+
     button {
       all: unset;
       cursor: pointer;

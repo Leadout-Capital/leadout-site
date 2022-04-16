@@ -56,6 +56,7 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ isMobile, companie
       {/* <h2 className="portfolio-header">{sectionTitle}</h2> */}
       <PortfolioFilter
         companies={companies}
+        selectedStatus={selectedStatus}
         setSelectedStatus={setSelectedStatus}
         selectedSector={selectedSector}
         setSelectedSector={setSelectedSector}

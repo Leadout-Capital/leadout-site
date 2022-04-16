@@ -3,6 +3,7 @@ import { Listbox } from '@headlessui/react'
 
 type PortfolioFilterProps = {
   companies: ContentfulPortfolioCompany[];
+  selectedStatus: string;
   setSelectedStatus: Function;
   selectedSector: string;
   setSelectedSector: (value: string) => void;
@@ -10,6 +11,7 @@ type PortfolioFilterProps = {
 
 export const PortfolioFilter = ({
   companies,
+  selectedStatus,
   setSelectedStatus,
   selectedSector,
   setSelectedSector
@@ -28,12 +30,12 @@ export const PortfolioFilter = ({
   return (
     <div className="filter">
       <p>Filter by: </p>
-      <button onClick={() => setSelectedStatus(undefined)}>All</button>
-      {dedupedStatuses.map((status) => <button onClick={() => setSelectedStatus(status)}>{status}</button>)}
+      <button onClick={() => setSelectedStatus(undefined)} className={selectedStatus === undefined && 'active'}>All</button>
+      {dedupedStatuses.map((status) => <button onClick={() => setSelectedStatus(status)} className={selectedStatus === status && 'active'}>{status}</button>)}
 
       <div className="select-field-wrapper">
         <Listbox value={selectedSector} onChange={setSelectedSector}>
-          <Listbox.Button>{selectedSector || 'All'}</Listbox.Button>
+          <Listbox.Button className={selectedSector && 'active'}>{selectedSector || 'Sector'}</Listbox.Button>
           <Listbox.Options className="options">
             <Listbox.Option key={0} value={undefined}>
               All
