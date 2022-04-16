@@ -28,11 +28,6 @@ const Portfolio: React.FC<PortfolioProps> = ({ data }) => {
     ({ node }) => node
   ), [data]);
 
-  const scrollToCompanies = () => {
-    if (!companiesRef.current) return;
-    companiesRef.current.scrollIntoView({ block: "start", inline: "nearest", behavior: "smooth" });
-  };
-
   React.useEffect(() => {
     const checkDimensions = () => setIsMobile(window.innerWidth <= 500);
     checkDimensions();
