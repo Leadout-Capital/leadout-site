@@ -16,7 +16,6 @@
   }
 
   .header {
-    padding-right: 30%;
     overflow-x: hidden;
 
     * {
@@ -24,7 +23,8 @@
     }
 
     h1 {
-      margin: 40px 0;
+      margin: 80px 0;
+      text-align: center;
     }
 
     h2 {
@@ -72,6 +72,11 @@
         transform: rotate(90deg);
         transform-origin: bottom left;
         font-size: calc((100vh - 100px) * 0.25);
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin: 40px 0px;
       }
     }
   }
