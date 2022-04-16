@@ -27,12 +27,6 @@ const Portfolio: React.FC<PortfolioProps> = ({ data }) => {
   const companies = React.useMemo(() => data.companies.edges.map(
     ({ node }) => node
   ), [data]);
-  const alumni = React.useMemo(() => data.alumni.edges.map(
-    ({ node }) => node
-  ), [data]);
-  const involved = React.useMemo(() => data.involved.edges.map(
-    ({ node }) => node
-  ), [data]);
 
   const scrollToCompanies = () => {
     if (!companiesRef.current) return;
@@ -50,14 +44,9 @@ const Portfolio: React.FC<PortfolioProps> = ({ data }) => {
     <main className={"portfolio"}>
       <header>
         <span dangerouslySetInnerHTML={{ __html: data.header.body.childMarkdownRemark.html }} />
-        <div className={"down-arrow"}>
-          <FontAwesomeIcon icon={faChevronDown} className={"icon"} onClick={scrollToCompanies}/>
-        </div>
       </header>
       <div className="portfolio-grids">
         <PortfolioGrid isMobile={isMobile} companies={companies} companiesRef={companiesRef} stealthImage={data.stealthImage} sectionTitle="Companies" />
-        {/* <PortfolioGrid isMobile={isMobile} companies={alumni} companiesRef={null} stealthImage={data.stealthImage} sectionTitle="Alumni" /> */}
-        {/* <PortfolioGrid isMobile={isMobile} companies={involved} companiesRef={null} stealthImage={data.stealthImage} sectionTitle="Companies we are involved with" /> */}
       </div>
     </main>
   )
@@ -78,52 +67,6 @@ export const query = graphql`
         node {
           name
           alumni
-          image {
-            file {
-              url
-            }
-          }
-          website
-          jobs
-          description {
-            childMarkdownRemark {
-              html
-            }
-          }
-          stealth
-        }
-      }
-    }
-    alumni: allContentfulPortfolioCompany(
-      filter: {node_locale: {eq: "en-US"}, alumni: {eq: true}, involved: {ne: true}}
-      sort: { fields: [stealth, index] }
-    ) {
-      edges {
-        node {
-          name
-          image {
-            file {
-              url
-            }
-          }
-          website
-          jobs
-          description {
-            childMarkdownRemark {
-              html
-            }
-          }
-          stealth
-        }
-      }
-    }
-    involved: allContentfulPortfolioCompany(
-      filter: {node_locale: {eq: "en-US"}, alumni: {ne: true}, involved: {eq: true}}
-      sort: { fields: [stealth, index] }
-    ) {
-      edges {
-        node {
-          name
           image {
             file {
               url
