@@ -54,7 +54,7 @@ nav {
         color: inherit;
 
         &.active {
-          color: variables.$accent;
+          color: variables.$light;
         }
       }
     }
@@ -111,6 +111,18 @@ nav {
   &.top {
     box-shadow: 0 0 7px #0000;
     background-color: variables.$light;
+
+    ul {
+      li {
+        a {
+          &.active {
+            color: variables.$accent;
+          }
+        }
+      }
+    }
+
+
   }
 
   // Including the +1px to avoid overlap at $mobile-width
