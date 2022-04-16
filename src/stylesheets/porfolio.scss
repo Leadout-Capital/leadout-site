@@ -3,8 +3,21 @@
 
 .portfolio {
   header {
+    min-height: 0;
+    h1 {
+      text-align: center;
+    }
     h2 {
       margin: 0;
+    }
+
+    padding-bottom: 35px;
+
+    @media (max-width: variables.$mobile-width) {
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 50px;
+      }
     }
 
     .down-arrow {
