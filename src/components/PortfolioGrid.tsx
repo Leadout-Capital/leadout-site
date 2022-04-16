@@ -35,7 +35,7 @@ const PortfolioCompany: React.FC<PortfolioCompanyProps> = ({ name, description, 
 export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ isMobile, companies, companiesRef, stealthImage, sectionTitle }) => {
   return (
     <section>
-      <h2 className="portfolio-header">{sectionTitle}</h2>
+      {/* <h2 className="portfolio-header">{sectionTitle}</h2> */}
         {isMobile ? (
           <div className={"portfolio-companies"}>
             {companies.map((
