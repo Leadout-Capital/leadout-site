@@ -7,7 +7,6 @@ type PortfolioCompanyProps = {
   description: LongTextQuery,
   website: string,
   jobs?: string,
-  alumni: boolean;
 }
 
 type PortfolioGridProps = {
@@ -45,7 +44,6 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ isMobile, companie
                 jobs,
                 description,
                 stealth,
-                alumni
               }) => (
               stealth ? (
                 <div className={"company-wrapper"}>
@@ -62,7 +60,7 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ isMobile, companie
                     className={"show-on-scroll company-background"}
                     style={{ backgroundImage: `url(https:${image.file.url})` }}
                   >
-                    <PortfolioCompany name={name} description={description} website={website} jobs={jobs} alumni={alumni} />
+                    <PortfolioCompany name={name} description={description} website={website} jobs={jobs} />
                   </ExecuteOnScroll>
                 </div>
               )
@@ -82,7 +80,6 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ isMobile, companie
                   jobs,
                   description,
                   stealth,
-                  alumni
                 }) => (
                 stealth ? (
                   <div
@@ -92,7 +89,7 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ isMobile, companie
                   />
                 ) : (
                   <div key={name} className={"company-background"} style={{ backgroundImage: `url(https:${image.file.url})` }}>
-                    <PortfolioCompany name={name} description={description} website={website} jobs={jobs} alumni={alumni} />
+                    <PortfolioCompany name={name} description={description} website={website} jobs={jobs} />
                   </div>
                 )
               ))} />
