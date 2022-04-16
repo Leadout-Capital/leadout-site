@@ -1,6 +1,7 @@
-import React, { RefObject } from 'react'
+import React, { RefObject, useState } from 'react'
 import DelayEach from './DelayEach';
 import { ExecuteOnScroll } from './OnScroll';
+import { PortfolioFilter } from './PortfolioFilter';
 
 type PortfolioCompanyProps = {
   name: string,
@@ -30,13 +31,38 @@ const PortfolioCompany: React.FC<PortfolioCompanyProps> = ({ name, description, 
   </>
 );
 
-export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ isMobile, companies, companiesRef, stealthImage, sectionTitle }) => {
+export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ isMobile, companies, companiesRef, stealthImage }) => {
+  const [selectedStatus, setSelectedStatus] = useState('Active');
+  const [selectedSector, setSelectedSector] = useState('Consumer');
+
+  // const filters = [
+  //   selectedStatus && { type: 'status', name: selectedStatus },
+  //   selectedSector && { type: 'sector', name: selectedSector }
+  // ];
+
+  // const filteredPortfolio = companies.filter((el) => {
+  //   filters.every((filterEl) => filterEl ? el.status === filterEl.name || el.portfolioCompanySectors.some((sector) => sector.sectorName === selectedSector) : true);
+  // })
+
+  // const filteredPortfolio = companies;
+
+  const filteredPortfolio = companies.filter(
+    (company) => selectedStatus ? company.status === selectedStatus : true
+    ).filter(
+    (company) => selectedSector ? company.portfolioCompanySectors.some((sector) => sector.sectorName === selectedSector) : true
+    );
   return (
     <section>
       {/* <h2 className="portfolio-header">{sectionTitle}</h2> */}
+      <PortfolioFilter
+        companies={companies}
+        setSelectedStatus={setSelectedStatus}
+        selectedSector={selectedSector}
+        setSelectedSector={setSelectedSector}
+      />
         {isMobile ? (
           <div className={"portfolio-companies"}>
-            {companies.map((
+            {filteredPortfolio.map((
               {
                 name,
                 image,
@@ -72,7 +98,7 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ isMobile, companie
               useP={false}
               className={"company-wrapper"}
               delay={0.1}
-              render={companies.map((
+              render={filteredPortfolio.map((
                 {
                   name,
                   image,
