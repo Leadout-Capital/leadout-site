@@ -168,7 +168,7 @@
     justify-content: center;
     align-items: center;
 
-    padding: 50px 60px;
+    margin: 50px 0px;
 
     p {
       border-right: 2px solid variables.$dark;
@@ -220,7 +220,7 @@
       position: absolute;
       left: 0;
       top: 5px;
-      height: 400px;
+      height: 150px;
       width: 250px;
       overflow-y: scroll;
       z-index: 10;
@@ -237,6 +237,14 @@
 
       li:last-child {
         border-bottom: none;
+      }
+
+      &::-webkit-scrollbar {
+        width: 5px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: variables.$dark;
       }
     }
 
