@@ -216,21 +216,8 @@
       justify-content: center;
     }
 
-    .options-status {
-      position: relative;
-    }
-
-    .options-sector {
-      position: absolute;
-    }
-
-    @media (max-width: variables.$tablet-width) {
-      .options-status {
-        position: absolute;
-      }
-    }
-
     .options {
+      position: absolute;
       left: 0;
       top: 5px;
       max-height: 150px;
