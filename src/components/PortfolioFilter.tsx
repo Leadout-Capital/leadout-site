@@ -38,7 +38,7 @@ export const PortfolioFilter = ({
           {({open}) => (
             <>
               <Listbox.Button className={selectedStatus && 'active'}>{selectedStatus || 'Status'} <span className={`chevron-down ${open ? 'chevron-open' : ''}`} /></Listbox.Button>
-              <Listbox.Options className="options">
+              <Listbox.Options className="options options-status">
                 <Listbox.Option key={0} value={undefined} as={Fragment}>
                 {({ active, selected }) => (
                   <li className={`${active ? 'active' : ''} ${selected ? 'selected' : ''}`}>All</li>
@@ -67,7 +67,7 @@ export const PortfolioFilter = ({
           {({open}) => (
             <>
               <Listbox.Button className={selectedSector && 'active'}>{selectedSector || 'Sector'} <span className={`chevron-down ${open ? 'chevron-open' : ''}`} /></Listbox.Button>
-              <Listbox.Options className="options">
+              <Listbox.Options className="options options-sector">
                 <Listbox.Option key={0} value={undefined} as={Fragment}>
                 {({ active, selected }) => (
                   <li className={`${active ? 'active' : ''} ${selected ? 'selected' : ''}`}>All</li>

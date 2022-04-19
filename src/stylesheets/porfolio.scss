@@ -224,6 +224,12 @@
       position: absolute;
     }
 
+    @media (max-width: variables.$tablet-width) {
+      .options-status {
+        position: absolute;
+      }
+    }
+
     .options {
       left: 0;
       top: 5px;
