@@ -216,11 +216,18 @@
       justify-content: center;
     }
 
-    .options {
+    .options-status {
+      position: relative;
+    }
+
+    .options-sector {
       position: absolute;
+    }
+
+    .options {
       left: 0;
       top: 5px;
-      height: 150px;
+      max-height: 150px;
       width: 220px;
       overflow-y: scroll;
       z-index: 10;
