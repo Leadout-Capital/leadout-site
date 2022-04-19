@@ -246,6 +246,10 @@
       &::-webkit-scrollbar-thumb {
         background: variables.$dark;
       }
+
+      &::-webkit-scrollbar-track {
+        background: #eeeeee;
+      }
     }
 
     @media (max-width: variables.$mobile-width) {
