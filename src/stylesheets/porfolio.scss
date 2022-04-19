@@ -209,11 +209,23 @@
       height: 100%;
     }
 
+    .select-status {
+      visibility: hidden;
+      display: none;
+      @media (max-width: variables.$tablet-width) {
+        visibility: visible;
+        display: flex;
+      }
+    }
+
     .select-field-wrapper {
       position: relative;
-      display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    .select-sector {
+      display: flex;
     }
 
     .options {

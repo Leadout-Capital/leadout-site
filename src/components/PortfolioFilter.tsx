@@ -33,7 +33,7 @@ export const PortfolioFilter = ({
       <button onClick={() => setSelectedStatus(undefined)} className={selectedStatus === undefined && 'active'}>All</button>
       {dedupedStatuses.map((status) => <button onClick={() => setSelectedStatus(status)} className={selectedStatus === status && 'active'}>{status}</button>)}
 
-      <div className="select-field-wrapper">
+      <div className="select-field-wrapper select-status">
         <Listbox value={selectedStatus} onChange={setSelectedStatus}>
           {({open}) => (
             <>
@@ -62,7 +62,7 @@ export const PortfolioFilter = ({
       </div>
 
 
-      <div className="select-field-wrapper">
+      <div className="select-field-wrapper select-sector">
         <Listbox value={selectedSector} onChange={setSelectedSector}>
           {({open}) => (
             <>
