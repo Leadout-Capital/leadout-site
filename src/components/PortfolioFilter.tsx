@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Listbox } from '@headlessui/react'
+import { Listbox, RadioGroup } from '@headlessui/react'
 
 type PortfolioFilterProps = {
   companies: ContentfulPortfolioCompany[];
@@ -30,8 +30,23 @@ export const PortfolioFilter = ({
   return (
     <div className="filter">
       <p>Filter by: </p>
-      <button onClick={() => setSelectedStatus(undefined)} className={selectedStatus === undefined && 'active'}>All</button>
-      {dedupedStatuses.map((status) => <button onClick={() => setSelectedStatus(status)} className={selectedStatus === status && 'active'}>{status}</button>)}
+
+      <div className="radio-group">
+        <RadioGroup value={selectedStatus} onChange={setSelectedStatus}>
+          <RadioGroup.Option value={undefined} className="radio-option">
+              {({ checked }) => (
+                <span className={checked ? 'active' : ''}>All</span>
+              )}
+            </RadioGroup.Option>
+          {dedupedStatuses.map((status) => (
+            <RadioGroup.Option value={status} className="radio-option">
+              {({ checked }) => (
+                <span className={checked ? 'active' : ''}>{status}</span>
+              )}
+            </RadioGroup.Option>
+          ))}
+        </RadioGroup>
+      </div>
 
       <div className="select-field-wrapper select-status">
         <Listbox value={selectedStatus} onChange={setSelectedStatus}>
@@ -60,7 +75,6 @@ export const PortfolioFilter = ({
           )}
         </Listbox>
       </div>
-
 
       <div className="select-field-wrapper select-sector">
         <Listbox value={selectedSector} onChange={setSelectedSector}>

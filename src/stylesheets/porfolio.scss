@@ -177,6 +177,23 @@
       margin: 0px;
     }
 
+    .radio-group {
+      div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .radio-option {
+        padding: 0px 20px;
+        border-right: 2px solid variables.$dark;
+        cursor: pointer;
+      }
+      @media (max-width: variables.$tablet-width) {
+        visibility: hidden;
+        display: none;
+      }
+    }
+
     .chevron-down::before {
       transition: variables.$transition;
       border-style: solid;
