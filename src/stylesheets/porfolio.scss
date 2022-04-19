@@ -265,9 +265,29 @@
       flex-direction: column;
       width: 100%;
       padding: 0px;
+      padding-left: 40px;
+      padding-right: 40px;
       gap: 10px;
       p, button {
         border-right: none;
+      }
+
+      .select-field-wrapper {
+        width: 100%;
+        border: 0.05rem solid variables.$dark;
+        button {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 10px 20px;
+        }
+      }
+
+      .options {
+        width: calc(100% + 0.1rem);
+        top: 20px;
+        left: -0.05rem;
       }
     }
   }
