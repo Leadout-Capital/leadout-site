@@ -233,6 +233,15 @@
         padding: 10px;
         border-bottom: 0.05rem solid variables.$dark;
         cursor: pointer;
+
+        &.active {
+          background: #eeeeee;
+        }
+
+        &.selected {
+          background: variables.$accent;
+          color: variables.$light;
+        }
       }
 
       li:last-child {

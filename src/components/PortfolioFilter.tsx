@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Listbox } from '@headlessui/react'
 
 type PortfolioFilterProps = {
@@ -39,15 +39,20 @@ export const PortfolioFilter = ({
             <>
               <Listbox.Button className={selectedSector && 'active'}>{selectedSector || 'Sector'} <span className={`chevron-down ${open ? 'chevron-open' : ''}`} /></Listbox.Button>
               <Listbox.Options className="options">
-                <Listbox.Option key={0} value={undefined}>
-                  All
+                <Listbox.Option key={0} value={undefined} as={Fragment}>
+                {({ active, selected }) => (
+                  <li className={`${active ? 'active' : ''} ${selected ? 'selected' : ''}`}>All</li>
+                )}
                 </Listbox.Option>
-                {sectors.map((sector) => (
+                {dedupedSectors.map((sector) => (
                   <Listbox.Option
                     key={sector}
                     value={sector}
+                    as={Fragment}
                   >
-                    {sector}
+                    {({ active, selected }) => (
+                      <li className={`${active ? 'active' : ''} ${selected ? 'selected' : ''}`}>{sector}</li>
+                    )}
                   </Listbox.Option>
                 ))}
               </Listbox.Options>
