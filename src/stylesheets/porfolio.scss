@@ -221,7 +221,7 @@
       left: 0;
       top: 5px;
       height: 150px;
-      width: 250px;
+      width: 220px;
       overflow-y: scroll;
       z-index: 10;
       background-color: variables.$light;
@@ -261,7 +261,7 @@
       }
     }
 
-    @media (max-width: variables.$mobile-width) {
+    @media (max-width: variables.$tablet-width) {
       flex-direction: column;
       width: 100%;
       padding: 0px;
