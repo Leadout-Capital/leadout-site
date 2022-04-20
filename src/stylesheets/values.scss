@@ -7,7 +7,7 @@
       font-size: 3.5vw;
     }
     h3 {
-      font-size: 2vw;
+      font-size: 2.5rem;
     }
 
     @media (max-width: variables.$large-desktop) {
@@ -16,7 +16,7 @@
       }
 
       h3 {
-        font-size: (variables.$large-desktop * 0.02);
+        font-size: 2rem;
       }
 
       .background-text {
@@ -49,17 +49,17 @@
       width: 100%;
     }
 
-    @media (max-width: variables.$mobile-width) {
+    @media (max-width: variables.$large-desktop) {
       padding: 35px;
     }
   }
 
   .core .content > p, .working-with-leadout p {
-    margin: 80px 0;
+    margin: 40px 0;
     font-size: 2rem;
     font-weight: 400;
 
-    @media (max-width: variables.$mobile-width) {
+    @media (max-width: variables.$large-desktop) {
       font-size: 1.5rem;
       margin: 40px 0px;
     }
