@@ -96,7 +96,7 @@ const Navbar: React.FC<NavbarProps> = ({ path, pageContext }) => {
       <MobileMenuButton onClick={() => setOpen(!open)} open={open} />
       <ul className={open ? "open" : ""}>
         {navLinks.map(({ title, to }, i) => (
-          <li
+          title !== 'Home' && <li
             key={title}
             style={open ? { transition: `all 0.5s ease ${LINK_DELAY * i}s` } : { transition: `all 0.2s ease 0.2s` }}
           >
