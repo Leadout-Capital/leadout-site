@@ -19,7 +19,7 @@ const blogPost: React.FC<PostProps> = ({ data }) => {
         <div className="post-meta">
           <CategoryButton color={data.post.category.color} category={data.post.category.name} url={`/blog/category/${data.post.category.slug}`} />
           <h1>{data.post.title}</h1>
-          {data.post.subtitle && <h2>{data.post.subtitle}</h2>}
+          {data.post.subtitle && data.post.subtitle !== '0' && <h2>{data.post.subtitle}</h2>}
           <div className="author-details">
               {data.post.author ? (
                 <Link to={`/blog/author/${data.post.author.slug}`}>
