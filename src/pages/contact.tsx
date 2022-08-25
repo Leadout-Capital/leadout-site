@@ -4,6 +4,7 @@ import "../stylesheets/contact.scss";
 import { graphql } from "gatsby";
 import * as filestack from "filestack-js";
 import { UseFormReset } from "react-hook-form";
+import { Widget } from "@typeform/embed-react";
 
 type ContactProps = {
   data: {
@@ -158,7 +159,7 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
 
   return (
     <main className={"contact"}>
-      <Form
+      {/* <Form
         title={"Contact Us"}
         subtitle={
           <>
@@ -171,7 +172,8 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
         airtableData={airtableData}
         formId={ID}
         submit={submitContactForm}
-      />
+      /> */}
+      <Widget id="dsCOVpbh" className="typeform-form" />
     </main>
   )
 };

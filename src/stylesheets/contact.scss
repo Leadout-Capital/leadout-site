@@ -9,4 +9,13 @@
   @media (max-width: variables.$mobile-width) {
     padding: 100px 35px 35px 35px;
   }
+
+  .typeform-form {
+    width: 75%;
+    height: 750px;
+
+    @media (max-width: variables.$desktop-width) {
+      width: 100%;
+    }
+  }
 }
