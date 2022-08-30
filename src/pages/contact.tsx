@@ -173,6 +173,12 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
         formId={ID}
         submit={submitContactForm}
       /> */}
+      <div className={"form-header"}>
+        <h1>Contact Us</h1>
+        <h2>Referrals from a shared connection are best. Otherwise, contact us at&nbsp;
+            <a href={"mailto:grit@leadoutcapital.com"} target={"_blank"}>grit@leadoutcapital.com</a> or submit&nbsp;
+            your opportunity for investment here.</h2>
+      </div>
       <Widget id="dsCOVpbh" className="typeform-form" />
     </main>
   )
