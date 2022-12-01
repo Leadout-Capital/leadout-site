@@ -41,7 +41,8 @@ const Team: React.FC<TeamProps> = ({ data }) => {
         <ExecuteOnScroll key={name} className={"bio"}>
           <img src={image.file.url} alt={`${name}, ${role}`} style={transition(0)} />
           <div>
-            <h2 style={transition(1)}>{name}, {role}</h2>
+            <h2 style={transition(1)}>{name}</h2>
+            <h2 style={transition(1)} className="role">{role}</h2>
             <DelayEach
               duration={DURATION}
               delay={DELAY}
